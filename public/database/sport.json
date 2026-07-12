@@ -1,0 +1,22 @@
+[
+{"name":"Cristiano Ronaldo","difficulty":"easy"},
+{"name":"Lionel Messi","difficulty":"easy"},
+{"name":"Kylian Mbappé","difficulty":"easy"},
+{"name":"Neymar","difficulty":"easy"},
+{"name":"Zinedine Zidane","difficulty":"easy"},
+{"name":"Michael Jordan","difficulty":"easy"},
+{"name":"LeBron James","difficulty":"easy"},
+{"name":"Kobe Bryant","difficulty":"easy"},
+{"name":"Usain Bolt","difficulty":"easy"},
+{"name":"Mike Tyson","difficulty":"easy"},
+{"name":"Muhammad Ali","difficulty":"easy"},
+{"name":"Roger Federer","difficulty":"normal"},
+{"name":"Rafael Nadal","difficulty":"normal"},
+{"name":"Novak Djokovic","difficulty":"normal"},
+{"name":"Lewis Hamilton","difficulty":"normal"},
+{"name":"Max Verstappen","difficulty":"normal"},
+{"name":"Tiger Woods","difficulty":"normal"},
+{"name":"Manny Pacquiao","difficulty":"hard"},
+{"name":"Conor McGregor","difficulty":"normal"},
+{"name":"Khabib Nurmagomedov","difficulty":"normal"}
+]

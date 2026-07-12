@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Anime Imposteur V10</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h1>🎭 Anime Imposteur</h1>
+
+
+
+<!-- MENU CREATION -->
+
+<div id="login">
+
+
+<input 
+id="username"
+placeholder="Ton pseudo"
+maxlength="15"
+>
+
+
+
+<h3>🌍 Catégories</h3>
+
+
+<label>
+<input class="category" type="checkbox" value="anime" checked>
+🎌 Anime
+</label>
+
+
+<label>
+<input class="category" type="checkbox" value="games">
+🎮 Jeux vidéo
+</label>
+
+
+<label>
+<input class="category" type="checkbox" value="movies">
+🎬 Films
+</label>
+
+
+<label>
+<input class="category" type="checkbox" value="series">
+📺 Séries
+</label>
+
+
+<label>
+<input class="category" type="checkbox" value="marvel">
+🦸 Marvel
+</label>
+
+
+<label>
+<input class="category" type="checkbox" value="sport">
+⚽ Sport
+</label>
+
+
+<label>
+<input class="category" type="checkbox" value="Tout">
+🌎 Tout
+</label>
+
+
+
+
+
+<h3>🔥 Difficulté</h3>
+
+
+<label>
+<input class="difficulty" value="easy" type="checkbox" checked>
+🟢 Facile
+</label>
+
+
+<label>
+<input class="difficulty" value="normal" type="checkbox">
+🟡 Normal
+</label>
+
+
+<label>
+<input class="difficulty" value="hard" type="checkbox">
+🔴 Hard
+</label>
+
+
+<label>
+<input class="difficulty" value="demon" type="checkbox">
+☠️ Démon
+</label>
+
+
+
+
+
+<h3>⏱ Temps de discussion</h3>
+
+
+<select id="time">
+
+<option value="30">
+30 secondes
+</option>
+
+<option value="60" selected>
+60 secondes
+</option>
+
+<option value="120">
+120 secondes
+</option>
+
+</select>
+
+
+
+
+
+<h3>🎭 Nombre d'imposteurs</h3>
+
+
+<select id="impostors">
+
+<option value="1">
+1 imposteur
+</option>
+
+
+<option value="2">
+2 imposteurs
+</option>
+
+
+<option value="3">
+3 imposteurs
+</option>
+
+</select>
+
+
+
+
+<br>
+
+
+<button onclick="createRoom()">
+
+Créer une partie
+
+</button>
+
+
+
+<hr>
+
+
+
+<h3>Rejoindre une partie</h3>
+
+
+<input
+id="roomCode"
+placeholder="Code room"
+maxlength="6"
+>
+
+
+<button onclick="joinRoom()">
+
+Rejoindre
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- JEU -->
+
+
+<div id="game" style="display:none;">
+
+
+
+
+
+<h2>
+
+🎮 Room :
+
+<span id="roomCodeDisplay"></span>
+
+</h2>
+
+
+
+<button onclick="copyRoom()">
+
+📋 Copier le code
+
+</button>
+
+
+
+
+
+<div id="settingsDisplay"></div>
+
+
+
+
+
+<h2>
+
+🎲 Manche :
+
+<span id="round">0</span>
+
+</h2>
+
+
+
+
+
+<h3 id="playerCount"></h3>
+
+
+<ul id="players"></ul>
+
+
+
+
+
+
+<button 
+id="startButton"
+onclick="startGame()"
+>
+
+🚀 Lancer la partie
+
+</button>
+
+
+
+
+
+
+
+<!-- CARTE PERSONNAGE -->
+
+
+<div 
+id="card"
+onclick="revealCard()"
+>
+
+🎴 Clique pour voir ta carte
+
+</div>
+
+
+
+<!-- IMAGE AUTOMATIQUE AJOUTEE -->
+
+<img 
+id="characterImage"
+style="display:none;"
+>
+
+
+
+
+
+
+<h2 id="phase"></h2>
+
+
+<div id="timer"></div>
+
+
+
+
+
+
+
+
+
+<!-- CHAT -->
+
+
+<div id="chatBox">
+
+
+<h3>
+💬 Discussion
+</h3>
+
+
+
+<div id="messages"></div>
+
+
+
+<input
+id="chatInput"
+placeholder="Message..."
+>
+
+
+
+<button onclick="sendChat()">
+
+Envoyer
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- VOTE -->
+
+
+<div id="voteArea">
+
+
+<h3>
+🗳 Vote
+</h3>
+
+
+
+<select id="voteList">
+
+</select>
+
+
+
+<button onclick="vote()">
+
+Voter
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<h2 id="result"></h2>
+
+
+
+
+
+
+
+<h3>
+🏆 Classement
+</h3>
+
+
+<ul id="scores"></ul>
+
+
+
+
+
+
+<button
+id="newRound"
+onclick="newRound()"
+style="display:none;"
+>
+
+🔄 Nouvelle manche
+
+</button>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+<div id="error"></div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script src="app.js"></script>
+
+
+</body>
+
+</html>
