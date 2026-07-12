@@ -1,7 +1,7 @@
 const express = require("express");
 const http = require("http");
 const cors = require("cors");
-const {Server} = require("socket.io");
+const { Server } = require("socket.io");
 const fs = require("fs");
 const axios = require("axios");
 
@@ -13,18 +13,14 @@ app.use(cors());
 app.use(express.static("public"));
 
 
-
 const server = http.createServer(app);
 
 
-
-const io = new Server(server,{
-cors:{
-origin:"*"
-}
+const io = new Server(server, {
+    cors:{
+        origin:"*"
+    }
 });
-
-
 
 
 
@@ -32,62 +28,61 @@ origin:"*"
 // DATABASE
 // ======================
 
+let database = [];
 
-let database=[];
 
 
 function loadDatabase(){
 
 
-const files =
-fs.readdirSync("./public/database");
+    const files =
+    fs.readdirSync("./public/database");
+
+
+    files.forEach(file=>{
+
+
+        if(file.endsWith(".json")){
+
+
+            let category =
+            file.replace(".json","");
+
+
+            let data =
+            JSON.parse(
+                fs.readFileSync(
+                    "./public/database/"+file
+                )
+            );
 
 
 
-files.forEach(file=>{
+            data.forEach(character=>{
 
 
-if(file.endsWith(".json")){
+                database.push({
+
+                    ...character,
+
+                    category
+
+                });
 
 
-let category =
-file.replace(".json","");
+            });
 
 
-
-let data =
-JSON.parse(
-fs.readFileSync(
-"./public/database/"+file
-)
-);
+        }
 
 
-
-data.forEach(character=>{
-
-
-database.push({
-
-...character,
-
-category
-
-});
+    });
 
 
-});
-
-}
-
-
-});
-
-
-console.log(
-database.length+
-" personnages chargés"
-);
+    console.log(
+        database.length+
+        " personnages chargés"
+    );
 
 
 }
@@ -100,76 +95,65 @@ loadDatabase();
 
 
 
-
-
-
-
 // ======================
 // IMAGE
 // ======================
 
 
-let imageCache={};
+let imageCache = {};
 
 
 
 async function getImage(name){
 
 
-if(imageCache[name])
-return imageCache[name];
+    if(imageCache[name])
+        return imageCache[name];
 
 
 
-try{
+    try{
 
 
-let result =
-await axios.get(
-
-"https://api.jikan.moe/v4/characters",
-
-{
-params:{
-q:name,
-limit:1
-}
-}
-
-);
+        let result =
+        await axios.get(
+            "https://api.jikan.moe/v4/characters",
+            {
+                params:{
+                    q:name,
+                    limit:1
+                }
+            }
+        );
 
 
 
-if(result.data.data.length){
+        if(result.data.data.length){
 
 
-let url =
-result.data.data[0]
-.images
-.jpg
-.image_url;
+            let url =
+            result.data.data[0]
+            .images
+            .jpg
+            .image_url;
+
+
+            imageCache[name]=url;
+
+
+            return url;
+
+        }
+
+
+    }
+    catch(e){}
 
 
 
-imageCache[name]=url;
-
-
-return url;
-
-
-}
-
-
-}
-
-catch(e){}
-
-
-return null;
-
+    return null;
 
 }
-
 
 
 
@@ -179,63 +163,45 @@ return null;
 
 
 // ======================
-// ROOM
+// PERSONNAGES
 // ======================
-
-
-let rooms={};
-
-
-
-function codeRoom(){
-
-return Math.random()
-.toString(36)
-.substring(2,8)
-.toUpperCase();
-
-}
-
-
-
-
-
 
 
 
 function getPool(room){
 
 
-let pool =
-database.filter(c=>{
+    let pool =
+    database.filter(c=>{
 
 
-return (
+        return (
 
-room.settings.categories.includes("Tout")
+            room.settings.categories.includes("Tout")
 
-||
+            ||
 
-room.settings.categories.includes(c.category)
+            room.settings.categories.includes(c.category)
 
-)
+        )
 
-&&
+        &&
 
-room.settings.difficulties.includes(c.difficulty);
+        room.settings.difficulties.includes(c.difficulty)
+
+        &&
+
+        c.universe;
 
 
-});
+    });
 
 
 
-return pool.length ? pool : database;
+    return pool.length ? pool : database;
 
 
 }
-
-
-
 
 
 
@@ -245,14 +211,16 @@ return pool.length ? pool : database;
 function randomCharacter(room){
 
 
-let pool=getPool(room);
+    let pool =
+    getPool(room);
 
 
-return pool[
-Math.floor(
-Math.random()*pool.length
-)
-];
+
+    return pool[
+        Math.floor(
+            Math.random()*pool.length
+        )
+    ];
 
 
 }
@@ -266,32 +234,44 @@ Math.random()*pool.length
 function relatedCharacter(character){
 
 
-let pool =
-database.filter(c=>
 
-c.category===character.category
-
-&&
-
-c.name!==character.name
-
-);
+    let pool =
+    database.filter(c=>
 
 
+        c.universe === character.universe
 
-return pool[
-Math.floor(
-Math.random()*pool.length
-)
-]
-||
-character;
+        &&
+
+        c.category === character.category
+
+        &&
+
+        c.name !== character.name
+
+
+    );
+
+
+
+    if(pool.length===0){
+
+
+        return character;
+
+
+    }
+
+
+
+    return pool[
+        Math.floor(
+            Math.random()*pool.length
+        )
+    ];
 
 
 }
-
-
-
 
 
 
@@ -301,36 +281,15 @@ character;
 function chooseImpostors(players,count){
 
 
-return [...players]
-.sort(
-()=>Math.random()-0.5
-)
-.slice(0,count)
-.map(p=>p.id);
+    return [...players]
+    .sort(
+        ()=>Math.random()-0.5
+    )
+    .slice(0,count)
+    .map(p=>p.id);
 
 
 }
-
-
-
-
-
-
-
-
-
-function sendPlayers(roomCode){
-
-
-io.to(roomCode)
-.emit(
-"players",
-rooms[roomCode].players
-);
-
-
-}
-
 
 
 
@@ -340,6 +299,44 @@ rooms[roomCode].players
 
 
 // ======================
+// ROOM
+// ======================
+
+
+let rooms = {};
+
+
+
+function codeRoom(){
+
+
+    return Math.random()
+    .toString(36)
+    .substring(2,8)
+    .toUpperCase();
+
+
+}
+
+
+
+function sendPlayers(code){
+
+
+    if(rooms[code]){
+
+
+        io.to(code)
+        .emit(
+            "players",
+            rooms[code].players
+        );
+
+
+    }
+
+
+}// ======================
 // SOCKET
 // ======================
 
@@ -353,17 +350,21 @@ socket=>{
 
 
 
+// ======================
+// CREER ROOM
+// ======================
+
+
 socket.on(
 "createRoom",
 data=>{
 
 
-let code=codeRoom();
-
+let code = codeRoom();
 
 
 while(rooms[code])
-code=codeRoom();
+code = codeRoom();
 
 
 
@@ -384,12 +385,17 @@ score:0
 ],
 
 
-
 settings:data,
+
 
 round:0,
 
+
 votes:{},
+
+
+votedPlayers:[],
+
 
 started:false
 
@@ -430,16 +436,21 @@ sendPlayers(code);
 
 
 
+
+// ======================
+// REJOINDRE
+// ======================
+
+
 socket.on(
 "joinRoom",
 data=>{
 
 
-let room=rooms[data.code];
+let room = rooms[data.code];
 
 
 if(!room)
-
 return;
 
 
@@ -497,7 +508,7 @@ socket.on(
 async code=>{
 
 
-let room=rooms[code];
+let room = rooms[code];
 
 
 if(!room)
@@ -507,7 +518,11 @@ return;
 
 room.round++;
 
+
 room.votes={};
+
+room.votedPlayers=[];
+
 
 
 
@@ -531,8 +546,26 @@ Number(room.settings.impostors)
 
 
 
-for(let player of room.players){
+console.log(
+"PERSONNAGE :",
+main.name,
+main.universe
+);
 
+
+console.log(
+"IMPOSTEUR :",
+fake.name,
+fake.universe
+);
+
+
+
+
+
+
+
+for(let player of room.players){
 
 
 let character;
@@ -554,6 +587,7 @@ character=main;
 
 
 }
+
 
 
 
@@ -583,6 +617,9 @@ image:image
 
 
 
+
+
+
 io.to(code)
 .emit(
 "phase",
@@ -608,6 +645,8 @@ time:room.settings.time
 
 
 
+
+
 // ======================
 // VOTE
 // ======================
@@ -618,7 +657,7 @@ socket.on(
 data=>{
 
 
-let room=rooms[data.code];
+let room = rooms[data.code];
 
 
 if(!room)
@@ -626,13 +665,138 @@ return;
 
 
 
-room.votes[data.target]
-=
-(room.votes[data.target]||0)+1;
+if(room.votedPlayers.includes(socket.id))
+return;
+
+
+
+room.votedPlayers.push(socket.id);
+
+
+
+room.votes[data.target] =
+(room.votes[data.target] || 0)+1;
+
+
+
+
+
+
+if(
+room.votedPlayers.length >= room.players.length
+){
+
+
+
+let max = 0;
+
+let winner = null;
+
+let equal = false;
+
+
+
+for(let target in room.votes){
+
+
+if(room.votes[target] > max){
+
+
+max =
+room.votes[target];
+
+
+winner =
+target;
+
+
+equal=false;
+
+
+}
+
+else if(room.votes[target]===max){
+
+
+equal=true;
+
+
+}
+
+
+}
+
+
+
+
+
+
+if(
+equal
+||
+winner==="skip"
+||
+!winner
+){
+
+
+io.to(data.code)
+.emit(
+"voteResult",
+{
+
+eliminated:null
+
+}
+
+);
+
+
+
+}
+
+else{
+
+
+let player =
+room.players.find(
+p=>p.id===winner
+);
+
+
+
+io.to(data.code)
+.emit(
+"voteResult",
+{
+
+eliminated:
+player ? player.name : null
+
+}
+
+);
+
+
+
+}
+
+
+
+room.votes={};
+
+room.votedPlayers=[];
+
+
+
+}
 
 
 
 });
+
+
+
 
 
 
@@ -679,7 +843,7 @@ socket.on(
 code=>{
 
 
-let room=rooms[code];
+let room = rooms[code];
 
 
 if(!room)
@@ -688,6 +852,8 @@ return;
 
 
 room.votes={};
+
+room.votedPlayers=[];
 
 
 
@@ -716,6 +882,14 @@ time:room.settings.time
 
 
 
+
+
+
+// ======================
+// DECONNEXION
+// ======================
+
+
 socket.on(
 "disconnect",
 ()=>{
@@ -734,15 +908,19 @@ p=>p.id!==socket.id
 sendPlayers(code);
 
 
+
 }
 
 
-
 });
 
 
 
+
+
+
 });
+
 
 
 
@@ -755,9 +933,10 @@ server.listen(
 3000,
 ()=>{
 
+
 console.log(
-"🎭 Anime Imposteur V10.1 lancé"
+"🎭 Anime Imposteur lancé"
 );
 
-}
-);
+
+});

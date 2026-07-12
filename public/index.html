@@ -24,8 +24,6 @@
 
 
 
-<!-- MENU CREATION -->
-
 <div id="login">
 
 
@@ -36,139 +34,72 @@ maxlength="15"
 >
 
 
-
 <h3>🌍 Catégories</h3>
 
 
-<label>
-<input class="category" type="checkbox" value="anime" checked>
-🎌 Anime
-</label>
+<label><input class="category" type="checkbox" value="anime" checked> 🎌 Anime</label>
 
+<label><input class="category" type="checkbox" value="games"> 🎮 Jeux vidéo</label>
 
-<label>
-<input class="category" type="checkbox" value="games">
-🎮 Jeux vidéo
-</label>
+<label><input class="category" type="checkbox" value="movies"> 🎬 Films</label>
 
+<label><input class="category" type="checkbox" value="series"> 📺 Séries</label>
 
-<label>
-<input class="category" type="checkbox" value="movies">
-🎬 Films
-</label>
+<label><input class="category" type="checkbox" value="marvel"> 🦸 Marvel</label>
 
+<label><input class="category" type="checkbox" value="sport"> ⚽ Sport</label>
 
-<label>
-<input class="category" type="checkbox" value="series">
-📺 Séries
-</label>
-
-
-<label>
-<input class="category" type="checkbox" value="marvel">
-🦸 Marvel
-</label>
-
-
-<label>
-<input class="category" type="checkbox" value="sport">
-⚽ Sport
-</label>
-
-
-<label>
-<input class="category" type="checkbox" value="Tout">
-🌎 Tout
-</label>
-
-
+<label><input class="category" type="checkbox" value="Tout"> 🌎 Tout</label>
 
 
 
 <h3>🔥 Difficulté</h3>
 
 
-<label>
-<input class="difficulty" value="easy" type="checkbox" checked>
-🟢 Facile
-</label>
+<label><input class="difficulty" value="easy" type="checkbox" checked> 🟢 Facile</label>
 
+<label><input class="difficulty" value="normal" type="checkbox"> 🟡 Normal</label>
 
-<label>
-<input class="difficulty" value="normal" type="checkbox">
-🟡 Normal
-</label>
+<label><input class="difficulty" value="hard" type="checkbox"> 🔴 Hard</label>
 
-
-<label>
-<input class="difficulty" value="hard" type="checkbox">
-🔴 Hard
-</label>
-
-
-<label>
-<input class="difficulty" value="demon" type="checkbox">
-☠️ Démon
-</label>
-
+<label><input class="difficulty" value="demon" type="checkbox"> ☠️ Démon</label>
 
 
 
 
 <h3>⏱ Temps de discussion</h3>
 
-
 <select id="time">
 
-<option value="30">
-30 secondes
-</option>
+<option value="30">30 secondes</option>
 
-<option value="60" selected>
-60 secondes
-</option>
+<option value="60" selected>60 secondes</option>
 
-<option value="120">
-120 secondes
-</option>
+<option value="120">120 secondes</option>
 
 </select>
-
 
 
 
 
 <h3>🎭 Nombre d'imposteurs</h3>
 
-
 <select id="impostors">
 
-<option value="1">
-1 imposteur
-</option>
+<option value="1">1 imposteur</option>
 
+<option value="2">2 imposteurs</option>
 
-<option value="2">
-2 imposteurs
-</option>
-
-
-<option value="3">
-3 imposteurs
-</option>
+<option value="3">3 imposteurs</option>
 
 </select>
 
 
-
-
-<br>
+<br><br>
 
 
 <button onclick="createRoom()">
-
 Créer une partie
-
 </button>
 
 
@@ -188,9 +119,7 @@ maxlength="6"
 
 
 <button onclick="joinRoom()">
-
 Rejoindre
-
 </button>
 
 
@@ -200,36 +129,18 @@ Rejoindre
 
 
 
-
-
-
-
-<!-- JEU -->
-
-
 <div id="game" style="display:none;">
 
 
-
-
-
 <h2>
-
 🎮 Room :
-
 <span id="roomCodeDisplay"></span>
-
 </h2>
 
 
-
 <button onclick="copyRoom()">
-
 📋 Copier le code
-
 </button>
-
-
 
 
 
@@ -237,18 +148,10 @@ Rejoindre
 
 
 
-
-
 <h2>
-
 🎲 Manche :
-
 <span id="round">0</span>
-
 </h2>
-
-
-
 
 
 <h3 id="playerCount"></h3>
@@ -258,47 +161,25 @@ Rejoindre
 
 
 
-
-
-
 <button 
 id="startButton"
-onclick="startGame()"
->
-
+onclick="startGame()">
 🚀 Lancer la partie
-
 </button>
 
 
 
 
-
-
-
-<!-- CARTE PERSONNAGE -->
-
-
-<div 
-id="card"
-onclick="revealCard()"
->
-
+<div id="card" onclick="revealCard()">
 🎴 Clique pour voir ta carte
-
 </div>
 
 
-
-<!-- IMAGE AUTOMATIQUE AJOUTEE -->
 
 <img 
 id="characterImage"
 style="display:none;"
 >
-
-
-
 
 
 
@@ -311,13 +192,6 @@ style="display:none;"
 
 
 
-
-
-
-
-<!-- CHAT -->
-
-
 <div id="chatBox">
 
 
@@ -326,9 +200,7 @@ style="display:none;"
 </h3>
 
 
-
 <div id="messages"></div>
-
 
 
 <input
@@ -337,13 +209,9 @@ placeholder="Message..."
 >
 
 
-
 <button onclick="sendChat()">
-
 Envoyer
-
 </button>
-
 
 
 </div>
@@ -352,11 +220,6 @@ Envoyer
 
 
 
-
-
-
-
-<!-- VOTE -->
 
 
 <div id="voteArea">
@@ -374,10 +237,17 @@ Envoyer
 
 
 
+<br><br>
+
+
 <button onclick="vote()">
-
 Voter
+</button>
 
+
+
+<button onclick="skipVote()">
+⏭ Skip le vote
 </button>
 
 
@@ -388,13 +258,7 @@ Voter
 
 
 
-
-
-
-
 <h2 id="result"></h2>
-
-
 
 
 
@@ -410,24 +274,17 @@ Voter
 
 
 
-
-
 <button
 id="newRound"
 onclick="newRound()"
-style="display:none;"
->
-
+style="display:none;">
 🔄 Nouvelle manche
-
 </button>
 
 
 
 
-
 </div>
-
 
 
 
@@ -437,10 +294,7 @@ style="display:none;"
 
 
 
-
-
 </div>
-
 
 
 

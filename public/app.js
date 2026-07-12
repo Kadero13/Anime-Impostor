@@ -7,19 +7,16 @@ let isHost = false;
 let myCard = null;
 let roomSettings = {};
 let timerInterval = "";
+let alreadyVoted = false;
 
 
-
-
-
-// =========================
-// Chargement pseudo
-// =========================
 
 window.onload = () => {
 
     if(username){
+
         document.getElementById("username").value = username;
+
     }
 
 };
@@ -45,19 +42,15 @@ function saveName(){
 
 
 
-// =========================
-// Options
-// =========================
-
-
 function getCategories(){
 
     return [
         ...document.querySelectorAll(".category:checked")
-    ]
-    .map(x=>x.value);
+    ].map(x=>x.value);
 
 }
+
+
 
 
 
@@ -65,8 +58,7 @@ function getDifficulties(){
 
     return [
         ...document.querySelectorAll(".difficulty:checked")
-    ]
-    .map(x=>x.value);
+    ].map(x=>x.value);
 
 }
 
@@ -75,10 +67,6 @@ function getDifficulties(){
 
 
 
-
-// =========================
-// Créer partie
-// =========================
 
 
 function createRoom(){
@@ -122,13 +110,6 @@ function createRoom(){
 
 
 
-
-
-// =========================
-// Rejoindre
-// =========================
-
-
 function joinRoom(){
 
     saveName();
@@ -138,7 +119,6 @@ function joinRoom(){
     document.getElementById("roomCode")
     .value
     .toUpperCase();
-
 
 
     socket.emit(
@@ -162,11 +142,6 @@ function joinRoom(){
 
 
 
-// =========================
-// Ouverture jeu
-// =========================
-
-
 socket.on(
 "roomCreated",
 data=>{
@@ -182,6 +157,9 @@ data=>{
 });
 
 
+
+
+
 socket.on(
 "joined",
 data=>{
@@ -193,6 +171,7 @@ data=>{
     openGame();
 
 });
+
 
 
 
@@ -236,7 +215,7 @@ function displaySettings(){
 
     document.getElementById("settingsDisplay")
     .innerHTML=
-    
+
     `
     🌍 ${roomSettings.categories.join(",")}
     <br>
@@ -247,17 +226,13 @@ function displaySettings(){
     🎭 ${roomSettings.impostors} imposteur(s)
     `;
 
+
 }
 
 
 
 
 
-
-
-// =========================
-// Copier code
-// =========================
 
 
 function copyRoom(){
@@ -273,10 +248,6 @@ function copyRoom(){
 
 
 
-
-// =========================
-// Joueurs
-// =========================
 
 
 socket.on(
@@ -297,6 +268,17 @@ players=>{
 
 
 
+
+    let select =
+    document.getElementById("voteList");
+
+
+    select.innerHTML="";
+
+
+
+
+
     players.forEach(player=>{
 
 
@@ -313,7 +295,42 @@ players=>{
         list.appendChild(li);
 
 
+
+
+
+        if(player.id !== socket.id){
+
+
+            let option =
+            document.createElement("option");
+
+
+            option.value=player.id;
+
+            option.textContent=player.name;
+
+
+            select.appendChild(option);
+
+
+        }
+
+
+
     });
+
+
+
+    let skip =
+    document.createElement("option");
+
+
+    skip.value="skip";
+
+    skip.textContent="⏭ Personne";
+
+    select.appendChild(skip);
+
 
 
 });
@@ -324,11 +341,6 @@ players=>{
 
 
 
-
-
-// =========================
-// Lancer
-// =========================
 
 
 function startGame(){
@@ -348,11 +360,6 @@ function startGame(){
 
 
 
-// =========================
-// Carte
-// =========================
-
-
 socket.on(
 "card",
 card=>{
@@ -366,14 +373,13 @@ card=>{
     "🎴 Clique pour révéler";
 
 
-    let img =
-    document.getElementById("characterImage");
-
-
-    img.style.display="none";
+    document.getElementById("characterImage")
+    .style.display="none";
 
 
 });
+
+
 
 
 
@@ -384,7 +390,6 @@ function revealCard(){
 
 
     if(!myCard)
-
     return;
 
 
@@ -407,9 +412,7 @@ function revealCard(){
         document.getElementById("characterImage");
 
 
-
         img.src=myCard.image;
-
 
 
         img.onload=()=>{
@@ -419,16 +422,7 @@ function revealCard(){
         };
 
 
-
-        img.onerror=()=>{
-
-            img.style.display="none";
-
-        };
-
-
     }
-
 
 }
 
@@ -437,12 +431,6 @@ function revealCard(){
 
 
 
-
-
-
-// =========================
-// Manche
-// =========================
 
 
 socket.on(
@@ -454,10 +442,14 @@ data=>{
     .innerHTML=data.round;
 
 
-
     document.getElementById("phase")
     .innerHTML="💬 Discussion";
 
+
+    alreadyVoted=false;
+
+
+    document.getElementById("voteList").disabled=false;
 
 
     startTimer(data.time);
@@ -478,7 +470,6 @@ function startTimer(time){
     clearInterval(timerInterval);
 
 
-
     timerInterval=setInterval(()=>{
 
 
@@ -493,7 +484,6 @@ function startTimer(time){
 
         if(time<0){
 
-
             clearInterval(timerInterval);
 
 
@@ -507,7 +497,6 @@ function startTimer(time){
 
     },1000);
 
-
 }
 
 
@@ -516,10 +505,6 @@ function startTimer(time){
 
 
 
-
-// =========================
-// Chat
-// =========================
 
 
 function sendChat(){
@@ -530,7 +515,6 @@ function sendChat(){
 
 
     if(!input.value.trim())
-
     return;
 
 
@@ -551,8 +535,9 @@ function sendChat(){
 
     input.value="";
 
-
 }
+
+
 
 
 
@@ -591,49 +576,23 @@ data=>{
 
 
 
-// =========================
-// Vote
-// =========================
-
-
-socket.on(
-"players",
-players=>{
-
-
-    let select =
-    document.getElementById("voteList");
-
-
-    select.innerHTML="";
-
-
-
-    players.forEach(p=>{
-
-
-        let option =
-        document.createElement("option");
-
-
-        option.value=p.id;
-
-        option.textContent=p.name;
-
-
-        select.appendChild(option);
-
-
-    });
-
-
-});
-
-
-
-
 
 function vote(){
+
+
+    if(alreadyVoted){
+
+        alert("Tu as déjà voté");
+
+        return;
+
+    }
+
+
+
+    let target =
+    document.getElementById("voteList").value;
+
 
 
     socket.emit(
@@ -642,12 +601,51 @@ function vote(){
 
             code:currentRoom,
 
-            target:
-            document.getElementById("voteList")
-            .value
+            target:target
 
         }
     );
+
+
+
+    alreadyVoted=true;
+
+
+    document.getElementById("voteList")
+    .disabled=true;
+
+
+
+}
+
+
+
+
+
+
+
+function skipVote(){
+
+
+    if(alreadyVoted)
+    return;
+
+
+
+    socket.emit(
+        "vote",
+        {
+
+            code:currentRoom,
+
+            target:"skip"
+
+        }
+    );
+
+
+
+    alreadyVoted=true;
 
 
 }
@@ -659,28 +657,37 @@ function vote(){
 
 
 
-// =========================
-// Résultat
-// =========================
-
 
 socket.on(
-"result",
+"voteResult",
 data=>{
 
 
-    document.getElementById("result")
-    .innerHTML=
+    if(data.eliminated){
 
-    data.win
-    ?
-    "🎉 Les joueurs gagnent"
-    :
-    "☠️ Les imposteurs gagnent";
 
+        document.getElementById("result")
+        .innerHTML=
+
+        "🗳 Joueur éliminé : "
+        +
+        data.eliminated;
+
+
+    }
+    else{
+
+
+        document.getElementById("result")
+        .innerHTML=
+        "⏭ Personne n'est éliminé";
+
+
+    }
 
 
 });
+
 
 
 
@@ -697,19 +704,12 @@ function newRound(){
         currentRoom
     );
 
-
 }
 
 
 
 
 
-
-
-
-// =========================
-// Erreurs
-// =========================
 
 
 socket.on(
