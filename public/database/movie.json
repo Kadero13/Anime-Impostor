@@ -1,32 +1,185 @@
 [
-{"name":"Spider-Man","difficulty":"easy"},
-{"name":"Batman","difficulty":"easy"},
-{"name":"Superman","difficulty":"easy"},
-{"name":"Iron Man","difficulty":"easy"},
-{"name":"Captain America","difficulty":"easy"},
-{"name":"Thor","difficulty":"easy"},
-{"name":"Hulk","difficulty":"easy"},
-{"name":"Harry Potter","difficulty":"easy"},
-{"name":"Darth Vader","difficulty":"easy"},
-{"name":"Luke Skywalker","difficulty":"easy"},
-{"name":"Shrek","difficulty":"easy"},
-{"name":"Simba","difficulty":"easy"},
-{"name":"Elsa","difficulty":"easy"},
-{"name":"Woody","difficulty":"easy"},
-{"name":"Buzz l'Éclair","difficulty":"easy"},
-{"name":"Jack Sparrow","difficulty":"easy"},
-{"name":"Rocky Balboa","difficulty":"normal"},
-{"name":"John Wick","difficulty":"normal"},
-{"name":"Neo (Matrix)","difficulty":"normal"},
-{"name":"Terminator","difficulty":"normal"},
-{"name":"Gandalf","difficulty":"normal"},
-{"name":"Aragorn","difficulty":"normal"},
-{"name":"Frodon","difficulty":"normal"},
-{"name":"Joker","difficulty":"easy"},
-{"name":"Deadpool","difficulty":"easy"},
-{"name":"Wolverine","difficulty":"normal"},
-{"name":"Thanos","difficulty":"easy"},
-{"name":"Katniss Everdeen","difficulty":"normal"},
-{"name":"Forrest Gump","difficulty":"normal"},
-{"name":"James Bond","difficulty":"easy"}
+  {
+    "name": "Harry Potter",
+    "difficulty": "easy",
+    "universe": "Harry Potter"
+  },
+  {
+    "name": "Hermione Granger",
+    "difficulty": "easy",
+    "universe": "Harry Potter"
+  },
+  {
+    "name": "Ron Weasley",
+    "difficulty": "easy",
+    "universe": "Harry Potter"
+  },
+  {
+    "name": "Voldemort",
+    "difficulty": "easy",
+    "universe": "Harry Potter"
+  },
+
+
+  {
+    "name": "Luke Skywalker",
+    "difficulty": "easy",
+    "universe": "Star Wars"
+  },
+  {
+    "name": "Darth Vader",
+    "difficulty": "easy",
+    "universe": "Star Wars"
+  },
+  {
+    "name": "Yoda",
+    "difficulty": "normal",
+    "universe": "Star Wars"
+  },
+  {
+    "name": "Obi-Wan Kenobi",
+    "difficulty": "normal",
+    "universe": "Star Wars"
+  },
+
+
+  {
+    "name": "Jack Sparrow",
+    "difficulty": "easy",
+    "universe": "Pirates des Caraïbes"
+  },
+  {
+    "name": "Will Turner",
+    "difficulty": "normal",
+    "universe": "Pirates des Caraïbes"
+  },
+  {
+    "name": "Davy Jones",
+    "difficulty": "normal",
+    "universe": "Pirates des Caraïbes"
+  },
+
+
+  {
+    "name": "Rocky Balboa",
+    "difficulty": "easy",
+    "universe": "Rocky"
+  },
+
+
+  {
+    "name": "John Wick",
+    "difficulty": "easy",
+    "universe": "John Wick"
+  },
+
+
+  {
+    "name": "Neo",
+    "difficulty": "easy",
+    "universe": "Matrix"
+  },
+  {
+    "name": "Agent Smith",
+    "difficulty": "normal",
+    "universe": "Matrix"
+  },
+
+
+  {
+    "name": "Terminator",
+    "difficulty": "easy",
+    "universe": "Terminator"
+  },
+  {
+    "name": "Sarah Connor",
+    "difficulty": "normal",
+    "universe": "Terminator"
+  },
+
+
+  {
+    "name": "Frodo Baggins",
+    "difficulty": "easy",
+    "universe": "Le Seigneur des Anneaux"
+  },
+  {
+    "name": "Gandalf",
+    "difficulty": "easy",
+    "universe": "Le Seigneur des Anneaux"
+  },
+  {
+    "name": "Aragorn",
+    "difficulty": "normal",
+    "universe": "Le Seigneur des Anneaux"
+  },
+
+
+  {
+    "name": "Katniss Everdeen",
+    "difficulty": "normal",
+    "universe": "Hunger Games"
+  },
+
+
+  {
+    "name": "Neo",
+    "difficulty": "easy",
+    "universe": "Matrix"
+  },
+
+
+  {
+    "name": "Rocky Balboa",
+    "difficulty": "normal",
+    "universe": "Rocky"
+  },
+
+
+  {
+    "name": "Marty McFly",
+    "difficulty": "normal",
+    "universe": "Retour vers le futur"
+  },
+  {
+    "name": "Doc Brown",
+    "difficulty": "normal",
+    "universe": "Retour vers le futur"
+  },
+
+
+  {
+    "name": "Shrek",
+    "difficulty": "easy",
+    "universe": "Shrek"
+  },
+  {
+    "name": "L'Âne",
+    "difficulty": "easy",
+    "universe": "Shrek"
+  },
+
+
+  {
+    "name": "Simba",
+    "difficulty": "easy",
+    "universe": "Le Roi Lion"
+  },
+  {
+    "name": "Scar",
+    "difficulty": "normal",
+    "universe": "Le Roi Lion"
+  },
+
+
+  {
+    "name": "Woody",
+    "difficulty": "easy",
+    "universe": "Toy Story"
+  },
+  {
+    "name": "Buzz l'Éclair",
+    "difficulty": "easy",
+    "universe": "Toy Story"
+  }
 ]

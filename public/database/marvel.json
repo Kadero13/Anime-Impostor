@@ -1,25 +1,178 @@
 [
-{"name":"Spider-Man","difficulty":"easy"},
-{"name":"Iron Man","difficulty":"easy"},
-{"name":"Thor","difficulty":"easy"},
-{"name":"Hulk","difficulty":"easy"},
-{"name":"Captain America","difficulty":"easy"},
-{"name":"Black Panther","difficulty":"easy"},
-{"name":"Doctor Strange","difficulty":"normal"},
-{"name":"Scarlet Witch","difficulty":"normal"},
-{"name":"Loki","difficulty":"easy"},
-{"name":"Thanos","difficulty":"easy"},
-{"name":"Deadpool","difficulty":"easy"},
-{"name":"Wolverine","difficulty":"normal"},
-{"name":"Magneto","difficulty":"normal"},
-{"name":"Professor X","difficulty":"normal"},
-{"name":"Venom","difficulty":"easy"},
-{"name":"Daredevil","difficulty":"normal"},
-{"name":"Punisher","difficulty":"normal"},
-{"name":"Moon Knight","difficulty":"normal"},
-{"name":"Ghost Rider","difficulty":"normal"},
-{"name":"Silver Surfer","difficulty":"hard"},
-{"name":"Galactus","difficulty":"hard"},
-{"name":"Doctor Doom","difficulty":"hard"},
-{"name":"Blade","difficulty":"hard"}
+  {
+    "name": "Iron Man",
+    "difficulty": "easy",
+    "universe": "Marvel"
+  },
+  {
+    "name": "Tony Stark",
+    "difficulty": "easy",
+    "universe": "Marvel"
+  },
+  {
+    "name": "Captain America",
+    "difficulty": "easy",
+    "universe": "Marvel"
+  },
+  {
+    "name": "Steve Rogers",
+    "difficulty": "normal",
+    "universe": "Marvel"
+  },
+  {
+    "name": "Thor",
+    "difficulty": "easy",
+    "universe": "Marvel"
+  },
+  {
+    "name": "Loki",
+    "difficulty": "easy",
+    "universe": "Marvel"
+  },
+
+
+  {
+    "name": "Spider-Man",
+    "difficulty": "easy",
+    "universe": "Marvel"
+  },
+  {
+    "name": "Peter Parker",
+    "difficulty": "easy",
+    "universe": "Marvel"
+  },
+  {
+    "name": "Miles Morales",
+    "difficulty": "normal",
+    "universe": "Marvel"
+  },
+
+
+  {
+    "name": "Hulk",
+    "difficulty": "easy",
+    "universe": "Marvel"
+  },
+  {
+    "name": "Bruce Banner",
+    "difficulty": "normal",
+    "universe": "Marvel"
+  },
+
+
+  {
+    "name": "Black Panther",
+    "difficulty": "normal",
+    "universe": "Marvel"
+  },
+  {
+    "name": "T'Challa",
+    "difficulty": "hard",
+    "universe": "Marvel"
+  },
+
+
+  {
+    "name": "Doctor Strange",
+    "difficulty": "easy",
+    "universe": "Marvel"
+  },
+  {
+    "name": "Stephen Strange",
+    "difficulty": "normal",
+    "universe": "Marvel"
+  },
+
+
+  {
+    "name": "Wanda Maximoff",
+    "difficulty": "normal",
+    "universe": "Marvel"
+  },
+  {
+    "name": "Scarlet Witch",
+    "difficulty": "easy",
+    "universe": "Marvel"
+  },
+
+
+  {
+    "name": "Vision",
+    "difficulty": "normal",
+    "universe": "Marvel"
+  },
+
+
+  {
+    "name": "Deadpool",
+    "difficulty": "easy",
+    "universe": "Marvel"
+  },
+  {
+    "name": "Wolverine",
+    "difficulty": "easy",
+    "universe": "X-Men"
+  },
+  {
+    "name": "Magneto",
+    "difficulty": "normal",
+    "universe": "X-Men"
+  },
+  {
+    "name": "Professor X",
+    "difficulty": "normal",
+    "universe": "X-Men"
+  },
+
+
+  {
+    "name": "Thanos",
+    "difficulty": "easy",
+    "universe": "Marvel"
+  },
+
+
+  {
+    "name": "Venom",
+    "difficulty": "easy",
+    "universe": "Spider-Man"
+  },
+
+
+  {
+    "name": "Daredevil",
+    "difficulty": "normal",
+    "universe": "Marvel"
+  },
+
+
+  {
+    "name": "Punisher",
+    "difficulty": "normal",
+    "universe": "Marvel"
+  },
+
+
+  {
+    "name": "Moon Knight",
+    "difficulty": "hard",
+    "universe": "Marvel"
+  },
+
+
+  {
+    "name": "Star-Lord",
+    "difficulty": "normal",
+    "universe": "Guardians of the Galaxy"
+  },
+  {
+    "name": "Rocket Raccoon",
+    "difficulty": "normal",
+    "universe": "Guardians of the Galaxy"
+  },
+  {
+    "name": "Groot",
+    "difficulty": "easy",
+    "universe": "Guardians of the Galaxy"
+  }
 ]

@@ -1,32 +1,207 @@
 [
-{"name":"Mario","difficulty":"easy"},
-{"name":"Luigi","difficulty":"easy"},
-{"name":"Pikachu","difficulty":"easy"},
-{"name":"Link","difficulty":"easy"},
-{"name":"Sonic","difficulty":"easy"},
-{"name":"Steve (Minecraft)","difficulty":"easy"},
-{"name":"Kratos","difficulty":"easy"},
-{"name":"Lara Croft","difficulty":"normal"},
-{"name":"Master Chief","difficulty":"normal"},
-{"name":"Geralt de Riv","difficulty":"normal"},
-{"name":"Arthur Morgan","difficulty":"normal"},
-{"name":"Joel Miller","difficulty":"normal"},
-{"name":"Ellie Williams","difficulty":"normal"},
-{"name":"Leon Kennedy","difficulty":"normal"},
-{"name":"Cloud Strife","difficulty":"normal"},
-{"name":"Sephiroth","difficulty":"normal"},
-{"name":"Dante","difficulty":"normal"},
-{"name":"Vergil","difficulty":"hard"},
-{"name":"Doom Slayer","difficulty":"hard"},
-{"name":"Aloy","difficulty":"normal"},
-{"name":"Ezio Auditore","difficulty":"normal"},
-{"name":"Nathan Drake","difficulty":"normal"},
-{"name":"Solid Snake","difficulty":"hard"},
-{"name":"Kazuma Kiryu","difficulty":"hard"},
-{"name":"Ryu Hayabusa","difficulty":"hard"},
-{"name":"Samus Aran","difficulty":"hard"},
-{"name":"Niko Bellic","difficulty":"hard"},
-{"name":"CJ (GTA San Andreas)","difficulty":"easy"},
-{"name":"V (Cyberpunk 2077)","difficulty":"normal"},
-{"name":"Jin Sakai","difficulty":"normal"}
+  {
+    "name": "Mario",
+    "difficulty": "easy",
+    "universe": "Super Mario"
+  },
+  {
+    "name": "Luigi",
+    "difficulty": "easy",
+    "universe": "Super Mario"
+  },
+  {
+    "name": "Bowser",
+    "difficulty": "normal",
+    "universe": "Super Mario"
+  },
+
+
+  {
+    "name": "Link",
+    "difficulty": "easy",
+    "universe": "The Legend of Zelda"
+  },
+  {
+    "name": "Zelda",
+    "difficulty": "easy",
+    "universe": "The Legend of Zelda"
+  },
+  {
+    "name": "Ganondorf",
+    "difficulty": "normal",
+    "universe": "The Legend of Zelda"
+  },
+
+
+  {
+    "name": "Kratos",
+    "difficulty": "easy",
+    "universe": "God of War"
+  },
+  {
+    "name": "Atreus",
+    "difficulty": "normal",
+    "universe": "God of War"
+  },
+
+
+  {
+    "name": "Master Chief",
+    "difficulty": "easy",
+    "universe": "Halo"
+  },
+  {
+    "name": "Cortana",
+    "difficulty": "normal",
+    "universe": "Halo"
+  },
+
+
+  {
+    "name": "Steve",
+    "difficulty": "easy",
+    "universe": "Minecraft"
+  },
+  {
+    "name": "Alex",
+    "difficulty": "normal",
+    "universe": "Minecraft"
+  },
+  {
+    "name": "Creeper",
+    "difficulty": "easy",
+    "universe": "Minecraft"
+  },
+
+
+  {
+    "name": "Geralt de Riv",
+    "difficulty": "easy",
+    "universe": "The Witcher"
+  },
+  {
+    "name": "Ciri",
+    "difficulty": "normal",
+    "universe": "The Witcher"
+  },
+
+
+  {
+    "name": "Arthur Morgan",
+    "difficulty": "easy",
+    "universe": "Red Dead Redemption"
+  },
+  {
+    "name": "John Marston",
+    "difficulty": "normal",
+    "universe": "Red Dead Redemption"
+  },
+
+
+  {
+    "name": "Joel Miller",
+    "difficulty": "easy",
+    "universe": "The Last of Us"
+  },
+  {
+    "name": "Ellie",
+    "difficulty": "easy",
+    "universe": "The Last of Us"
+  },
+
+
+  {
+    "name": "Nathan Drake",
+    "difficulty": "normal",
+    "universe": "Uncharted"
+  },
+
+
+  {
+    "name": "Leon Kennedy",
+    "difficulty": "easy",
+    "universe": "Resident Evil"
+  },
+  {
+    "name": "Jill Valentine",
+    "difficulty": "normal",
+    "universe": "Resident Evil"
+  },
+  {
+    "name": "Nemesis",
+    "difficulty": "normal",
+    "universe": "Resident Evil"
+  },
+
+
+  {
+    "name": "Sonic",
+    "difficulty": "easy",
+    "universe": "Sonic"
+  },
+  {
+    "name": "Shadow",
+    "difficulty": "normal",
+    "universe": "Sonic"
+  },
+
+
+  {
+    "name": "Aloy",
+    "difficulty": "normal",
+    "universe": "Horizon"
+  },
+
+
+  {
+    "name": "Ezio Auditore",
+    "difficulty": "easy",
+    "universe": "Assassin's Creed"
+  },
+  {
+    "name": "Altaïr",
+    "difficulty": "normal",
+    "universe": "Assassin's Creed"
+  },
+
+
+  {
+    "name": "Jett",
+    "difficulty": "normal",
+    "universe": "Valorant"
+  },
+  {
+    "name": "Phoenix",
+    "difficulty": "normal",
+    "universe": "Valorant"
+  },
+
+
+  {
+    "name": "Tracer",
+    "difficulty": "normal",
+    "universe": "Overwatch"
+  },
+  {
+    "name": "Genji",
+    "difficulty": "normal",
+    "universe": "Overwatch"
+  },
+
+
+  {
+    "name": "Pikachu",
+    "difficulty": "easy",
+    "universe": "Pokemon"
+  },
+  {
+    "name": "Charizard",
+    "difficulty": "easy",
+    "universe": "Pokemon"
+  },
+  {
+    "name": "Mewtwo",
+    "difficulty": "normal",
+    "universe": "Pokemon"
+  }
 ]
