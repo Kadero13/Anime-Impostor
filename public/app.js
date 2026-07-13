@@ -38,6 +38,25 @@ function escapeHtml(value) {
         .replaceAll("'", "&#039;");
 }
 
+
+function playCinematic({ icon = "I", eyebrow = "", title = "", text = "", duration = 1500, tone = "default" }) {
+    const overlay = $("cinematicOverlay");
+    $("cinematicIcon").textContent = icon;
+    $("cinematicEyebrow").textContent = eyebrow;
+    $("cinematicTitle").textContent = title;
+    $("cinematicText").textContent = text;
+    overlay.dataset.tone = tone;
+    overlay.hidden = false;
+    overlay.classList.remove("cinematic-out");
+    void overlay.offsetWidth;
+    overlay.classList.add("cinematic-in");
+    clearTimeout(playCinematic.timer);
+    playCinematic.timer = setTimeout(() => {
+        overlay.classList.add("cinematic-out");
+        setTimeout(() => { overlay.hidden = true; overlay.classList.remove("cinematic-in", "cinematic-out"); }, 420);
+    }, duration);
+}
+
 function showToast(message) {
     const toast = $("toast");
     toast.textContent = message;
@@ -103,6 +122,12 @@ function displaySettings() {
         series: "Séries",
         marvel: "Marvel",
         sport: "Sport",
+        dc: "DC Comics",
+        cartoon: "Cartoons",
+        music: "Musique",
+        internet: "Internet",
+        food: "Nourriture",
+        timmy: "Timmy",
         Tout: "Toutes"
     };
     const difficultyNames = { easy: "Facile", normal: "Normal", hard: "Difficile", demon: "Démon" };
@@ -122,6 +147,7 @@ function copyRoom() {
 }
 
 function startGame() {
+    playCinematic({ icon: "3", eyebrow: "PRÉPAREZ-VOUS", title: "La partie commence", text: "Les rôles sont en cours de distribution…", duration: 1700 });
     socket.emit("startGame", currentRoom);
 }
 
@@ -149,7 +175,9 @@ function revealCard() {
     if (!myCard || cardRevealed) return;
     cardRevealed = true;
     $("card").disabled = true;
-    $("card").classList.add("revealed");
+    $("card").classList.add("revealed", "card-flip-active");
+    $("cardStage").classList.add("reveal-burst");
+    setTimeout(() => $("cardStage").classList.remove("reveal-burst"), 900);
     $("cardText").innerHTML = `<b>${escapeHtml(myCard.character)}</b><span>${escapeHtml(myCard.universe)}</span>`;
     $("card").querySelector("small").textContent = `Disparaît dans ${roomSettings.cardTime || 5} secondes`;
 
@@ -162,9 +190,11 @@ function revealCard() {
             $("cardStage").classList.add("has-image");
         };
         image.onerror = () => {
-            image.hidden = true;
-            image.removeAttribute("src");
-            $("cardStage").classList.remove("has-image");
+            image.onerror = null;
+            const initials = encodeURIComponent(myCard.character.split(/\s+/).slice(0, 2).map(part => part[0] || "").join("").toUpperCase());
+            image.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="700" height="700"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#25164d"/><stop offset="1" stop-color="#0a66b7"/></linearGradient></defs><rect width="700" height="700" rx="52" fill="url(#g)"/><text x="350" y="390" text-anchor="middle" font-family="Arial" font-size="190" font-weight="800" fill="white">${decodeURIComponent(initials)}</text></svg>`)}`;
+            image.hidden = false;
+            $("cardStage").classList.add("has-image");
         };
         image.src = myCard.image;
     }
@@ -272,6 +302,7 @@ socket.on("card", (card) => {
 });
 
 socket.on("cardPhase", ({ round, cardTime, preparationTime }) => {
+    playCinematic({ icon: "?", eyebrow: `MANCHE ${round}`, title: "Découvrez votre carte", text: "Mémorisez bien votre sujet avant qu’il disparaisse.", duration: 1500 });
     roomSettings.cardTime = cardTime;
     $("round").textContent = round;
     $("phase").textContent = "Découverte des cartes";
@@ -284,6 +315,7 @@ socket.on("cardPhase", ({ round, cardTime, preparationTime }) => {
 });
 
 socket.on("speakingTurn", ({ playerId, playerName, turnNumber, totalTurns, time }) => {
+    playCinematic({ icon: String(turnNumber), eyebrow: `TOUR ${turnNumber} SUR ${totalTurns}`, title: playerId === socket.id ? "C’est à toi de parler" : `${playerName} prend la parole`, text: playerId === socket.id ? "Donne un indice sans révéler ton sujet." : "Écoute attentivement son indice.", duration: 1250, tone: playerId === socket.id ? "active" : "default" });
     $("phase").textContent = "Tour de discussion";
     $("card").hidden = true;
     $("characterImage").hidden = true;
@@ -298,6 +330,7 @@ socket.on("speakingTurn", ({ playerId, playerName, turnNumber, totalTurns, time 
 });
 
 socket.on("votePhase", ({ players }) => {
+    playCinematic({ icon: "V", eyebrow: "PHASE FINALE", title: "Place au vote", text: "Choisissez la personne qui vous semble suspecte.", duration: 1500, tone: "vote" });
     clearInterval(timerInterval);
     alreadyVoted = false;
     $("phase").textContent = "Vote";
@@ -322,6 +355,7 @@ socket.on("voteProgress", ({ voted, total }) => {
 });
 
 socket.on("voteResult", ({ eliminated, tie }) => {
+    playCinematic({ icon: eliminated ? "×" : "=", eyebrow: "RÉSULTAT", title: eliminated ? `${eliminated} est éliminé` : "Personne n’est éliminé", text: eliminated ? "Le groupe a rendu son verdict." : (tie ? "Les votes sont à égalité." : "Le vote a été passé."), duration: 2600, tone: eliminated ? "danger" : "default" });
     $("voteOverlay").hidden = true;
     $("phase").textContent = "Résultat";
     $("result").hidden = false;

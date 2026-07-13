@@ -1,0 +1,159 @@
+[
+  {
+    "name": "Batman",
+    "difficulty": "easy",
+    "universe": "DC Comics",
+    "tags": [
+      "hero",
+      "masked",
+      "dark",
+      "comic"
+    ]
+  },
+  {
+    "name": "Superman",
+    "difficulty": "easy",
+    "universe": "DC Comics",
+    "tags": [
+      "hero",
+      "powerful",
+      "alien",
+      "comic"
+    ]
+  },
+  {
+    "name": "Wonder Woman",
+    "difficulty": "easy",
+    "universe": "DC Comics",
+    "tags": [
+      "hero",
+      "warrior",
+      "mythology",
+      "comic"
+    ]
+  },
+  {
+    "name": "The Flash",
+    "difficulty": "easy",
+    "universe": "DC Comics",
+    "tags": [
+      "hero",
+      "speed",
+      "comic"
+    ]
+  },
+  {
+    "name": "Aquaman",
+    "difficulty": "normal",
+    "universe": "DC Comics",
+    "tags": [
+      "hero",
+      "ocean",
+      "king",
+      "comic"
+    ]
+  },
+  {
+    "name": "Green Lantern",
+    "difficulty": "normal",
+    "universe": "DC Comics",
+    "tags": [
+      "hero",
+      "space",
+      "comic"
+    ]
+  },
+  {
+    "name": "Joker",
+    "difficulty": "easy",
+    "universe": "Batman",
+    "tags": [
+      "villain",
+      "masked",
+      "dark",
+      "comic"
+    ]
+  },
+  {
+    "name": "Harley Quinn",
+    "difficulty": "easy",
+    "universe": "Batman",
+    "tags": [
+      "villain",
+      "comic",
+      "chaotic"
+    ]
+  },
+  {
+    "name": "Nightwing",
+    "difficulty": "normal",
+    "universe": "Batman",
+    "tags": [
+      "hero",
+      "masked",
+      "comic"
+    ]
+  },
+  {
+    "name": "Catwoman",
+    "difficulty": "normal",
+    "universe": "Batman",
+    "tags": [
+      "antihero",
+      "masked",
+      "comic"
+    ]
+  },
+  {
+    "name": "Lex Luthor",
+    "difficulty": "normal",
+    "universe": "Superman",
+    "tags": [
+      "villain",
+      "genius",
+      "comic"
+    ]
+  },
+  {
+    "name": "Darkseid",
+    "difficulty": "hard",
+    "universe": "DC Comics",
+    "tags": [
+      "villain",
+      "cosmic",
+      "powerful",
+      "comic"
+    ]
+  },
+  {
+    "name": "Raven",
+    "difficulty": "normal",
+    "universe": "Teen Titans",
+    "tags": [
+      "hero",
+      "magic",
+      "dark",
+      "comic"
+    ]
+  },
+  {
+    "name": "Beast Boy",
+    "difficulty": "normal",
+    "universe": "Teen Titans",
+    "tags": [
+      "hero",
+      "shapeshifter",
+      "comic"
+    ]
+  },
+  {
+    "name": "Cyborg",
+    "difficulty": "normal",
+    "universe": "Teen Titans",
+    "tags": [
+      "hero",
+      "technology",
+      "comic"
+    ]
+  }
+]

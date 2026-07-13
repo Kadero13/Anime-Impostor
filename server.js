@@ -51,7 +51,13 @@ function buildImageSearchQueries(subject) {
         movie: "film character",
         series: "TV character",
         marvel: "Marvel character",
-        sport: "athlete"
+        sport: "athlete",
+        dc: "DC Comics character",
+        cartoon: "cartoon character",
+        music: "musician portrait",
+        internet: "content creator",
+        food: "food dish",
+        timmy: "person portrait"
     };
 
     return [
@@ -68,7 +74,7 @@ async function getJikanImage(subject) {
         const response = await axios.get("https://api.jikan.moe/v4/characters", {
             params: { q: subject.name, limit: 5 },
             timeout: 5000,
-            headers: { "User-Agent": "Anime-Imposteur/12" }
+            headers: { "User-Agent": "Anime-Imposteur/13" }
         });
 
         const candidates = response.data?.data || [];
@@ -110,7 +116,7 @@ async function searchWikipediaImage(subject, language) {
                 },
                 timeout: 6000,
                 headers: {
-                    "User-Agent": "Anime-Imposteur/12 (automatic character images)"
+                    "User-Agent": "Anime-Imposteur/13 (automatic subject images)"
                 }
             });
 
@@ -175,7 +181,7 @@ async function getImage(subject) {
 }
 
 function normalizeSettings(data = {}) {
-    const validCategories = ["anime", "games", "movie", "series", "marvel", "sport", "Tout"];
+    const validCategories = ["anime", "games", "movie", "series", "marvel", "dc", "cartoon", "sport", "music", "internet", "food", "timmy", "Tout"];
     const validDifficulties = ["easy", "normal", "hard", "demon"];
 
     let categories = Array.isArray(data.categories)

@@ -1,0 +1,150 @@
+[
+  {
+    "name": "MrBeast",
+    "difficulty": "easy",
+    "universe": "YouTube",
+    "tags": [
+      "internet",
+      "creator",
+      "youtube"
+    ]
+  },
+  {
+    "name": "Squeezie",
+    "difficulty": "easy",
+    "universe": "YouTube France",
+    "tags": [
+      "internet",
+      "creator",
+      "france"
+    ]
+  },
+  {
+    "name": "Inoxtag",
+    "difficulty": "easy",
+    "universe": "YouTube France",
+    "tags": [
+      "internet",
+      "creator",
+      "france"
+    ]
+  },
+  {
+    "name": "AmineMaTue",
+    "difficulty": "easy",
+    "universe": "Streaming France",
+    "tags": [
+      "internet",
+      "streamer",
+      "france"
+    ]
+  },
+  {
+    "name": "Mister V",
+    "difficulty": "easy",
+    "universe": "YouTube France",
+    "tags": [
+      "internet",
+      "creator",
+      "france"
+    ]
+  },
+  {
+    "name": "Michou",
+    "difficulty": "easy",
+    "universe": "YouTube France",
+    "tags": [
+      "internet",
+      "creator",
+      "france"
+    ]
+  },
+  {
+    "name": "IShowSpeed",
+    "difficulty": "easy",
+    "universe": "Streaming",
+    "tags": [
+      "internet",
+      "streamer"
+    ]
+  },
+  {
+    "name": "Kai Cenat",
+    "difficulty": "easy",
+    "universe": "Streaming",
+    "tags": [
+      "internet",
+      "streamer"
+    ]
+  },
+  {
+    "name": "PewDiePie",
+    "difficulty": "easy",
+    "universe": "YouTube",
+    "tags": [
+      "internet",
+      "creator"
+    ]
+  },
+  {
+    "name": "KSI",
+    "difficulty": "easy",
+    "universe": "YouTube",
+    "tags": [
+      "internet",
+      "creator",
+      "boxing"
+    ]
+  },
+  {
+    "name": "Logan Paul",
+    "difficulty": "easy",
+    "universe": "YouTube",
+    "tags": [
+      "internet",
+      "creator",
+      "boxing"
+    ]
+  },
+  {
+    "name": "Cyprien",
+    "difficulty": "normal",
+    "universe": "YouTube France",
+    "tags": [
+      "internet",
+      "creator",
+      "france"
+    ]
+  },
+  {
+    "name": "Joyca",
+    "difficulty": "normal",
+    "universe": "YouTube France",
+    "tags": [
+      "internet",
+      "creator",
+      "france"
+    ]
+  },
+  {
+    "name": "Mastu",
+    "difficulty": "normal",
+    "universe": "YouTube France",
+    "tags": [
+      "internet",
+      "creator",
+      "france"
+    ]
+  },
+  {
+    "name": "Tibo InShape",
+    "difficulty": "easy",
+    "universe": "YouTube France",
+    "tags": [
+      "internet",
+      "creator",
+      "sport",
+      "france"
+    ]
+  }
+]

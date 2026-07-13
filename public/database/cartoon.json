@@ -1,0 +1,152 @@
+[
+  {
+    "name": "SpongeBob",
+    "difficulty": "easy",
+    "universe": "SpongeBob SquarePants",
+    "tags": [
+      "cartoon",
+      "comedy",
+      "sea"
+    ]
+  },
+  {
+    "name": "Patrick Star",
+    "difficulty": "easy",
+    "universe": "SpongeBob SquarePants",
+    "tags": [
+      "cartoon",
+      "comedy",
+      "sea"
+    ]
+  },
+  {
+    "name": "Squidward",
+    "difficulty": "normal",
+    "universe": "SpongeBob SquarePants",
+    "tags": [
+      "cartoon",
+      "comedy",
+      "sea"
+    ]
+  },
+  {
+    "name": "Finn",
+    "difficulty": "easy",
+    "universe": "Adventure Time",
+    "tags": [
+      "cartoon",
+      "adventure",
+      "hero"
+    ]
+  },
+  {
+    "name": "Jake",
+    "difficulty": "easy",
+    "universe": "Adventure Time",
+    "tags": [
+      "cartoon",
+      "adventure",
+      "magic"
+    ]
+  },
+  {
+    "name": "Rick Sanchez",
+    "difficulty": "easy",
+    "universe": "Rick and Morty",
+    "tags": [
+      "cartoon",
+      "sci-fi",
+      "genius"
+    ]
+  },
+  {
+    "name": "Morty Smith",
+    "difficulty": "easy",
+    "universe": "Rick and Morty",
+    "tags": [
+      "cartoon",
+      "sci-fi",
+      "teen"
+    ]
+  },
+  {
+    "name": "Ben Tennyson",
+    "difficulty": "easy",
+    "universe": "Ben 10",
+    "tags": [
+      "cartoon",
+      "hero",
+      "alien"
+    ]
+  },
+  {
+    "name": "Gwen Tennyson",
+    "difficulty": "normal",
+    "universe": "Ben 10",
+    "tags": [
+      "cartoon",
+      "magic",
+      "hero"
+    ]
+  },
+  {
+    "name": "Samurai Jack",
+    "difficulty": "normal",
+    "universe": "Samurai Jack",
+    "tags": [
+      "cartoon",
+      "warrior",
+      "sword"
+    ]
+  },
+  {
+    "name": "Aang",
+    "difficulty": "easy",
+    "universe": "Avatar",
+    "tags": [
+      "cartoon",
+      "magic",
+      "hero"
+    ]
+  },
+  {
+    "name": "Zuko",
+    "difficulty": "easy",
+    "universe": "Avatar",
+    "tags": [
+      "cartoon",
+      "fire",
+      "warrior"
+    ]
+  },
+  {
+    "name": "Homer Simpson",
+    "difficulty": "easy",
+    "universe": "The Simpsons",
+    "tags": [
+      "cartoon",
+      "comedy",
+      "family"
+    ]
+  },
+  {
+    "name": "Bart Simpson",
+    "difficulty": "easy",
+    "universe": "The Simpsons",
+    "tags": [
+      "cartoon",
+      "comedy",
+      "family"
+    ]
+  },
+  {
+    "name": "Peter Griffin",
+    "difficulty": "easy",
+    "universe": "Family Guy",
+    "tags": [
+      "cartoon",
+      "comedy",
+      "family"
+    ]
+  }
+]

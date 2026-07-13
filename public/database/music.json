@@ -1,0 +1,145 @@
+[
+  {
+    "name": "Michael Jackson",
+    "difficulty": "easy",
+    "universe": "Pop",
+    "tags": [
+      "music",
+      "singer",
+      "icon"
+    ]
+  },
+  {
+    "name": "Beyoncé",
+    "difficulty": "easy",
+    "universe": "Pop",
+    "tags": [
+      "music",
+      "singer",
+      "icon"
+    ]
+  },
+  {
+    "name": "Eminem",
+    "difficulty": "easy",
+    "universe": "Rap",
+    "tags": [
+      "music",
+      "rapper"
+    ]
+  },
+  {
+    "name": "Drake",
+    "difficulty": "easy",
+    "universe": "Rap",
+    "tags": [
+      "music",
+      "rapper"
+    ]
+  },
+  {
+    "name": "The Weeknd",
+    "difficulty": "easy",
+    "universe": "Pop",
+    "tags": [
+      "music",
+      "singer"
+    ]
+  },
+  {
+    "name": "Rihanna",
+    "difficulty": "easy",
+    "universe": "Pop",
+    "tags": [
+      "music",
+      "singer"
+    ]
+  },
+  {
+    "name": "Taylor Swift",
+    "difficulty": "easy",
+    "universe": "Pop",
+    "tags": [
+      "music",
+      "singer"
+    ]
+  },
+  {
+    "name": "Kanye West",
+    "difficulty": "normal",
+    "universe": "Rap",
+    "tags": [
+      "music",
+      "rapper",
+      "producer"
+    ]
+  },
+  {
+    "name": "Snoop Dogg",
+    "difficulty": "easy",
+    "universe": "Rap",
+    "tags": [
+      "music",
+      "rapper"
+    ]
+  },
+  {
+    "name": "50 Cent",
+    "difficulty": "easy",
+    "universe": "Rap",
+    "tags": [
+      "music",
+      "rapper"
+    ]
+  },
+  {
+    "name": "Booba",
+    "difficulty": "easy",
+    "universe": "Rap français",
+    "tags": [
+      "music",
+      "rapper",
+      "france"
+    ]
+  },
+  {
+    "name": "Jul",
+    "difficulty": "easy",
+    "universe": "Rap français",
+    "tags": [
+      "music",
+      "rapper",
+      "france"
+    ]
+  },
+  {
+    "name": "Ninho",
+    "difficulty": "easy",
+    "universe": "Rap français",
+    "tags": [
+      "music",
+      "rapper",
+      "france"
+    ]
+  },
+  {
+    "name": "PNL",
+    "difficulty": "easy",
+    "universe": "Rap français",
+    "tags": [
+      "music",
+      "rapper",
+      "france"
+    ]
+  },
+  {
+    "name": "Aya Nakamura",
+    "difficulty": "easy",
+    "universe": "Pop français",
+    "tags": [
+      "music",
+      "singer",
+      "france"
+    ]
+  }
+]

@@ -1,0 +1,149 @@
+[
+  {
+    "name": "Pizza",
+    "difficulty": "easy",
+    "universe": "Cuisine italienne",
+    "tags": [
+      "food",
+      "cheese",
+      "italy"
+    ]
+  },
+  {
+    "name": "Burger",
+    "difficulty": "easy",
+    "universe": "Fast-food",
+    "tags": [
+      "food",
+      "meat",
+      "fast-food"
+    ]
+  },
+  {
+    "name": "Tacos",
+    "difficulty": "easy",
+    "universe": "Cuisine mexicaine",
+    "tags": [
+      "food",
+      "mexico"
+    ]
+  },
+  {
+    "name": "Sushi",
+    "difficulty": "easy",
+    "universe": "Cuisine japonaise",
+    "tags": [
+      "food",
+      "japan",
+      "rice"
+    ]
+  },
+  {
+    "name": "Kebab",
+    "difficulty": "easy",
+    "universe": "Fast-food",
+    "tags": [
+      "food",
+      "meat",
+      "fast-food"
+    ]
+  },
+  {
+    "name": "Couscous",
+    "difficulty": "easy",
+    "universe": "Cuisine maghrébine",
+    "tags": [
+      "food",
+      "maghreb"
+    ]
+  },
+  {
+    "name": "Ramen",
+    "difficulty": "easy",
+    "universe": "Cuisine japonaise",
+    "tags": [
+      "food",
+      "japan",
+      "noodles"
+    ]
+  },
+  {
+    "name": "Lasagnes",
+    "difficulty": "normal",
+    "universe": "Cuisine italienne",
+    "tags": [
+      "food",
+      "italy",
+      "pasta"
+    ]
+  },
+  {
+    "name": "Crêpe",
+    "difficulty": "easy",
+    "universe": "Cuisine française",
+    "tags": [
+      "food",
+      "france",
+      "dessert"
+    ]
+  },
+  {
+    "name": "Croissant",
+    "difficulty": "easy",
+    "universe": "Cuisine française",
+    "tags": [
+      "food",
+      "france",
+      "pastry"
+    ]
+  },
+  {
+    "name": "Donut",
+    "difficulty": "easy",
+    "universe": "Pâtisserie",
+    "tags": [
+      "food",
+      "dessert"
+    ]
+  },
+  {
+    "name": "Tiramisu",
+    "difficulty": "normal",
+    "universe": "Cuisine italienne",
+    "tags": [
+      "food",
+      "italy",
+      "dessert"
+    ]
+  },
+  {
+    "name": "Paella",
+    "difficulty": "normal",
+    "universe": "Cuisine espagnole",
+    "tags": [
+      "food",
+      "spain",
+      "rice"
+    ]
+  },
+  {
+    "name": "Nuggets",
+    "difficulty": "easy",
+    "universe": "Fast-food",
+    "tags": [
+      "food",
+      "chicken",
+      "fast-food"
+    ]
+  },
+  {
+    "name": "Frites",
+    "difficulty": "easy",
+    "universe": "Fast-food",
+    "tags": [
+      "food",
+      "potato",
+      "fast-food"
+    ]
+  }
+]

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#090713">
-    <title>Imposteur — V12</title>
+    <title>Imposteur — V13</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -47,6 +47,12 @@
                         <label class="choice-card"><input class="category" type="checkbox" value="series"><span><b>Séries</b><small>Live action et animation</small></span></label>
                         <label class="choice-card"><input class="category" type="checkbox" value="marvel"><span><b>Marvel</b><small>Héros, équipes et vilains</small></span></label>
                         <label class="choice-card"><input class="category" type="checkbox" value="sport"><span><b>Sport</b><small>Football, combat, F1...</small></span></label>
+                        <label class="choice-card"><input class="category" type="checkbox" value="dc"><span><b>DC Comics</b><small>Batman, Superman et vilains</small></span></label>
+                        <label class="choice-card"><input class="category" type="checkbox" value="cartoon"><span><b>Cartoons</b><small>Dessins animés cultes</small></span></label>
+                        <label class="choice-card"><input class="category" type="checkbox" value="music"><span><b>Musique</b><small>Rap, pop et artistes</small></span></label>
+                        <label class="choice-card"><input class="category" type="checkbox" value="internet"><span><b>Internet</b><small>YouTubeurs et streamers</small></span></label>
+                        <label class="choice-card"><input class="category" type="checkbox" value="food"><span><b>Nourriture</b><small>Plats et spécialités</small></span></label>
+                        <label class="choice-card special-category"><input class="category" type="checkbox" value="timmy"><span><b>Timmy</b><small>Votre groupe personnalisé</small></span></label>
                     </div>
                 </div>
 
@@ -173,6 +179,14 @@
             </div>
         </section>
     </main>
+
+    <div id="cinematicOverlay" class="cinematic-overlay" hidden>
+        <div class="cinematic-glow"></div>
+        <div id="cinematicIcon" class="cinematic-icon">I</div>
+        <p id="cinematicEyebrow" class="eyebrow"></p>
+        <h2 id="cinematicTitle"></h2>
+        <p id="cinematicText" class="muted"></p>
+    </div>
 
     <div id="voteOverlay" class="overlay" hidden>
         <section class="vote-modal">
