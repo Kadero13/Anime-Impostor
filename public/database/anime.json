@@ -2,346 +2,1021 @@
   {
     "name": "Naruto Uzumaki",
     "difficulty": "easy",
-    "universe": "Naruto"
+    "universe": "Naruto",
+    "tags": [
+      "anime",
+      "ninja",
+      "combat",
+      "pouvoirs",
+      "japon"
+    ]
   },
   {
     "name": "Sasuke Uchiha",
     "difficulty": "easy",
-    "universe": "Naruto"
+    "universe": "Naruto",
+    "tags": [
+      "anime",
+      "ninja",
+      "combat",
+      "pouvoirs",
+      "japon"
+    ]
+  },
+  {
+    "name": "Sakura Haruno",
+    "difficulty": "normal",
+    "universe": "Naruto",
+    "tags": [
+      "anime",
+      "ninja",
+      "combat",
+      "pouvoirs",
+      "japon"
+    ]
   },
   {
     "name": "Kakashi Hatake",
     "difficulty": "easy",
-    "universe": "Naruto"
+    "universe": "Naruto",
+    "tags": [
+      "anime",
+      "ninja",
+      "combat",
+      "pouvoirs",
+      "japon"
+    ]
   },
   {
     "name": "Itachi Uchiha",
     "difficulty": "easy",
-    "universe": "Naruto"
+    "universe": "Naruto",
+    "tags": [
+      "anime",
+      "ninja",
+      "combat",
+      "pouvoirs",
+      "japon"
+    ]
   },
   {
     "name": "Madara Uchiha",
     "difficulty": "normal",
-    "universe": "Naruto"
+    "universe": "Naruto",
+    "tags": [
+      "anime",
+      "ninja",
+      "combat",
+      "pouvoirs",
+      "japon"
+    ]
   },
-
-
+  {
+    "name": "Obito Uchiha",
+    "difficulty": "hard",
+    "universe": "Naruto",
+    "tags": [
+      "anime",
+      "ninja",
+      "combat",
+      "pouvoirs",
+      "japon"
+    ]
+  },
+  {
+    "name": "Minato Namikaze",
+    "difficulty": "normal",
+    "universe": "Naruto",
+    "tags": [
+      "anime",
+      "ninja",
+      "combat",
+      "pouvoirs",
+      "japon"
+    ]
+  },
   {
     "name": "Monkey D. Luffy",
     "difficulty": "easy",
-    "universe": "One Piece"
+    "universe": "One Piece",
+    "tags": [
+      "anime",
+      "pirate",
+      "aventure",
+      "combat",
+      "mer"
+    ]
   },
   {
     "name": "Roronoa Zoro",
     "difficulty": "easy",
-    "universe": "One Piece"
+    "universe": "One Piece",
+    "tags": [
+      "anime",
+      "pirate",
+      "aventure",
+      "combat",
+      "mer"
+    ]
+  },
+  {
+    "name": "Nami",
+    "difficulty": "easy",
+    "universe": "One Piece",
+    "tags": [
+      "anime",
+      "pirate",
+      "aventure",
+      "combat",
+      "mer"
+    ]
   },
   {
     "name": "Sanji",
     "difficulty": "easy",
-    "universe": "One Piece"
+    "universe": "One Piece",
+    "tags": [
+      "anime",
+      "pirate",
+      "aventure",
+      "combat",
+      "mer"
+    ]
   },
   {
     "name": "Nico Robin",
     "difficulty": "normal",
-    "universe": "One Piece"
+    "universe": "One Piece",
+    "tags": [
+      "anime",
+      "pirate",
+      "aventure",
+      "combat",
+      "mer"
+    ]
   },
   {
     "name": "Trafalgar Law",
     "difficulty": "normal",
-    "universe": "One Piece"
+    "universe": "One Piece",
+    "tags": [
+      "anime",
+      "pirate",
+      "aventure",
+      "combat",
+      "mer"
+    ]
   },
-
-
+  {
+    "name": "Shanks",
+    "difficulty": "normal",
+    "universe": "One Piece",
+    "tags": [
+      "anime",
+      "pirate",
+      "aventure",
+      "combat",
+      "mer"
+    ]
+  },
+  {
+    "name": "Blackbeard",
+    "difficulty": "hard",
+    "universe": "One Piece",
+    "tags": [
+      "anime",
+      "pirate",
+      "aventure",
+      "combat",
+      "mer"
+    ]
+  },
   {
     "name": "Son Goku",
     "difficulty": "easy",
-    "universe": "Dragon Ball"
+    "universe": "Dragon Ball",
+    "tags": [
+      "anime",
+      "combat",
+      "alien",
+      "pouvoirs",
+      "tournoi"
+    ]
   },
   {
     "name": "Vegeta",
     "difficulty": "easy",
-    "universe": "Dragon Ball"
+    "universe": "Dragon Ball",
+    "tags": [
+      "anime",
+      "combat",
+      "alien",
+      "pouvoirs",
+      "tournoi"
+    ]
   },
   {
     "name": "Gohan",
     "difficulty": "easy",
-    "universe": "Dragon Ball"
+    "universe": "Dragon Ball",
+    "tags": [
+      "anime",
+      "combat",
+      "alien",
+      "pouvoirs",
+      "tournoi"
+    ]
   },
   {
     "name": "Piccolo",
     "difficulty": "normal",
-    "universe": "Dragon Ball"
+    "universe": "Dragon Ball",
+    "tags": [
+      "anime",
+      "combat",
+      "alien",
+      "pouvoirs",
+      "tournoi"
+    ]
   },
   {
     "name": "Frieza",
     "difficulty": "normal",
-    "universe": "Dragon Ball"
+    "universe": "Dragon Ball",
+    "tags": [
+      "anime",
+      "combat",
+      "alien",
+      "pouvoirs",
+      "tournoi"
+    ]
   },
-
-
   {
-    "name": "Monkey D. Luffy",
-    "difficulty": "easy",
-    "universe": "One Piece"
+    "name": "Trunks",
+    "difficulty": "normal",
+    "universe": "Dragon Ball",
+    "tags": [
+      "anime",
+      "combat",
+      "alien",
+      "pouvoirs",
+      "tournoi"
+    ]
+  },
+  {
+    "name": "Cell",
+    "difficulty": "normal",
+    "universe": "Dragon Ball",
+    "tags": [
+      "anime",
+      "combat",
+      "alien",
+      "pouvoirs",
+      "tournoi"
+    ]
+  },
+  {
+    "name": "Majin Buu",
+    "difficulty": "hard",
+    "universe": "Dragon Ball",
+    "tags": [
+      "anime",
+      "combat",
+      "alien",
+      "pouvoirs",
+      "tournoi"
+    ]
   },
   {
     "name": "Satoru Gojo",
     "difficulty": "easy",
-    "universe": "Jujutsu Kaisen"
+    "universe": "Jujutsu Kaisen",
+    "tags": [
+      "anime",
+      "exorciste",
+      "malédiction",
+      "combat",
+      "école"
+    ]
   },
   {
     "name": "Yuji Itadori",
     "difficulty": "easy",
-    "universe": "Jujutsu Kaisen"
+    "universe": "Jujutsu Kaisen",
+    "tags": [
+      "anime",
+      "exorciste",
+      "malédiction",
+      "combat",
+      "école"
+    ]
   },
   {
     "name": "Megumi Fushiguro",
     "difficulty": "normal",
-    "universe": "Jujutsu Kaisen"
+    "universe": "Jujutsu Kaisen",
+    "tags": [
+      "anime",
+      "exorciste",
+      "malédiction",
+      "combat",
+      "école"
+    ]
+  },
+  {
+    "name": "Nobara Kugisaki",
+    "difficulty": "normal",
+    "universe": "Jujutsu Kaisen",
+    "tags": [
+      "anime",
+      "exorciste",
+      "malédiction",
+      "combat",
+      "école"
+    ]
   },
   {
     "name": "Ryomen Sukuna",
     "difficulty": "easy",
-    "universe": "Jujutsu Kaisen"
+    "universe": "Jujutsu Kaisen",
+    "tags": [
+      "anime",
+      "exorciste",
+      "malédiction",
+      "combat",
+      "école"
+    ]
+  },
+  {
+    "name": "Yuta Okkotsu",
+    "difficulty": "hard",
+    "universe": "Jujutsu Kaisen",
+    "tags": [
+      "anime",
+      "exorciste",
+      "malédiction",
+      "combat",
+      "école"
+    ]
+  },
+  {
+    "name": "Eren Yeager",
+    "difficulty": "easy",
+    "universe": "Attack on Titan",
+    "tags": [
+      "anime",
+      "guerre",
+      "survie",
+      "soldat",
+      "monstre"
+    ]
+  },
+  {
+    "name": "Mikasa Ackerman",
+    "difficulty": "easy",
+    "universe": "Attack on Titan",
+    "tags": [
+      "anime",
+      "guerre",
+      "survie",
+      "soldat",
+      "monstre"
+    ]
+  },
+  {
+    "name": "Levi Ackerman",
+    "difficulty": "easy",
+    "universe": "Attack on Titan",
+    "tags": [
+      "anime",
+      "guerre",
+      "survie",
+      "soldat",
+      "monstre"
+    ]
+  },
+  {
+    "name": "Armin Arlert",
+    "difficulty": "normal",
+    "universe": "Attack on Titan",
+    "tags": [
+      "anime",
+      "guerre",
+      "survie",
+      "soldat",
+      "monstre"
+    ]
+  },
+  {
+    "name": "Erwin Smith",
+    "difficulty": "normal",
+    "universe": "Attack on Titan",
+    "tags": [
+      "anime",
+      "guerre",
+      "survie",
+      "soldat",
+      "monstre"
+    ]
+  },
+  {
+    "name": "Reiner Braun",
+    "difficulty": "hard",
+    "universe": "Attack on Titan",
+    "tags": [
+      "anime",
+      "guerre",
+      "survie",
+      "soldat",
+      "monstre"
+    ]
+  },
+  {
+    "name": "Tanjiro Kamado",
+    "difficulty": "easy",
+    "universe": "Demon Slayer",
+    "tags": [
+      "anime",
+      "démon",
+      "épéiste",
+      "combat",
+      "japon"
+    ]
+  },
+  {
+    "name": "Nezuko Kamado",
+    "difficulty": "easy",
+    "universe": "Demon Slayer",
+    "tags": [
+      "anime",
+      "démon",
+      "épéiste",
+      "combat",
+      "japon"
+    ]
+  },
+  {
+    "name": "Zenitsu Agatsuma",
+    "difficulty": "easy",
+    "universe": "Demon Slayer",
+    "tags": [
+      "anime",
+      "démon",
+      "épéiste",
+      "combat",
+      "japon"
+    ]
+  },
+  {
+    "name": "Inosuke Hashibira",
+    "difficulty": "normal",
+    "universe": "Demon Slayer",
+    "tags": [
+      "anime",
+      "démon",
+      "épéiste",
+      "combat",
+      "japon"
+    ]
+  },
+  {
+    "name": "Muzan Kibutsuji",
+    "difficulty": "normal",
+    "universe": "Demon Slayer",
+    "tags": [
+      "anime",
+      "démon",
+      "épéiste",
+      "combat",
+      "japon"
+    ]
+  },
+  {
+    "name": "Kyojuro Rengoku",
+    "difficulty": "normal",
+    "universe": "Demon Slayer",
+    "tags": [
+      "anime",
+      "démon",
+      "épéiste",
+      "combat",
+      "japon"
+    ]
+  },
+  {
+    "name": "Light Yagami",
+    "difficulty": "easy",
+    "universe": "Death Note",
+    "tags": [
+      "anime",
+      "enquête",
+      "intelligence",
+      "crime",
+      "surnaturel"
+    ]
+  },
+  {
+    "name": "L",
+    "difficulty": "easy",
+    "universe": "Death Note",
+    "tags": [
+      "anime",
+      "enquête",
+      "intelligence",
+      "crime",
+      "surnaturel"
+    ]
+  },
+  {
+    "name": "Ryuk",
+    "difficulty": "normal",
+    "universe": "Death Note",
+    "tags": [
+      "anime",
+      "enquête",
+      "intelligence",
+      "crime",
+      "surnaturel"
+    ]
+  },
+  {
+    "name": "Misa Amane",
+    "difficulty": "normal",
+    "universe": "Death Note",
+    "tags": [
+      "anime",
+      "enquête",
+      "intelligence",
+      "crime",
+      "surnaturel"
+    ]
+  },
+  {
+    "name": "Near",
+    "difficulty": "hard",
+    "universe": "Death Note",
+    "tags": [
+      "anime",
+      "enquête",
+      "intelligence",
+      "crime",
+      "surnaturel"
+    ]
+  },
+  {
+    "name": "Ichigo Kurosaki",
+    "difficulty": "easy",
+    "universe": "Bleach",
+    "tags": [
+      "anime",
+      "épéiste",
+      "esprit",
+      "combat",
+      "surnaturel"
+    ]
+  },
+  {
+    "name": "Rukia Kuchiki",
+    "difficulty": "normal",
+    "universe": "Bleach",
+    "tags": [
+      "anime",
+      "épéiste",
+      "esprit",
+      "combat",
+      "surnaturel"
+    ]
+  },
+  {
+    "name": "Byakuya Kuchiki",
+    "difficulty": "normal",
+    "universe": "Bleach",
+    "tags": [
+      "anime",
+      "épéiste",
+      "esprit",
+      "combat",
+      "surnaturel"
+    ]
+  },
+  {
+    "name": "Sosuke Aizen",
+    "difficulty": "normal",
+    "universe": "Bleach",
+    "tags": [
+      "anime",
+      "épéiste",
+      "esprit",
+      "combat",
+      "surnaturel"
+    ]
+  },
+  {
+    "name": "Renji Abarai",
+    "difficulty": "normal",
+    "universe": "Bleach",
+    "tags": [
+      "anime",
+      "épéiste",
+      "esprit",
+      "combat",
+      "surnaturel"
+    ]
+  },
+  {
+    "name": "Urahara Kisuke",
+    "difficulty": "hard",
+    "universe": "Bleach",
+    "tags": [
+      "anime",
+      "épéiste",
+      "esprit",
+      "combat",
+      "surnaturel"
+    ]
+  },
+  {
+    "name": "Gon Freecss",
+    "difficulty": "easy",
+    "universe": "Hunter x Hunter",
+    "tags": [
+      "anime",
+      "aventure",
+      "combat",
+      "pouvoirs",
+      "chasseur"
+    ]
+  },
+  {
+    "name": "Killua Zoldyck",
+    "difficulty": "easy",
+    "universe": "Hunter x Hunter",
+    "tags": [
+      "anime",
+      "aventure",
+      "combat",
+      "pouvoirs",
+      "chasseur"
+    ]
+  },
+  {
+    "name": "Kurapika",
+    "difficulty": "normal",
+    "universe": "Hunter x Hunter",
+    "tags": [
+      "anime",
+      "aventure",
+      "combat",
+      "pouvoirs",
+      "chasseur"
+    ]
+  },
+  {
+    "name": "Hisoka",
+    "difficulty": "easy",
+    "universe": "Hunter x Hunter",
+    "tags": [
+      "anime",
+      "aventure",
+      "combat",
+      "pouvoirs",
+      "chasseur"
+    ]
+  },
+  {
+    "name": "Chrollo Lucilfer",
+    "difficulty": "hard",
+    "universe": "Hunter x Hunter",
+    "tags": [
+      "anime",
+      "aventure",
+      "combat",
+      "pouvoirs",
+      "chasseur"
+    ]
+  },
+  {
+    "name": "Meruem",
+    "difficulty": "hard",
+    "universe": "Hunter x Hunter",
+    "tags": [
+      "anime",
+      "aventure",
+      "combat",
+      "pouvoirs",
+      "chasseur"
+    ]
+  },
+  {
+    "name": "Izuku Midoriya",
+    "difficulty": "easy",
+    "universe": "My Hero Academia",
+    "tags": [
+      "anime",
+      "super-héros",
+      "école",
+      "pouvoirs",
+      "combat"
+    ]
+  },
+  {
+    "name": "Katsuki Bakugo",
+    "difficulty": "easy",
+    "universe": "My Hero Academia",
+    "tags": [
+      "anime",
+      "super-héros",
+      "école",
+      "pouvoirs",
+      "combat"
+    ]
+  },
+  {
+    "name": "Shoto Todoroki",
+    "difficulty": "easy",
+    "universe": "My Hero Academia",
+    "tags": [
+      "anime",
+      "super-héros",
+      "école",
+      "pouvoirs",
+      "combat"
+    ]
+  },
+  {
+    "name": "All Might",
+    "difficulty": "easy",
+    "universe": "My Hero Academia",
+    "tags": [
+      "anime",
+      "super-héros",
+      "école",
+      "pouvoirs",
+      "combat"
+    ]
+  },
+  {
+    "name": "Tomura Shigaraki",
+    "difficulty": "normal",
+    "universe": "My Hero Academia",
+    "tags": [
+      "anime",
+      "super-héros",
+      "école",
+      "pouvoirs",
+      "combat"
+    ]
+  },
+  {
+    "name": "Endeavor",
+    "difficulty": "normal",
+    "universe": "My Hero Academia",
+    "tags": [
+      "anime",
+      "super-héros",
+      "école",
+      "pouvoirs",
+      "combat"
+    ]
+  },
+  {
+    "name": "Saitama",
+    "difficulty": "easy",
+    "universe": "One Punch Man",
+    "tags": [
+      "anime",
+      "super-héros",
+      "combat",
+      "pouvoirs",
+      "comédie"
+    ]
+  },
+  {
+    "name": "Genos",
+    "difficulty": "normal",
+    "universe": "One Punch Man",
+    "tags": [
+      "anime",
+      "super-héros",
+      "combat",
+      "pouvoirs",
+      "comédie"
+    ]
+  },
+  {
+    "name": "Garou",
+    "difficulty": "normal",
+    "universe": "One Punch Man",
+    "tags": [
+      "anime",
+      "super-héros",
+      "combat",
+      "pouvoirs",
+      "comédie"
+    ]
+  },
+  {
+    "name": "Tatsumaki",
+    "difficulty": "normal",
+    "universe": "One Punch Man",
+    "tags": [
+      "anime",
+      "super-héros",
+      "combat",
+      "pouvoirs",
+      "comédie"
+    ]
+  },
+  {
+    "name": "King",
+    "difficulty": "hard",
+    "universe": "One Punch Man",
+    "tags": [
+      "anime",
+      "super-héros",
+      "combat",
+      "pouvoirs",
+      "comédie"
+    ]
+  },
+  {
+    "name": "Klein Moretti",
+    "difficulty": "hard",
+    "universe": "Lord of the Mysteries",
+    "tags": [
+      "novel",
+      "mystère",
+      "surnaturel",
+      "intelligence",
+      "secret"
+    ]
+  },
+  {
+    "name": "Audrey Hall",
+    "difficulty": "hard",
+    "universe": "Lord of the Mysteries",
+    "tags": [
+      "novel",
+      "mystère",
+      "surnaturel",
+      "intelligence",
+      "secret"
+    ]
+  },
+  {
+    "name": "Alger Wilson",
+    "difficulty": "hard",
+    "universe": "Lord of the Mysteries",
+    "tags": [
+      "novel",
+      "mystère",
+      "surnaturel",
+      "intelligence",
+      "secret"
+    ]
+  },
+  {
+    "name": "Leonard Mitchell",
+    "difficulty": "hard",
+    "universe": "Lord of the Mysteries",
+    "tags": [
+      "novel",
+      "mystère",
+      "surnaturel",
+      "intelligence",
+      "secret"
+    ]
+  },
+  {
+    "name": "Amon",
+    "difficulty": "demon",
+    "universe": "Lord of the Mysteries",
+    "tags": [
+      "novel",
+      "mystère",
+      "surnaturel",
+      "intelligence",
+      "secret"
+    ]
+  },
+  {
+    "name": "Sung Jin-Woo",
+    "difficulty": "easy",
+    "universe": "Solo Leveling",
+    "tags": [
+      "anime",
+      "chasseur",
+      "donjon",
+      "combat",
+      "pouvoirs"
+    ]
+  },
+  {
+    "name": "Cha Hae-In",
+    "difficulty": "normal",
+    "universe": "Solo Leveling",
+    "tags": [
+      "anime",
+      "chasseur",
+      "donjon",
+      "combat",
+      "pouvoirs"
+    ]
+  },
+  {
+    "name": "Igris",
+    "difficulty": "normal",
+    "universe": "Solo Leveling",
+    "tags": [
+      "anime",
+      "chasseur",
+      "donjon",
+      "combat",
+      "pouvoirs"
+    ]
+  },
+  {
+    "name": "Beru",
+    "difficulty": "normal",
+    "universe": "Solo Leveling",
+    "tags": [
+      "anime",
+      "chasseur",
+      "donjon",
+      "combat",
+      "pouvoirs"
+    ]
+  },
+  {
+    "name": "Thomas Andre",
+    "difficulty": "hard",
+    "universe": "Solo Leveling",
+    "tags": [
+      "anime",
+      "chasseur",
+      "donjon",
+      "combat",
+      "pouvoirs"
+    ]
+  },
+  {
+    "name": "Sunny",
+    "difficulty": "hard",
+    "universe": "Shadow Slave",
+    "tags": [
+      "novel",
+      "survie",
+      "cauchemar",
+      "combat",
+      "secret"
+    ]
+  },
+  {
+    "name": "Nephis",
+    "difficulty": "hard",
+    "universe": "Shadow Slave",
+    "tags": [
+      "novel",
+      "survie",
+      "cauchemar",
+      "combat",
+      "secret"
+    ]
+  },
+  {
+    "name": "Cassie",
+    "difficulty": "hard",
+    "universe": "Shadow Slave",
+    "tags": [
+      "novel",
+      "survie",
+      "cauchemar",
+      "combat",
+      "secret"
+    ]
+  },
+  {
+    "name": "Kai",
+    "difficulty": "hard",
+    "universe": "Shadow Slave",
+    "tags": [
+      "novel",
+      "survie",
+      "cauchemar",
+      "combat",
+      "secret"
+    ]
+  },
+  {
+    "name": "Mordret",
+    "difficulty": "demon",
+    "universe": "Shadow Slave",
+    "tags": [
+      "novel",
+      "survie",
+      "cauchemar",
+      "combat",
+      "secret"
+    ]
   }
-,
-{
-  "name": "Eren Yeager",
-  "difficulty": "easy",
-  "universe": "Attack on Titan"
-},
-{
-  "name": "Mikasa Ackerman",
-  "difficulty": "easy",
-  "universe": "Attack on Titan"
-},
-{
-  "name": "Levi Ackerman",
-  "difficulty": "easy",
-  "universe": "Attack on Titan"
-},
-{
-  "name": "Armin Arlert",
-  "difficulty": "normal",
-  "universe": "Attack on Titan"
-},
-{
-  "name": "Erwin Smith",
-  "difficulty": "normal",
-  "universe": "Attack on Titan"
-},
-
-
-{
-  "name": "Tanjiro Kamado",
-  "difficulty": "easy",
-  "universe": "Demon Slayer"
-},
-{
-  "name": "Nezuko Kamado",
-  "difficulty": "easy",
-  "universe": "Demon Slayer"
-},
-{
-  "name": "Zenitsu Agatsuma",
-  "difficulty": "easy",
-  "universe": "Demon Slayer"
-},
-{
-  "name": "Inosuke Hashibira",
-  "difficulty": "normal",
-  "universe": "Demon Slayer"
-},
-{
-  "name": "Muzan Kibutsuji",
-  "difficulty": "normal",
-  "universe": "Demon Slayer"
-},
-
-
-{
-  "name": "Saitama",
-  "difficulty": "easy",
-  "universe": "One Punch Man"
-},
-{
-  "name": "Genos",
-  "difficulty": "normal",
-  "universe": "One Punch Man"
-},
-{
-  "name": "Garou",
-  "difficulty": "normal",
-  "universe": "One Punch Man"
-},
-
-
-{
-  "name": "Izuku Midoriya",
-  "difficulty": "easy",
-  "universe": "My Hero Academia"
-},
-{
-  "name": "Katsuki Bakugo",
-  "difficulty": "easy",
-  "universe": "My Hero Academia"
-},
-{
-  "name": "Shoto Todoroki",
-  "difficulty": "easy",
-  "universe": "My Hero Academia"
-},
-{
-  "name": "All Might",
-  "difficulty": "easy",
-  "universe": "My Hero Academia"
-},
-{
-  "name": "Tomura Shigaraki",
-  "difficulty": "normal",
-  "universe": "My Hero Academia"
-},
-
-
-{
-  "name": "Kirito",
-  "difficulty": "easy",
-  "universe": "Sword Art Online"
-},
-{
-  "name": "Asuna",
-  "difficulty": "easy",
-  "universe": "Sword Art Online"
-},
-{
-  "name": "Sinon",
-  "difficulty": "normal",
-  "universe": "Sword Art Online"
-},
-{
-  "name": "Light Yagami",
-  "difficulty": "easy",
-  "universe": "Death Note"
-},
-{
-  "name": "L",
-  "difficulty": "easy",
-  "universe": "Death Note"
-},
-{
-  "name": "Ryuk",
-  "difficulty": "normal",
-  "universe": "Death Note"
-},
-
-
-{
-  "name": "Ichigo Kurosaki",
-  "difficulty": "easy",
-  "universe": "Bleach"
-},
-{
-  "name": "Rukia Kuchiki",
-  "difficulty": "normal",
-  "universe": "Bleach"
-},
-{
-  "name": "Byakuya Kuchiki",
-  "difficulty": "normal",
-  "universe": "Bleach"
-},
-{
-  "name": "Sosuke Aizen",
-  "difficulty": "normal",
-  "universe": "Bleach"
-},
-
-
-{
-  "name": "Gon Freecss",
-  "difficulty": "easy",
-  "universe": "Hunter x Hunter"
-},
-{
-  "name": "Killua Zoldyck",
-  "difficulty": "easy",
-  "universe": "Hunter x Hunter"
-},
-{
-  "name": "Kurapika",
-  "difficulty": "normal",
-  "universe": "Hunter x Hunter"
-},
-{
-  "name": "Hisoka",
-  "difficulty": "easy",
-  "universe": "Hunter x Hunter"
-},
-
-
-{
-  "name": "Lelouch Lamperouge",
-  "difficulty": "normal",
-  "universe": "Code Geass"
-},
-
-
-{
-  "name": "Edward Elric",
-  "difficulty": "easy",
-  "universe": "Fullmetal Alchemist"
-},
-{
-  "name": "Alphonse Elric",
-  "difficulty": "normal",
-  "universe": "Fullmetal Alchemist"
-},
-
-
-{
-  "name": "Subaru Natsuki",
-  "difficulty": "normal",
-  "universe": "Re Zero"
-},
-{
-  "name": "Emilia",
-  "difficulty": "normal",
-  "universe": "Re Zero"
-},
-
-
-{
-  "name": "Ainz Ooal Gown",
-  "difficulty": "normal",
-  "universe": "Overlord"
-},
-
-
-{
-  "name": "Anos Voldigoad",
-  "difficulty": "normal",
-  "universe": "The Misfit of Demon King Academy"
-},
-
-
-{
-  "name": "Klein Moretti",
-  "difficulty": "hard",
-  "universe": "Lord of the Mysteries"
-},
-
-
-{
-  "name": "Sung Jin Woo",
-  "difficulty": "easy",
-  "universe": "Solo Leveling"
-},
-
-
-{
-  "name": "Sunny",
-  "difficulty": "hard",
-  "universe": "Shadow Slave"
-}
 ]

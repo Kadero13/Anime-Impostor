@@ -2,206 +2,1009 @@
   {
     "name": "Mario",
     "difficulty": "easy",
-    "universe": "Super Mario"
+    "universe": "Super Mario",
+    "tags": [
+      "jeu",
+      "plateforme",
+      "aventure",
+      "famille",
+      "coloré"
+    ]
   },
   {
     "name": "Luigi",
     "difficulty": "easy",
-    "universe": "Super Mario"
+    "universe": "Super Mario",
+    "tags": [
+      "jeu",
+      "plateforme",
+      "aventure",
+      "famille",
+      "coloré"
+    ]
+  },
+  {
+    "name": "Peach",
+    "difficulty": "easy",
+    "universe": "Super Mario",
+    "tags": [
+      "jeu",
+      "plateforme",
+      "aventure",
+      "famille",
+      "coloré"
+    ]
   },
   {
     "name": "Bowser",
-    "difficulty": "normal",
-    "universe": "Super Mario"
+    "difficulty": "easy",
+    "universe": "Super Mario",
+    "tags": [
+      "jeu",
+      "plateforme",
+      "aventure",
+      "famille",
+      "coloré"
+    ]
   },
-
-
+  {
+    "name": "Toad",
+    "difficulty": "easy",
+    "universe": "Super Mario",
+    "tags": [
+      "jeu",
+      "plateforme",
+      "aventure",
+      "famille",
+      "coloré"
+    ]
+  },
+  {
+    "name": "Yoshi",
+    "difficulty": "easy",
+    "universe": "Super Mario",
+    "tags": [
+      "jeu",
+      "plateforme",
+      "aventure",
+      "famille",
+      "coloré"
+    ]
+  },
+  {
+    "name": "Wario",
+    "difficulty": "normal",
+    "universe": "Super Mario",
+    "tags": [
+      "jeu",
+      "plateforme",
+      "aventure",
+      "famille",
+      "coloré"
+    ]
+  },
   {
     "name": "Link",
     "difficulty": "easy",
-    "universe": "The Legend of Zelda"
+    "universe": "The Legend of Zelda",
+    "tags": [
+      "jeu",
+      "fantasy",
+      "épéiste",
+      "aventure",
+      "magie"
+    ]
   },
   {
     "name": "Zelda",
     "difficulty": "easy",
-    "universe": "The Legend of Zelda"
+    "universe": "The Legend of Zelda",
+    "tags": [
+      "jeu",
+      "fantasy",
+      "épéiste",
+      "aventure",
+      "magie"
+    ]
   },
   {
     "name": "Ganondorf",
     "difficulty": "normal",
-    "universe": "The Legend of Zelda"
+    "universe": "The Legend of Zelda",
+    "tags": [
+      "jeu",
+      "fantasy",
+      "épéiste",
+      "aventure",
+      "magie"
+    ]
   },
-
-
+  {
+    "name": "Mipha",
+    "difficulty": "normal",
+    "universe": "The Legend of Zelda",
+    "tags": [
+      "jeu",
+      "fantasy",
+      "épéiste",
+      "aventure",
+      "magie"
+    ]
+  },
+  {
+    "name": "Midna",
+    "difficulty": "hard",
+    "universe": "The Legend of Zelda",
+    "tags": [
+      "jeu",
+      "fantasy",
+      "épéiste",
+      "aventure",
+      "magie"
+    ]
+  },
+  {
+    "name": "Impa",
+    "difficulty": "normal",
+    "universe": "The Legend of Zelda",
+    "tags": [
+      "jeu",
+      "fantasy",
+      "épéiste",
+      "aventure",
+      "magie"
+    ]
+  },
   {
     "name": "Kratos",
     "difficulty": "easy",
-    "universe": "God of War"
+    "universe": "God of War",
+    "tags": [
+      "jeu",
+      "mythologie",
+      "combat",
+      "dieu",
+      "aventure"
+    ]
   },
   {
     "name": "Atreus",
     "difficulty": "normal",
-    "universe": "God of War"
+    "universe": "God of War",
+    "tags": [
+      "jeu",
+      "mythologie",
+      "combat",
+      "dieu",
+      "aventure"
+    ]
   },
-
-
   {
-    "name": "Master Chief",
-    "difficulty": "easy",
-    "universe": "Halo"
-  },
-  {
-    "name": "Cortana",
+    "name": "Freya",
     "difficulty": "normal",
-    "universe": "Halo"
+    "universe": "God of War",
+    "tags": [
+      "jeu",
+      "mythologie",
+      "combat",
+      "dieu",
+      "aventure"
+    ]
   },
-
-
   {
-    "name": "Steve",
-    "difficulty": "easy",
-    "universe": "Minecraft"
-  },
-  {
-    "name": "Alex",
+    "name": "Baldur",
     "difficulty": "normal",
-    "universe": "Minecraft"
+    "universe": "God of War",
+    "tags": [
+      "jeu",
+      "mythologie",
+      "combat",
+      "dieu",
+      "aventure"
+    ]
   },
   {
-    "name": "Creeper",
-    "difficulty": "easy",
-    "universe": "Minecraft"
-  },
-
-
-  {
-    "name": "Geralt de Riv",
-    "difficulty": "easy",
-    "universe": "The Witcher"
-  },
-  {
-    "name": "Ciri",
+    "name": "Thor de God of War",
     "difficulty": "normal",
-    "universe": "The Witcher"
+    "universe": "God of War",
+    "tags": [
+      "jeu",
+      "mythologie",
+      "combat",
+      "dieu",
+      "aventure"
+    ]
   },
-
-
+  {
+    "name": "Odin de God of War",
+    "difficulty": "hard",
+    "universe": "God of War",
+    "tags": [
+      "jeu",
+      "mythologie",
+      "combat",
+      "dieu",
+      "aventure"
+    ]
+  },
   {
     "name": "Arthur Morgan",
     "difficulty": "easy",
-    "universe": "Red Dead Redemption"
+    "universe": "Red Dead Redemption",
+    "tags": [
+      "jeu",
+      "western",
+      "hors-la-loi",
+      "arme",
+      "aventure"
+    ]
   },
   {
     "name": "John Marston",
     "difficulty": "normal",
-    "universe": "Red Dead Redemption"
+    "universe": "Red Dead Redemption",
+    "tags": [
+      "jeu",
+      "western",
+      "hors-la-loi",
+      "arme",
+      "aventure"
+    ]
   },
-
-
+  {
+    "name": "Dutch van der Linde",
+    "difficulty": "normal",
+    "universe": "Red Dead Redemption",
+    "tags": [
+      "jeu",
+      "western",
+      "hors-la-loi",
+      "arme",
+      "aventure"
+    ]
+  },
+  {
+    "name": "Sadie Adler",
+    "difficulty": "normal",
+    "universe": "Red Dead Redemption",
+    "tags": [
+      "jeu",
+      "western",
+      "hors-la-loi",
+      "arme",
+      "aventure"
+    ]
+  },
+  {
+    "name": "Micah Bell",
+    "difficulty": "hard",
+    "universe": "Red Dead Redemption",
+    "tags": [
+      "jeu",
+      "western",
+      "hors-la-loi",
+      "arme",
+      "aventure"
+    ]
+  },
   {
     "name": "Joel Miller",
     "difficulty": "easy",
-    "universe": "The Last of Us"
+    "universe": "The Last of Us",
+    "tags": [
+      "jeu",
+      "survie",
+      "post-apocalypse",
+      "infecté",
+      "drame"
+    ]
   },
   {
-    "name": "Ellie",
+    "name": "Ellie Williams",
     "difficulty": "easy",
-    "universe": "The Last of Us"
+    "universe": "The Last of Us",
+    "tags": [
+      "jeu",
+      "survie",
+      "post-apocalypse",
+      "infecté",
+      "drame"
+    ]
   },
-
-
   {
-    "name": "Nathan Drake",
+    "name": "Abby Anderson",
     "difficulty": "normal",
-    "universe": "Uncharted"
+    "universe": "The Last of Us",
+    "tags": [
+      "jeu",
+      "survie",
+      "post-apocalypse",
+      "infecté",
+      "drame"
+    ]
   },
-
-
+  {
+    "name": "Tommy Miller",
+    "difficulty": "normal",
+    "universe": "The Last of Us",
+    "tags": [
+      "jeu",
+      "survie",
+      "post-apocalypse",
+      "infecté",
+      "drame"
+    ]
+  },
+  {
+    "name": "Tess",
+    "difficulty": "hard",
+    "universe": "The Last of Us",
+    "tags": [
+      "jeu",
+      "survie",
+      "post-apocalypse",
+      "infecté",
+      "drame"
+    ]
+  },
   {
     "name": "Leon Kennedy",
     "difficulty": "easy",
-    "universe": "Resident Evil"
+    "universe": "Resident Evil",
+    "tags": [
+      "jeu",
+      "horreur",
+      "survie",
+      "infecté",
+      "arme"
+    ]
   },
   {
     "name": "Jill Valentine",
     "difficulty": "normal",
-    "universe": "Resident Evil"
+    "universe": "Resident Evil",
+    "tags": [
+      "jeu",
+      "horreur",
+      "survie",
+      "infecté",
+      "arme"
+    ]
+  },
+  {
+    "name": "Chris Redfield",
+    "difficulty": "normal",
+    "universe": "Resident Evil",
+    "tags": [
+      "jeu",
+      "horreur",
+      "survie",
+      "infecté",
+      "arme"
+    ]
+  },
+  {
+    "name": "Claire Redfield",
+    "difficulty": "normal",
+    "universe": "Resident Evil",
+    "tags": [
+      "jeu",
+      "horreur",
+      "survie",
+      "infecté",
+      "arme"
+    ]
+  },
+  {
+    "name": "Ada Wong",
+    "difficulty": "normal",
+    "universe": "Resident Evil",
+    "tags": [
+      "jeu",
+      "horreur",
+      "survie",
+      "infecté",
+      "arme"
+    ]
+  },
+  {
+    "name": "Albert Wesker",
+    "difficulty": "hard",
+    "universe": "Resident Evil",
+    "tags": [
+      "jeu",
+      "horreur",
+      "survie",
+      "infecté",
+      "arme"
+    ]
   },
   {
     "name": "Nemesis",
     "difficulty": "normal",
-    "universe": "Resident Evil"
+    "universe": "Resident Evil",
+    "tags": [
+      "jeu",
+      "horreur",
+      "survie",
+      "infecté",
+      "arme"
+    ]
   },
-
-
-  {
-    "name": "Sonic",
-    "difficulty": "easy",
-    "universe": "Sonic"
-  },
-  {
-    "name": "Shadow",
-    "difficulty": "normal",
-    "universe": "Sonic"
-  },
-
-
-  {
-    "name": "Aloy",
-    "difficulty": "normal",
-    "universe": "Horizon"
-  },
-
-
   {
     "name": "Ezio Auditore",
     "difficulty": "easy",
-    "universe": "Assassin's Creed"
+    "universe": "Assassins Creed",
+    "tags": [
+      "jeu",
+      "assassin",
+      "histoire",
+      "parkour",
+      "combat"
+    ]
   },
   {
-    "name": "Altaïr",
+    "name": "Altaïr Ibn-La Ahad",
     "difficulty": "normal",
-    "universe": "Assassin's Creed"
-  },
-
-
-  {
-    "name": "Jett",
-    "difficulty": "normal",
-    "universe": "Valorant"
-  },
-  {
-    "name": "Phoenix",
-    "difficulty": "normal",
-    "universe": "Valorant"
-  },
-
-
-  {
-    "name": "Tracer",
-    "difficulty": "normal",
-    "universe": "Overwatch"
+    "universe": "Assassins Creed",
+    "tags": [
+      "jeu",
+      "assassin",
+      "histoire",
+      "parkour",
+      "combat"
+    ]
   },
   {
-    "name": "Genji",
+    "name": "Connor Kenway",
     "difficulty": "normal",
-    "universe": "Overwatch"
+    "universe": "Assassins Creed",
+    "tags": [
+      "jeu",
+      "assassin",
+      "histoire",
+      "parkour",
+      "combat"
+    ]
   },
-
-
+  {
+    "name": "Edward Kenway",
+    "difficulty": "normal",
+    "universe": "Assassins Creed",
+    "tags": [
+      "jeu",
+      "assassin",
+      "histoire",
+      "parkour",
+      "combat"
+    ]
+  },
+  {
+    "name": "Bayek",
+    "difficulty": "normal",
+    "universe": "Assassins Creed",
+    "tags": [
+      "jeu",
+      "assassin",
+      "histoire",
+      "parkour",
+      "combat"
+    ]
+  },
+  {
+    "name": "Kassandra",
+    "difficulty": "hard",
+    "universe": "Assassins Creed",
+    "tags": [
+      "jeu",
+      "assassin",
+      "histoire",
+      "parkour",
+      "combat"
+    ]
+  },
+  {
+    "name": "Steve",
+    "difficulty": "easy",
+    "universe": "Minecraft",
+    "tags": [
+      "jeu",
+      "construction",
+      "survie",
+      "créatif",
+      "monstre"
+    ]
+  },
+  {
+    "name": "Alex",
+    "difficulty": "normal",
+    "universe": "Minecraft",
+    "tags": [
+      "jeu",
+      "construction",
+      "survie",
+      "créatif",
+      "monstre"
+    ]
+  },
+  {
+    "name": "Creeper",
+    "difficulty": "easy",
+    "universe": "Minecraft",
+    "tags": [
+      "jeu",
+      "construction",
+      "survie",
+      "créatif",
+      "monstre"
+    ]
+  },
+  {
+    "name": "Enderman",
+    "difficulty": "normal",
+    "universe": "Minecraft",
+    "tags": [
+      "jeu",
+      "construction",
+      "survie",
+      "créatif",
+      "monstre"
+    ]
+  },
+  {
+    "name": "Villageois",
+    "difficulty": "normal",
+    "universe": "Minecraft",
+    "tags": [
+      "jeu",
+      "construction",
+      "survie",
+      "créatif",
+      "monstre"
+    ]
+  },
+  {
+    "name": "Sonic",
+    "difficulty": "easy",
+    "universe": "Sonic",
+    "tags": [
+      "jeu",
+      "vitesse",
+      "plateforme",
+      "animal",
+      "aventure"
+    ]
+  },
+  {
+    "name": "Tails",
+    "difficulty": "easy",
+    "universe": "Sonic",
+    "tags": [
+      "jeu",
+      "vitesse",
+      "plateforme",
+      "animal",
+      "aventure"
+    ]
+  },
+  {
+    "name": "Knuckles",
+    "difficulty": "easy",
+    "universe": "Sonic",
+    "tags": [
+      "jeu",
+      "vitesse",
+      "plateforme",
+      "animal",
+      "aventure"
+    ]
+  },
+  {
+    "name": "Shadow the Hedgehog",
+    "difficulty": "normal",
+    "universe": "Sonic",
+    "tags": [
+      "jeu",
+      "vitesse",
+      "plateforme",
+      "animal",
+      "aventure"
+    ]
+  },
+  {
+    "name": "Dr Eggman",
+    "difficulty": "normal",
+    "universe": "Sonic",
+    "tags": [
+      "jeu",
+      "vitesse",
+      "plateforme",
+      "animal",
+      "aventure"
+    ]
+  },
+  {
+    "name": "Amy Rose",
+    "difficulty": "normal",
+    "universe": "Sonic",
+    "tags": [
+      "jeu",
+      "vitesse",
+      "plateforme",
+      "animal",
+      "aventure"
+    ]
+  },
   {
     "name": "Pikachu",
     "difficulty": "easy",
-    "universe": "Pokemon"
+    "universe": "Pokemon",
+    "tags": [
+      "jeu",
+      "créature",
+      "combat",
+      "aventure",
+      "collection"
+    ]
   },
   {
     "name": "Charizard",
     "difficulty": "easy",
-    "universe": "Pokemon"
+    "universe": "Pokemon",
+    "tags": [
+      "jeu",
+      "créature",
+      "combat",
+      "aventure",
+      "collection"
+    ]
   },
   {
     "name": "Mewtwo",
     "difficulty": "normal",
-    "universe": "Pokemon"
+    "universe": "Pokemon",
+    "tags": [
+      "jeu",
+      "créature",
+      "combat",
+      "aventure",
+      "collection"
+    ]
+  },
+  {
+    "name": "Lucario",
+    "difficulty": "normal",
+    "universe": "Pokemon",
+    "tags": [
+      "jeu",
+      "créature",
+      "combat",
+      "aventure",
+      "collection"
+    ]
+  },
+  {
+    "name": "Greninja",
+    "difficulty": "normal",
+    "universe": "Pokemon",
+    "tags": [
+      "jeu",
+      "créature",
+      "combat",
+      "aventure",
+      "collection"
+    ]
+  },
+  {
+    "name": "Eevee",
+    "difficulty": "easy",
+    "universe": "Pokemon",
+    "tags": [
+      "jeu",
+      "créature",
+      "combat",
+      "aventure",
+      "collection"
+    ]
+  },
+  {
+    "name": "Gengar",
+    "difficulty": "normal",
+    "universe": "Pokemon",
+    "tags": [
+      "jeu",
+      "créature",
+      "combat",
+      "aventure",
+      "collection"
+    ]
+  },
+  {
+    "name": "Tracer",
+    "difficulty": "normal",
+    "universe": "Overwatch",
+    "tags": [
+      "jeu",
+      "fps",
+      "héros",
+      "équipe",
+      "science-fiction"
+    ]
+  },
+  {
+    "name": "Genji",
+    "difficulty": "normal",
+    "universe": "Overwatch",
+    "tags": [
+      "jeu",
+      "fps",
+      "héros",
+      "équipe",
+      "science-fiction"
+    ]
+  },
+  {
+    "name": "Mercy",
+    "difficulty": "normal",
+    "universe": "Overwatch",
+    "tags": [
+      "jeu",
+      "fps",
+      "héros",
+      "équipe",
+      "science-fiction"
+    ]
+  },
+  {
+    "name": "Reinhardt",
+    "difficulty": "normal",
+    "universe": "Overwatch",
+    "tags": [
+      "jeu",
+      "fps",
+      "héros",
+      "équipe",
+      "science-fiction"
+    ]
+  },
+  {
+    "name": "Widowmaker",
+    "difficulty": "hard",
+    "universe": "Overwatch",
+    "tags": [
+      "jeu",
+      "fps",
+      "héros",
+      "équipe",
+      "science-fiction"
+    ]
+  },
+  {
+    "name": "Doomfist",
+    "difficulty": "hard",
+    "universe": "Overwatch",
+    "tags": [
+      "jeu",
+      "fps",
+      "héros",
+      "équipe",
+      "science-fiction"
+    ]
+  },
+  {
+    "name": "Jett",
+    "difficulty": "normal",
+    "universe": "Valorant",
+    "tags": [
+      "jeu",
+      "fps",
+      "agent",
+      "équipe",
+      "pouvoirs"
+    ]
+  },
+  {
+    "name": "Phoenix",
+    "difficulty": "normal",
+    "universe": "Valorant",
+    "tags": [
+      "jeu",
+      "fps",
+      "agent",
+      "équipe",
+      "pouvoirs"
+    ]
+  },
+  {
+    "name": "Sage",
+    "difficulty": "normal",
+    "universe": "Valorant",
+    "tags": [
+      "jeu",
+      "fps",
+      "agent",
+      "équipe",
+      "pouvoirs"
+    ]
+  },
+  {
+    "name": "Reyna",
+    "difficulty": "normal",
+    "universe": "Valorant",
+    "tags": [
+      "jeu",
+      "fps",
+      "agent",
+      "équipe",
+      "pouvoirs"
+    ]
+  },
+  {
+    "name": "Omen",
+    "difficulty": "hard",
+    "universe": "Valorant",
+    "tags": [
+      "jeu",
+      "fps",
+      "agent",
+      "équipe",
+      "pouvoirs"
+    ]
+  },
+  {
+    "name": "Cypher",
+    "difficulty": "hard",
+    "universe": "Valorant",
+    "tags": [
+      "jeu",
+      "fps",
+      "agent",
+      "équipe",
+      "pouvoirs"
+    ]
+  },
+  {
+    "name": "Ahri",
+    "difficulty": "normal",
+    "universe": "League of Legends",
+    "tags": [
+      "jeu",
+      "moba",
+      "fantasy",
+      "combat",
+      "équipe"
+    ]
+  },
+  {
+    "name": "Yasuo",
+    "difficulty": "normal",
+    "universe": "League of Legends",
+    "tags": [
+      "jeu",
+      "moba",
+      "fantasy",
+      "combat",
+      "équipe"
+    ]
+  },
+  {
+    "name": "Jinx",
+    "difficulty": "easy",
+    "universe": "League of Legends",
+    "tags": [
+      "jeu",
+      "moba",
+      "fantasy",
+      "combat",
+      "équipe"
+    ]
+  },
+  {
+    "name": "Lux",
+    "difficulty": "normal",
+    "universe": "League of Legends",
+    "tags": [
+      "jeu",
+      "moba",
+      "fantasy",
+      "combat",
+      "équipe"
+    ]
+  },
+  {
+    "name": "Garen",
+    "difficulty": "normal",
+    "universe": "League of Legends",
+    "tags": [
+      "jeu",
+      "moba",
+      "fantasy",
+      "combat",
+      "équipe"
+    ]
+  },
+  {
+    "name": "Thresh",
+    "difficulty": "hard",
+    "universe": "League of Legends",
+    "tags": [
+      "jeu",
+      "moba",
+      "fantasy",
+      "combat",
+      "équipe"
+    ]
+  },
+  {
+    "name": "Teemo",
+    "difficulty": "easy",
+    "universe": "League of Legends",
+    "tags": [
+      "jeu",
+      "moba",
+      "fantasy",
+      "combat",
+      "équipe"
+    ]
+  },
+  {
+    "name": "Jonesy",
+    "difficulty": "easy",
+    "universe": "Fortnite",
+    "tags": [
+      "jeu",
+      "battle-royale",
+      "construction",
+      "arme",
+      "coloré"
+    ]
+  },
+  {
+    "name": "Peely",
+    "difficulty": "easy",
+    "universe": "Fortnite",
+    "tags": [
+      "jeu",
+      "battle-royale",
+      "construction",
+      "arme",
+      "coloré"
+    ]
+  },
+  {
+    "name": "Midas",
+    "difficulty": "normal",
+    "universe": "Fortnite",
+    "tags": [
+      "jeu",
+      "battle-royale",
+      "construction",
+      "arme",
+      "coloré"
+    ]
+  },
+  {
+    "name": "The Foundation",
+    "difficulty": "normal",
+    "universe": "Fortnite",
+    "tags": [
+      "jeu",
+      "battle-royale",
+      "construction",
+      "arme",
+      "coloré"
+    ]
+  },
+  {
+    "name": "Fishstick",
+    "difficulty": "normal",
+    "universe": "Fortnite",
+    "tags": [
+      "jeu",
+      "battle-royale",
+      "construction",
+      "arme",
+      "coloré"
+    ]
   }
 ]

@@ -1,311 +1,197 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Anime Imposteur V10</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#090713">
+    <title>Imposteur — V12</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
-
 <body>
-
-
-<div class="container">
-
-
-<h1>🎭 Anime Imposteur</h1>
-
-
-
-<div id="login">
-
-
-<input 
-id="username"
-placeholder="Ton pseudo"
-maxlength="15"
->
-
-
-<h3>🌍 Catégories</h3>
-
-
-<label><input class="category" type="checkbox" value="anime" checked> 🎌 Anime</label>
-
-<label><input class="category" type="checkbox" value="games"> 🎮 Jeux vidéo</label>
-
-<label><input class="category" type="checkbox" value="movies"> 🎬 Films</label>
-
-<label><input class="category" type="checkbox" value="series"> 📺 Séries</label>
-
-<label><input class="category" type="checkbox" value="marvel"> 🦸 Marvel</label>
-
-<label><input class="category" type="checkbox" value="sport"> ⚽ Sport</label>
-
-<label><input class="category" type="checkbox" value="Tout"> 🌎 Tout</label>
-
-
-
-<h3>🔥 Difficulté</h3>
-
-
-<label><input class="difficulty" value="easy" type="checkbox" checked> 🟢 Facile</label>
-
-<label><input class="difficulty" value="normal" type="checkbox"> 🟡 Normal</label>
-
-<label><input class="difficulty" value="hard" type="checkbox"> 🔴 Hard</label>
-
-<label><input class="difficulty" value="demon" type="checkbox"> ☠️ Démon</label>
-
-
-
-
-<h3>⏱ Temps de discussion</h3>
-
-<select id="time">
-
-<option value="30">30 secondes</option>
-
-<option value="60" selected>60 secondes</option>
-
-<option value="120">120 secondes</option>
-
-</select>
-
-
-
-
-<h3>🎭 Nombre d'imposteurs</h3>
-
-<select id="impostors">
-
-<option value="1">1 imposteur</option>
-
-<option value="2">2 imposteurs</option>
-
-<option value="3">3 imposteurs</option>
-
-</select>
-
-
-<br><br>
-
-
-<button onclick="createRoom()">
-Créer une partie
-</button>
-
-
-
-<hr>
-
-
-
-<h3>Rejoindre une partie</h3>
-
-
-<input
-id="roomCode"
-placeholder="Code room"
-maxlength="6"
->
-
-
-<button onclick="joinRoom()">
-Rejoindre
-</button>
-
-
-</div>
-
-
-
-
-
-<div id="game" style="display:none;">
-
-
-<h2>
-🎮 Room :
-<span id="roomCodeDisplay"></span>
-</h2>
-
-
-<button onclick="copyRoom()">
-📋 Copier le code
-</button>
-
-
-
-<div id="settingsDisplay"></div>
-
-
-
-<h2>
-🎲 Manche :
-<span id="round">0</span>
-</h2>
-
-
-<h3 id="playerCount"></h3>
-
-
-<ul id="players"></ul>
-
-
-
-<button 
-id="startButton"
-onclick="startGame()">
-🚀 Lancer la partie
-</button>
-
-
-
-
-<div id="card" onclick="revealCard()">
-🎴 Clique pour voir ta carte
-</div>
-
-
-
-<img 
-id="characterImage"
-style="display:none;"
->
-
-
-
-<h2 id="phase"></h2>
-
-
-<div id="timer"></div>
-
-
-
-
-
-<div id="chatBox">
-
-
-<h3>
-💬 Discussion
-</h3>
-
-
-<div id="messages"></div>
-
-
-<input
-id="chatInput"
-placeholder="Message..."
->
-
-
-<button onclick="sendChat()">
-Envoyer
-</button>
-
-
-</div>
-
-
-
-
-
-
-
-<div id="voteArea">
-
-
-<h3>
-🗳 Vote
-</h3>
-
-
-
-<select id="voteList">
-
-</select>
-
-
-
-<br><br>
-
-
-<button onclick="vote()">
-Voter
-</button>
-
-
-
-<button onclick="skipVote()">
-⏭ Skip le vote
-</button>
-
-
-
-</div>
-
-
-
-
-
-<h2 id="result"></h2>
-
-
-
-
-
-<h3>
-🏆 Classement
-</h3>
-
-
-<ul id="scores"></ul>
-
-
-
-
-<button
-id="newRound"
-onclick="newRound()"
-style="display:none;">
-🔄 Nouvelle manche
-</button>
-
-
-
-
-</div>
-
-
-
-
-
-<div id="error"></div>
-
-
-
-</div>
-
-
-
-
-
-
-<script src="/socket.io/socket.io.js"></script>
-
-<script src="app.js"></script>
-
-
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <main class="app-shell">
+        <header class="brand">
+            <div class="brand-mark">I</div>
+            <div>
+                <p class="eyebrow">JEU SOCIAL</p>
+                <h1>Imposteur</h1>
+            </div>
+        </header>
+
+        <section id="login" class="panel setup-panel">
+            <div class="intro">
+                <span class="status-dot"></span>
+                <span>Crée une partie ou rejoins tes amis</span>
+            </div>
+
+            <div class="form-grid">
+                <label class="field full-field">
+                    <span>Ton pseudo</span>
+                    <input id="username" placeholder="Ex. Kader" maxlength="18" autocomplete="nickname">
+                </label>
+
+                <div class="option-group full-field">
+                    <div class="section-heading">
+                        <div>
+                            <span class="label-title">Catégories</span>
+                            <small>Tu peux en sélectionner plusieurs</small>
+                        </div>
+                        <button type="button" class="mini-button" id="toggleAllCategories">Tout sélectionner</button>
+                    </div>
+                    <div class="choice-grid categories-grid">
+                        <label class="choice-card"><input class="category" type="checkbox" value="anime" checked><span><b>Anime & novels</b><small>Shōnen, seinen, webnovels</small></span></label>
+                        <label class="choice-card"><input class="category" type="checkbox" value="games"><span><b>Jeux vidéo</b><small>Classiques et jeux récents</small></span></label>
+                        <label class="choice-card"><input class="category" type="checkbox" value="movie"><span><b>Films</b><small>Cinéma et animation</small></span></label>
+                        <label class="choice-card"><input class="category" type="checkbox" value="series"><span><b>Séries</b><small>Live action et animation</small></span></label>
+                        <label class="choice-card"><input class="category" type="checkbox" value="marvel"><span><b>Marvel</b><small>Héros, équipes et vilains</small></span></label>
+                        <label class="choice-card"><input class="category" type="checkbox" value="sport"><span><b>Sport</b><small>Football, combat, F1...</small></span></label>
+                    </div>
+                </div>
+
+                <div class="option-group full-field">
+                    <div class="section-heading">
+                        <div>
+                            <span class="label-title">Difficulté</span>
+                            <small>Les niveaux peuvent aussi être cumulés</small>
+                        </div>
+                    </div>
+                    <div class="difficulty-row">
+                        <label class="pill-choice"><input class="difficulty" value="easy" type="checkbox" checked><span>Facile</span></label>
+                        <label class="pill-choice"><input class="difficulty" value="normal" type="checkbox"><span>Normal</span></label>
+                        <label class="pill-choice"><input class="difficulty" value="hard" type="checkbox"><span>Difficile</span></label>
+                        <label class="pill-choice"><input class="difficulty" value="demon" type="checkbox"><span>Démon</span></label>
+                    </div>
+                </div>
+
+                <label class="mix-card full-field">
+                    <input id="linkedMix" type="checkbox">
+                    <span class="switch"></span>
+                    <span>
+                        <b>Mix lié</b>
+                        <small>Mélange les univers et les catégories, mais garde deux sujets ayant au moins deux points communs.</small>
+                    </span>
+                </label>
+
+                <label class="field">
+                    <span>Temps de parole</span>
+                    <select id="time">
+                        <option value="10">10 secondes</option>
+                        <option value="15">15 secondes</option>
+                        <option value="30" selected>30 secondes</option>
+                        <option value="45">45 secondes</option>
+                        <option value="60">60 secondes</option>
+                        <option value="90">90 secondes</option>
+                    </select>
+                </label>
+
+                <label class="field">
+                    <span>Affichage de la carte</span>
+                    <select id="cardTime">
+                        <option value="3">3 secondes</option>
+                        <option value="5" selected>5 secondes</option>
+                        <option value="8">8 secondes</option>
+                        <option value="10">10 secondes</option>
+                        <option value="15">15 secondes</option>
+                    </select>
+                </label>
+
+                <label class="field full-field">
+                    <span>Nombre d’imposteurs</span>
+                    <select id="impostors">
+                        <option value="1">1 imposteur</option>
+                        <option value="2">2 imposteurs</option>
+                        <option value="3">3 imposteurs</option>
+                    </select>
+                </label>
+            </div>
+
+            <button class="button primary-button wide-button" onclick="createRoom()">Créer la partie <span>→</span></button>
+
+            <div class="divider"><span>ou rejoindre</span></div>
+
+            <div class="join-row">
+                <input id="roomCode" placeholder="CODE ROOM" maxlength="6" autocomplete="off">
+                <button class="button secondary-button" onclick="joinRoom()">Rejoindre</button>
+            </div>
+        </section>
+
+        <section id="game" class="game-layout" hidden>
+            <div class="panel lobby-panel">
+                <div class="room-topbar">
+                    <div>
+                        <span class="muted">Code de la room</span>
+                        <button class="room-code" id="roomCodeDisplay" onclick="copyRoom()" title="Copier le code"></button>
+                    </div>
+                    <span class="round-badge">Manche <b id="round">0</b></span>
+                </div>
+
+                <div id="settingsDisplay" class="settings-summary"></div>
+
+                <div class="players-heading">
+                    <h2>Joueurs</h2>
+                    <span id="playerCount" class="counter-chip"></span>
+                </div>
+                <ul id="players" class="player-list"></ul>
+
+                <button id="startButton" class="button primary-button wide-button" onclick="startGame()">Lancer la partie</button>
+            </div>
+
+            <div class="panel play-panel">
+                <div class="phase-header">
+                    <span id="phase" class="phase-label">En attente</span>
+                    <span id="timer" class="timer">--</span>
+                </div>
+
+                <div id="cardStage" class="card-stage">
+                    <button id="card" class="subject-card" onclick="revealCard()">
+                        <span class="card-icon">?</span>
+                        <span id="cardText">Clique pour révéler ta carte</span>
+                        <small>Elle ne sera visible qu’une fois</small>
+                    </button>
+                    <img id="characterImage" alt="Sujet de la manche" hidden>
+                </div>
+
+                <section id="turnPanel" class="turn-panel" hidden>
+                    <span id="turnCounter" class="muted"></span>
+                    <h2 id="currentSpeaker"></h2>
+                    <p id="speakerInstruction"></p>
+                </section>
+
+                <div id="result" class="result-box" hidden></div>
+                <button id="newRound" class="button primary-button" onclick="newRound()" hidden>Nouvelle manche</button>
+            </div>
+
+            <div class="panel chat-panel">
+                <div class="players-heading"><h2>Discussion</h2><span class="live-dot">LIVE</span></div>
+                <div id="messages" class="messages"></div>
+                <div class="chat-compose">
+                    <input id="chatInput" placeholder="Écris un message..." maxlength="300">
+                    <button class="icon-button" onclick="sendChat()" aria-label="Envoyer">→</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="voteOverlay" class="overlay" hidden>
+        <section class="vote-modal">
+            <div class="vote-symbol">V</div>
+            <p class="eyebrow">PHASE FINALE</p>
+            <h2>Qui est l’imposteur ?</h2>
+            <p class="muted">Sélectionne un joueur. Ton vote est définitif.</p>
+            <select id="voteList"></select>
+            <div class="vote-actions">
+                <button id="voteButton" class="button primary-button" onclick="vote()">Confirmer le vote</button>
+                <button class="button secondary-button" onclick="skipVote()">Personne</button>
+            </div>
+            <p id="voteProgress" class="muted">En attente des votes…</p>
+        </section>
+    </div>
+
+    <div id="toast" class="toast" hidden></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
 </body>
-
 </html>

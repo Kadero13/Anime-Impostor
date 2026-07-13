@@ -2,184 +2,925 @@
   {
     "name": "Harry Potter",
     "difficulty": "easy",
-    "universe": "Harry Potter"
+    "universe": "Harry Potter",
+    "tags": [
+      "film",
+      "magie",
+      "école",
+      "fantasy",
+      "sorcier"
+    ]
   },
   {
     "name": "Hermione Granger",
     "difficulty": "easy",
-    "universe": "Harry Potter"
+    "universe": "Harry Potter",
+    "tags": [
+      "film",
+      "magie",
+      "école",
+      "fantasy",
+      "sorcier"
+    ]
   },
   {
     "name": "Ron Weasley",
     "difficulty": "easy",
-    "universe": "Harry Potter"
+    "universe": "Harry Potter",
+    "tags": [
+      "film",
+      "magie",
+      "école",
+      "fantasy",
+      "sorcier"
+    ]
   },
   {
     "name": "Voldemort",
     "difficulty": "easy",
-    "universe": "Harry Potter"
+    "universe": "Harry Potter",
+    "tags": [
+      "film",
+      "magie",
+      "école",
+      "fantasy",
+      "sorcier"
+    ]
   },
-
-
+  {
+    "name": "Dumbledore",
+    "difficulty": "easy",
+    "universe": "Harry Potter",
+    "tags": [
+      "film",
+      "magie",
+      "école",
+      "fantasy",
+      "sorcier"
+    ]
+  },
+  {
+    "name": "Severus Snape",
+    "difficulty": "normal",
+    "universe": "Harry Potter",
+    "tags": [
+      "film",
+      "magie",
+      "école",
+      "fantasy",
+      "sorcier"
+    ]
+  },
+  {
+    "name": "Draco Malfoy",
+    "difficulty": "normal",
+    "universe": "Harry Potter",
+    "tags": [
+      "film",
+      "magie",
+      "école",
+      "fantasy",
+      "sorcier"
+    ]
+  },
   {
     "name": "Luke Skywalker",
     "difficulty": "easy",
-    "universe": "Star Wars"
+    "universe": "Star Wars",
+    "tags": [
+      "film",
+      "science-fiction",
+      "espace",
+      "guerre",
+      "héros"
+    ]
   },
   {
     "name": "Darth Vader",
     "difficulty": "easy",
-    "universe": "Star Wars"
+    "universe": "Star Wars",
+    "tags": [
+      "film",
+      "science-fiction",
+      "espace",
+      "guerre",
+      "héros"
+    ]
   },
   {
     "name": "Yoda",
     "difficulty": "normal",
-    "universe": "Star Wars"
+    "universe": "Star Wars",
+    "tags": [
+      "film",
+      "science-fiction",
+      "espace",
+      "guerre",
+      "héros"
+    ]
   },
   {
     "name": "Obi-Wan Kenobi",
     "difficulty": "normal",
-    "universe": "Star Wars"
+    "universe": "Star Wars",
+    "tags": [
+      "film",
+      "science-fiction",
+      "espace",
+      "guerre",
+      "héros"
+    ]
   },
-
-
+  {
+    "name": "Leia Organa",
+    "difficulty": "easy",
+    "universe": "Star Wars",
+    "tags": [
+      "film",
+      "science-fiction",
+      "espace",
+      "guerre",
+      "héros"
+    ]
+  },
+  {
+    "name": "Han Solo",
+    "difficulty": "easy",
+    "universe": "Star Wars",
+    "tags": [
+      "film",
+      "science-fiction",
+      "espace",
+      "guerre",
+      "héros"
+    ]
+  },
+  {
+    "name": "Palpatine",
+    "difficulty": "normal",
+    "universe": "Star Wars",
+    "tags": [
+      "film",
+      "science-fiction",
+      "espace",
+      "guerre",
+      "héros"
+    ]
+  },
+  {
+    "name": "Mandalorian",
+    "difficulty": "normal",
+    "universe": "Star Wars",
+    "tags": [
+      "film",
+      "science-fiction",
+      "espace",
+      "guerre",
+      "héros"
+    ]
+  },
   {
     "name": "Jack Sparrow",
     "difficulty": "easy",
-    "universe": "Pirates des Caraïbes"
+    "universe": "Pirates des Caraïbes",
+    "tags": [
+      "film",
+      "pirate",
+      "mer",
+      "aventure",
+      "fantasy"
+    ]
   },
   {
     "name": "Will Turner",
     "difficulty": "normal",
-    "universe": "Pirates des Caraïbes"
+    "universe": "Pirates des Caraïbes",
+    "tags": [
+      "film",
+      "pirate",
+      "mer",
+      "aventure",
+      "fantasy"
+    ]
+  },
+  {
+    "name": "Elizabeth Swann",
+    "difficulty": "normal",
+    "universe": "Pirates des Caraïbes",
+    "tags": [
+      "film",
+      "pirate",
+      "mer",
+      "aventure",
+      "fantasy"
+    ]
   },
   {
     "name": "Davy Jones",
     "difficulty": "normal",
-    "universe": "Pirates des Caraïbes"
-  },
-
-
-  {
-    "name": "Rocky Balboa",
-    "difficulty": "easy",
-    "universe": "Rocky"
-  },
-
-
-  {
-    "name": "John Wick",
-    "difficulty": "easy",
-    "universe": "John Wick"
-  },
-
-
-  {
-    "name": "Neo",
-    "difficulty": "easy",
-    "universe": "Matrix"
+    "universe": "Pirates des Caraïbes",
+    "tags": [
+      "film",
+      "pirate",
+      "mer",
+      "aventure",
+      "fantasy"
+    ]
   },
   {
-    "name": "Agent Smith",
-    "difficulty": "normal",
-    "universe": "Matrix"
+    "name": "Barbossa",
+    "difficulty": "hard",
+    "universe": "Pirates des Caraïbes",
+    "tags": [
+      "film",
+      "pirate",
+      "mer",
+      "aventure",
+      "fantasy"
+    ]
   },
-
-
-  {
-    "name": "Terminator",
-    "difficulty": "easy",
-    "universe": "Terminator"
-  },
-  {
-    "name": "Sarah Connor",
-    "difficulty": "normal",
-    "universe": "Terminator"
-  },
-
-
   {
     "name": "Frodo Baggins",
     "difficulty": "easy",
-    "universe": "Le Seigneur des Anneaux"
+    "universe": "Le Seigneur des Anneaux",
+    "tags": [
+      "film",
+      "fantasy",
+      "aventure",
+      "magie",
+      "épéiste"
+    ]
   },
   {
     "name": "Gandalf",
     "difficulty": "easy",
-    "universe": "Le Seigneur des Anneaux"
+    "universe": "Le Seigneur des Anneaux",
+    "tags": [
+      "film",
+      "fantasy",
+      "aventure",
+      "magie",
+      "épéiste"
+    ]
   },
   {
     "name": "Aragorn",
     "difficulty": "normal",
-    "universe": "Le Seigneur des Anneaux"
+    "universe": "Le Seigneur des Anneaux",
+    "tags": [
+      "film",
+      "fantasy",
+      "aventure",
+      "magie",
+      "épéiste"
+    ]
   },
-
-
   {
-    "name": "Katniss Everdeen",
-    "difficulty": "normal",
-    "universe": "Hunger Games"
+    "name": "Legolas",
+    "difficulty": "easy",
+    "universe": "Le Seigneur des Anneaux",
+    "tags": [
+      "film",
+      "fantasy",
+      "aventure",
+      "magie",
+      "épéiste"
+    ]
   },
-
-
+  {
+    "name": "Gimli",
+    "difficulty": "normal",
+    "universe": "Le Seigneur des Anneaux",
+    "tags": [
+      "film",
+      "fantasy",
+      "aventure",
+      "magie",
+      "épéiste"
+    ]
+  },
+  {
+    "name": "Sauron",
+    "difficulty": "easy",
+    "universe": "Le Seigneur des Anneaux",
+    "tags": [
+      "film",
+      "fantasy",
+      "aventure",
+      "magie",
+      "épéiste"
+    ]
+  },
+  {
+    "name": "Gollum",
+    "difficulty": "normal",
+    "universe": "Le Seigneur des Anneaux",
+    "tags": [
+      "film",
+      "fantasy",
+      "aventure",
+      "magie",
+      "épéiste"
+    ]
+  },
   {
     "name": "Neo",
     "difficulty": "easy",
-    "universe": "Matrix"
+    "universe": "Matrix",
+    "tags": [
+      "film",
+      "science-fiction",
+      "intelligence-artificielle",
+      "combat",
+      "simulation"
+    ]
   },
-
-
   {
-    "name": "Rocky Balboa",
+    "name": "Trinity",
     "difficulty": "normal",
-    "universe": "Rocky"
+    "universe": "Matrix",
+    "tags": [
+      "film",
+      "science-fiction",
+      "intelligence-artificielle",
+      "combat",
+      "simulation"
+    ]
   },
-
-
+  {
+    "name": "Morpheus",
+    "difficulty": "normal",
+    "universe": "Matrix",
+    "tags": [
+      "film",
+      "science-fiction",
+      "intelligence-artificielle",
+      "combat",
+      "simulation"
+    ]
+  },
+  {
+    "name": "Agent Smith",
+    "difficulty": "normal",
+    "universe": "Matrix",
+    "tags": [
+      "film",
+      "science-fiction",
+      "intelligence-artificielle",
+      "combat",
+      "simulation"
+    ]
+  },
+  {
+    "name": "Oracle",
+    "difficulty": "hard",
+    "universe": "Matrix",
+    "tags": [
+      "film",
+      "science-fiction",
+      "intelligence-artificielle",
+      "combat",
+      "simulation"
+    ]
+  },
+  {
+    "name": "John Wick",
+    "difficulty": "easy",
+    "universe": "John Wick",
+    "tags": [
+      "film",
+      "assassin",
+      "arme",
+      "crime",
+      "combat"
+    ]
+  },
+  {
+    "name": "Winston Scott",
+    "difficulty": "hard",
+    "universe": "John Wick",
+    "tags": [
+      "film",
+      "assassin",
+      "arme",
+      "crime",
+      "combat"
+    ]
+  },
+  {
+    "name": "Charon",
+    "difficulty": "hard",
+    "universe": "John Wick",
+    "tags": [
+      "film",
+      "assassin",
+      "arme",
+      "crime",
+      "combat"
+    ]
+  },
+  {
+    "name": "Caine",
+    "difficulty": "normal",
+    "universe": "John Wick",
+    "tags": [
+      "film",
+      "assassin",
+      "arme",
+      "crime",
+      "combat"
+    ]
+  },
+  {
+    "name": "Marquis de Gramont",
+    "difficulty": "hard",
+    "universe": "John Wick",
+    "tags": [
+      "film",
+      "assassin",
+      "arme",
+      "crime",
+      "combat"
+    ]
+  },
   {
     "name": "Marty McFly",
     "difficulty": "normal",
-    "universe": "Retour vers le futur"
+    "universe": "Retour vers le futur",
+    "tags": [
+      "film",
+      "science-fiction",
+      "voyage-temporel",
+      "comédie",
+      "inventeur"
+    ]
   },
   {
     "name": "Doc Brown",
     "difficulty": "normal",
-    "universe": "Retour vers le futur"
+    "universe": "Retour vers le futur",
+    "tags": [
+      "film",
+      "science-fiction",
+      "voyage-temporel",
+      "comédie",
+      "inventeur"
+    ]
   },
-
-
   {
-    "name": "Shrek",
+    "name": "Biff Tannen",
+    "difficulty": "hard",
+    "universe": "Retour vers le futur",
+    "tags": [
+      "film",
+      "science-fiction",
+      "voyage-temporel",
+      "comédie",
+      "inventeur"
+    ]
+  },
+  {
+    "name": "Lorraine McFly",
+    "difficulty": "hard",
+    "universe": "Retour vers le futur",
+    "tags": [
+      "film",
+      "science-fiction",
+      "voyage-temporel",
+      "comédie",
+      "inventeur"
+    ]
+  },
+  {
+    "name": "Rocky Balboa",
     "difficulty": "easy",
-    "universe": "Shrek"
+    "universe": "Rocky",
+    "tags": [
+      "film",
+      "boxe",
+      "sport",
+      "combat",
+      "drame"
+    ]
   },
   {
-    "name": "L'Âne",
-    "difficulty": "easy",
-    "universe": "Shrek"
-  },
-
-
-  {
-    "name": "Simba",
-    "difficulty": "easy",
-    "universe": "Le Roi Lion"
-  },
-  {
-    "name": "Scar",
+    "name": "Apollo Creed",
     "difficulty": "normal",
-    "universe": "Le Roi Lion"
+    "universe": "Rocky",
+    "tags": [
+      "film",
+      "boxe",
+      "sport",
+      "combat",
+      "drame"
+    ]
   },
-
-
+  {
+    "name": "Ivan Drago",
+    "difficulty": "normal",
+    "universe": "Rocky",
+    "tags": [
+      "film",
+      "boxe",
+      "sport",
+      "combat",
+      "drame"
+    ]
+  },
+  {
+    "name": "Clubber Lang",
+    "difficulty": "hard",
+    "universe": "Rocky",
+    "tags": [
+      "film",
+      "boxe",
+      "sport",
+      "combat",
+      "drame"
+    ]
+  },
+  {
+    "name": "Adrian Balboa",
+    "difficulty": "hard",
+    "universe": "Rocky",
+    "tags": [
+      "film",
+      "boxe",
+      "sport",
+      "combat",
+      "drame"
+    ]
+  },
+  {
+    "name": "Katniss Everdeen",
+    "difficulty": "normal",
+    "universe": "Hunger Games",
+    "tags": [
+      "film",
+      "survie",
+      "dystopie",
+      "combat",
+      "rébellion"
+    ]
+  },
+  {
+    "name": "Peeta Mellark",
+    "difficulty": "normal",
+    "universe": "Hunger Games",
+    "tags": [
+      "film",
+      "survie",
+      "dystopie",
+      "combat",
+      "rébellion"
+    ]
+  },
+  {
+    "name": "Haymitch Abernathy",
+    "difficulty": "hard",
+    "universe": "Hunger Games",
+    "tags": [
+      "film",
+      "survie",
+      "dystopie",
+      "combat",
+      "rébellion"
+    ]
+  },
+  {
+    "name": "President Snow",
+    "difficulty": "normal",
+    "universe": "Hunger Games",
+    "tags": [
+      "film",
+      "survie",
+      "dystopie",
+      "combat",
+      "rébellion"
+    ]
+  },
+  {
+    "name": "Finnick Odair",
+    "difficulty": "hard",
+    "universe": "Hunger Games",
+    "tags": [
+      "film",
+      "survie",
+      "dystopie",
+      "combat",
+      "rébellion"
+    ]
+  },
   {
     "name": "Woody",
     "difficulty": "easy",
-    "universe": "Toy Story"
+    "universe": "Toy Story",
+    "tags": [
+      "film",
+      "animation",
+      "jouet",
+      "famille",
+      "aventure"
+    ]
   },
   {
-    "name": "Buzz l'Éclair",
+    "name": "Buzz l’Éclair",
     "difficulty": "easy",
-    "universe": "Toy Story"
+    "universe": "Toy Story",
+    "tags": [
+      "film",
+      "animation",
+      "jouet",
+      "famille",
+      "aventure"
+    ]
+  },
+  {
+    "name": "Jessie",
+    "difficulty": "easy",
+    "universe": "Toy Story",
+    "tags": [
+      "film",
+      "animation",
+      "jouet",
+      "famille",
+      "aventure"
+    ]
+  },
+  {
+    "name": "Rex",
+    "difficulty": "normal",
+    "universe": "Toy Story",
+    "tags": [
+      "film",
+      "animation",
+      "jouet",
+      "famille",
+      "aventure"
+    ]
+  },
+  {
+    "name": "Monsieur Patate",
+    "difficulty": "normal",
+    "universe": "Toy Story",
+    "tags": [
+      "film",
+      "animation",
+      "jouet",
+      "famille",
+      "aventure"
+    ]
+  },
+  {
+    "name": "Shrek",
+    "difficulty": "easy",
+    "universe": "Shrek",
+    "tags": [
+      "film",
+      "animation",
+      "fantasy",
+      "comédie",
+      "famille"
+    ]
+  },
+  {
+    "name": "L’Âne",
+    "difficulty": "easy",
+    "universe": "Shrek",
+    "tags": [
+      "film",
+      "animation",
+      "fantasy",
+      "comédie",
+      "famille"
+    ]
+  },
+  {
+    "name": "Fiona",
+    "difficulty": "easy",
+    "universe": "Shrek",
+    "tags": [
+      "film",
+      "animation",
+      "fantasy",
+      "comédie",
+      "famille"
+    ]
+  },
+  {
+    "name": "Chat Potté",
+    "difficulty": "easy",
+    "universe": "Shrek",
+    "tags": [
+      "film",
+      "animation",
+      "fantasy",
+      "comédie",
+      "famille"
+    ]
+  },
+  {
+    "name": "Lord Farquaad",
+    "difficulty": "normal",
+    "universe": "Shrek",
+    "tags": [
+      "film",
+      "animation",
+      "fantasy",
+      "comédie",
+      "famille"
+    ]
+  },
+  {
+    "name": "Simba",
+    "difficulty": "easy",
+    "universe": "Le Roi Lion",
+    "tags": [
+      "film",
+      "animation",
+      "animal",
+      "famille",
+      "royaume"
+    ]
+  },
+  {
+    "name": "Mufasa",
+    "difficulty": "easy",
+    "universe": "Le Roi Lion",
+    "tags": [
+      "film",
+      "animation",
+      "animal",
+      "famille",
+      "royaume"
+    ]
+  },
+  {
+    "name": "Scar",
+    "difficulty": "easy",
+    "universe": "Le Roi Lion",
+    "tags": [
+      "film",
+      "animation",
+      "animal",
+      "famille",
+      "royaume"
+    ]
+  },
+  {
+    "name": "Nala",
+    "difficulty": "normal",
+    "universe": "Le Roi Lion",
+    "tags": [
+      "film",
+      "animation",
+      "animal",
+      "famille",
+      "royaume"
+    ]
+  },
+  {
+    "name": "Timon",
+    "difficulty": "easy",
+    "universe": "Le Roi Lion",
+    "tags": [
+      "film",
+      "animation",
+      "animal",
+      "famille",
+      "royaume"
+    ]
+  },
+  {
+    "name": "Pumbaa",
+    "difficulty": "easy",
+    "universe": "Le Roi Lion",
+    "tags": [
+      "film",
+      "animation",
+      "animal",
+      "famille",
+      "royaume"
+    ]
+  },
+  {
+    "name": "T-800",
+    "difficulty": "easy",
+    "universe": "Terminator",
+    "tags": [
+      "film",
+      "science-fiction",
+      "robot",
+      "voyage-temporel",
+      "combat"
+    ]
+  },
+  {
+    "name": "Sarah Connor",
+    "difficulty": "normal",
+    "universe": "Terminator",
+    "tags": [
+      "film",
+      "science-fiction",
+      "robot",
+      "voyage-temporel",
+      "combat"
+    ]
+  },
+  {
+    "name": "John Connor",
+    "difficulty": "normal",
+    "universe": "Terminator",
+    "tags": [
+      "film",
+      "science-fiction",
+      "robot",
+      "voyage-temporel",
+      "combat"
+    ]
+  },
+  {
+    "name": "T-1000",
+    "difficulty": "normal",
+    "universe": "Terminator",
+    "tags": [
+      "film",
+      "science-fiction",
+      "robot",
+      "voyage-temporel",
+      "combat"
+    ]
+  },
+  {
+    "name": "Kyle Reese",
+    "difficulty": "hard",
+    "universe": "Terminator",
+    "tags": [
+      "film",
+      "science-fiction",
+      "robot",
+      "voyage-temporel",
+      "combat"
+    ]
+  },
+  {
+    "name": "Alan Grant",
+    "difficulty": "normal",
+    "universe": "Jurassic Park",
+    "tags": [
+      "film",
+      "dinosaure",
+      "survie",
+      "science",
+      "aventure"
+    ]
+  },
+  {
+    "name": "Ellie Sattler",
+    "difficulty": "hard",
+    "universe": "Jurassic Park",
+    "tags": [
+      "film",
+      "dinosaure",
+      "survie",
+      "science",
+      "aventure"
+    ]
+  },
+  {
+    "name": "Ian Malcolm",
+    "difficulty": "normal",
+    "universe": "Jurassic Park",
+    "tags": [
+      "film",
+      "dinosaure",
+      "survie",
+      "science",
+      "aventure"
+    ]
+  },
+  {
+    "name": "John Hammond",
+    "difficulty": "normal",
+    "universe": "Jurassic Park",
+    "tags": [
+      "film",
+      "dinosaure",
+      "survie",
+      "science",
+      "aventure"
+    ]
+  },
+  {
+    "name": "T-Rex",
+    "difficulty": "easy",
+    "universe": "Jurassic Park",
+    "tags": [
+      "film",
+      "dinosaure",
+      "survie",
+      "science",
+      "aventure"
+    ]
   }
 ]
