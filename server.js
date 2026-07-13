@@ -434,6 +434,22 @@ function playerByToken(room, token) {
     return room.players.find((player) => player.token === token);
 }
 
+function roundParticipantByToken(room, token) {
+    const snapshot = room.roundData?.participants?.find((participant) => participant.token === token);
+    if (snapshot) return snapshot;
+
+    const player = playerByToken(room, token);
+    if (!player) return null;
+    return {
+        token: player.token,
+        name: player.name,
+        score: player.score,
+        stats: { ...player.stats },
+        card: room.roundData?.cards?.[player.token] || null,
+        isImpostor: Boolean(room.roundData?.impostorTokens?.includes(player.token))
+    };
+}
+
 function connectedPlayers(room) {
     return room.players.filter((player) => player.connected);
 }
@@ -617,7 +633,15 @@ async function startRound(room) {
         clue: pair.clue,
         impostorTokens,
         activeTokens: active.map((player) => player.token),
-        cards
+        cards,
+        participants: active.map((player) => ({
+            token: player.token,
+            name: player.name,
+            score: player.score,
+            stats: { ...player.stats },
+            card: cards[player.token],
+            isImpostor: impostorTokens.includes(player.token)
+        }))
     };
     room.recentSubjects.push(`${pair.main.category}|${pair.main.name}`, `${pair.fake.category}|${pair.fake.name}`);
     room.recentSubjects = room.recentSubjects.slice(-40);
@@ -711,9 +735,9 @@ function beginVote(room) {
 function voteTargetsWithNames(room) {
     return Object.entries(room.votesByPlayer).map(([voterToken, targetToken]) => ({
         voterToken,
-        voterName: playerByToken(room, voterToken)?.name || "Joueur",
+        voterName: roundParticipantByToken(room, voterToken)?.name || "Joueur",
         targetToken,
-        targetName: targetToken === "skip" ? "Personne" : (playerByToken(room, targetToken)?.name || "Joueur")
+        targetName: targetToken === "skip" ? "Personne" : (roundParticipantByToken(room, targetToken)?.name || "Joueur")
     }));
 }
 
@@ -733,12 +757,17 @@ function finalizeVote(room) {
     }
 
     const eliminatedToken = winners.length === 1 && winners[0] !== "skip" ? winners[0] : null;
-    const eliminated = eliminatedToken ? playerByToken(room, eliminatedToken) : null;
+    const eliminatedParticipant = eliminatedToken ? roundParticipantByToken(room, eliminatedToken) : null;
     const correct = Boolean(eliminatedToken && room.roundData.impostorTokens.includes(eliminatedToken));
     const tie = winners.length > 1;
 
-    const activePlayers = room.roundData.activeTokens.map((token) => playerByToken(room, token)).filter(Boolean);
-    for (const player of activePlayers) {
+    const roundParticipants = (room.roundData.participants?.length
+        ? room.roundData.participants
+        : room.roundData.activeTokens.map((token) => roundParticipantByToken(room, token)).filter(Boolean));
+
+    for (const participant of roundParticipants) {
+        const player = playerByToken(room, participant.token);
+        if (!player) continue;
         if (correct && !room.roundData.impostorTokens.includes(player.token)) {
             player.score += 1;
             player.stats.wins += 1;
@@ -750,25 +779,32 @@ function finalizeVote(room) {
         if (correct && !room.roundData.impostorTokens.includes(player.token)) player.stats.correctVotes += 1;
     }
 
+    const resultPlayers = roundParticipants.map((participant) => {
+        const livePlayer = playerByToken(room, participant.token);
+        return {
+            token: participant.token,
+            name: participant.name,
+            score: livePlayer?.score ?? participant.score ?? 0,
+            card: participant.card || room.roundData.cards[participant.token] || null,
+            isImpostor: room.roundData.impostorTokens.includes(participant.token),
+            stats: livePlayer?.stats || participant.stats || { rounds: 0, wins: 0, impostorRounds: 0, correctVotes: 0 }
+        };
+    }).sort((a, b) => b.score - a.score || a.name.localeCompare(b.name, "fr"));
+
     const result = {
-        eliminated: eliminated?.name || null,
+        eliminated: eliminatedParticipant?.name || null,
         eliminatedToken,
+        eliminatedCard: eliminatedParticipant?.card || (eliminatedToken ? room.roundData.cards[eliminatedToken] : null),
+        eliminatedIsImpostor: Boolean(eliminatedToken && room.roundData.impostorTokens.includes(eliminatedToken)),
         tie,
         correct,
         mainSubject: room.roundData.main.name,
         mainUniverse: room.roundData.main.universe,
         fakeSubject: room.settings.mode === "blind" ? "Aucun sujet" : room.roundData.fake.name,
         fakeUniverse: room.settings.mode === "blind" ? "Mode aveugle" : room.roundData.fake.universe,
-        impostors: room.roundData.impostorTokens.map((token) => playerByToken(room, token)?.name).filter(Boolean),
+        impostors: room.roundData.impostorTokens.map((token) => roundParticipantByToken(room, token)?.name).filter(Boolean),
         votes: voteTargetsWithNames(room),
-        players: activePlayers.map((player) => ({
-            token: player.token,
-            name: player.name,
-            score: player.score,
-            card: room.roundData.cards[player.token],
-            isImpostor: room.roundData.impostorTokens.includes(player.token),
-            stats: player.stats
-        })).sort((a, b) => b.score - a.score || a.name.localeCompare(b.name, "fr"))
+        players: resultPlayers
     };
 
     room.result = result;
@@ -779,7 +815,6 @@ function finalizeVote(room) {
     io.to(room.code).emit("voteResult", result);
     emitPlayers(room);
 }
-
 function connectedRoundTokens(room) {
     return (room.roundData?.activeTokens || []).filter((token) => playerByToken(room, token)?.connected);
 }
@@ -1099,7 +1134,7 @@ setInterval(() => {
 }, 15 * 60 * 1000).unref();
 
 app.get("/api/health", (_req, res) => {
-    res.json({ ok: true, rooms: rooms.size, subjects: database.length, version: "16.0.0" });
+    res.json({ ok: true, rooms: rooms.size, subjects: database.length, version: "16.1.0" });
 });
 
 app.get("*", (_req, res) => {
@@ -1107,4 +1142,4 @@ app.get("*", (_req, res) => {
 });
 
 loadDatabase();
-server.listen(PORT, () => console.log(`🎭 Anime Imposteur V16 lancé sur le port ${PORT}`));
+server.listen(PORT, () => console.log(`🎭 Anime Imposteur V16.1 lancé sur le port ${PORT}`));

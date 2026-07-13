@@ -1,5 +1,5 @@
 "use strict";
-const CACHE_NAME = "anime-imposteur-v16-static-v2";
+const CACHE_NAME = "anime-imposteur-v16-1-static-v1";
 const STATIC_ASSETS = [
   "/",
   "/index.html",

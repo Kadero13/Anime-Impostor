@@ -770,7 +770,11 @@ function renderResult(result) {
     $("timerWrap").classList.remove("timer-danger");
     showStage("resultPanel");
 
-    const noElimination = !result.eliminated;
+    const hasElimination = Boolean(result.eliminatedToken);
+    const noElimination = !hasElimination;
+    const eliminatedPlayer = (result.players || []).find((player) => player.token === result.eliminatedToken) || null;
+    const eliminatedName = result.eliminated || eliminatedPlayer?.name || "Un joueur";
+    const eliminatedCard = result.eliminatedCard || eliminatedPlayer?.card || null;
     if (noElimination) playSound("vote");
     else if (result.correct) playSound("success");
     else playSound("eliminate");
@@ -779,7 +783,7 @@ function renderResult(result) {
     playCinematic({
         icon: noElimination ? "=" : "×",
         eyebrow: "RÉSULTAT",
-        title: noElimination ? "Personne n’est éliminé" : `${result.eliminated} est éliminé`,
+        title: noElimination ? "Personne n’est éliminé" : `${eliminatedName} est éliminé`,
         text: noElimination ? (result.tie ? "Les votes sont à égalité." : "La majorité a passé le vote.") : (result.correct ? "Bien joué : un imposteur a été trouvé." : "Mauvais choix : l’imposteur s’en sort."),
         duration: 1900,
         toneName: noElimination ? "default" : (result.correct ? "active" : "danger")
@@ -788,12 +792,19 @@ function renderResult(result) {
     $("resultIcon").textContent = noElimination ? "=" : "×";
     $("resultPanel").classList.toggle("correct-result", Boolean(result.correct));
     $("resultPanel").classList.toggle("wrong-result", Boolean(result.eliminated && !result.correct));
-    $("resultTitle").textContent = noElimination ? "Aucune élimination" : `${result.eliminated} a été désigné`;
+    $("resultTitle").textContent = noElimination ? "Aucune élimination" : `${eliminatedName} a été éliminé`;
     $("resultText").textContent = noElimination
         ? (result.tie ? "Égalité : personne ne quitte la manche." : "Le vote a été passé.")
         : (result.correct ? "Le groupe a démasqué un imposteur." : "Ce joueur n’était pas un imposteur.");
 
-    $("roleReveal").innerHTML = `
+    const eliminatedReveal = noElimination ? "" : `
+        <article class="eliminated-reveal ${result.correct ? "eliminated-impostor" : "eliminated-innocent"}">
+            <small>JOUEUR ÉLIMINÉ</small>
+            <b>${escapeHtml(eliminatedName)}</b>
+            <span>Carte : ${escapeHtml(eliminatedCard?.character || "Inconnue")} · ${escapeHtml(eliminatedCard?.universe || "Univers inconnu")}</span>
+        </article>`;
+
+    $("roleReveal").innerHTML = `${eliminatedReveal}
         <article><small>SUJET PRINCIPAL</small><b>${escapeHtml(result.mainSubject)}</b><span>${escapeHtml(result.mainUniverse)}</span></article>
         <article><small>SUJET DES IMPOSTEURS</small><b>${escapeHtml(result.fakeSubject)}</b><span>${escapeHtml(result.fakeUniverse)}</span></article>
         <article class="impostor-reveal"><small>IMPOSTEUR${result.impostors?.length > 1 ? "S" : ""}</small><b>${escapeHtml((result.impostors || []).join(", ") || "Inconnu")}</b></article>`;

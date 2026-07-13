@@ -1,25 +1,22 @@
-ANIME IMPOSTEUR V16 — INSTALLATION ET DÉPLOIEMENT
-=================================================
+ANIME IMPOSTEUR V16.1 — CORRECTION DU VOTE
 
-Cette archive remplace entièrement la V15.
+Cette version corrige le résultat lorsqu’un joueur innocent est éliminé.
+Le jeu affiche maintenant son nom, sa carte et son univers, puis attribue correctement la victoire à l’imposteur.
+La correction reste fiable même si le joueur éliminé se déconnecte avant l’écran de résultat.
 
-1. Décompresse Anime-Imposteur-V16-Ultra.zip.
-2. Remplace tous les fichiers de ton ancien projet par ceux du nouveau dossier.
-3. Ouvre un terminal dans le dossier du projet.
-4. Exécute :
+INSTALLATION
+
+1. Décompresse Anime-Imposteur-V16-1-Fix-Vote.zip.
+2. Remplace entièrement les fichiers de ton ancien projet par ceux du dossier extrait.
+3. Dans le terminal ouvert dans le projet :
 
 npm install
 npm run check
 git add .
-git commit -m "Passage a la V16 ultra optimisee"
+git commit -m "Correction affichage joueur elimine"
 git push
 
-Render redéploiera automatiquement le site.
-
-Après le déploiement :
-- ouvre https://anime-impostor.onrender.com/
-- fais Ctrl + F5 une fois ;
-- ferme les anciens onglets encore ouverts avant le premier test ;
-- ouvre ensuite 3 nouveaux onglets pour tester.
-
-Le cache du service worker porte maintenant un nouveau nom V16. Les anciens fichiers V15 seront supprimés automatiquement.
+4. Attends le redéploiement automatique de Render.
+5. Ferme les anciens onglets du jeu puis ouvre :
+https://anime-impostor.onrender.com/
+6. Fais Ctrl + F5 une fois pour forcer le nouveau cache.

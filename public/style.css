@@ -291,6 +291,11 @@ input:disabled, select:disabled { opacity: .5; }
 .role-reveal b { overflow-wrap: anywhere; font-size: 13px; }
 .role-reveal span { color: var(--muted); font-size: 9px; }
 .impostor-reveal { border-color: rgba(255,102,137,.26) !important; background: rgba(255,102,137,.06) !important; }
+.eliminated-reveal { grid-column: 1 / -1; border-width: 2px !important; text-align: center !important; }
+.eliminated-reveal b { font-size: 17px; }
+.eliminated-reveal span { font-size: 11px; }
+.eliminated-innocent { border-color: rgba(255,102,137,.42) !important; background: rgba(255,102,137,.09) !important; }
+.eliminated-impostor { border-color: rgba(72,214,160,.42) !important; background: rgba(72,214,160,.09) !important; }
 .vote-details, .round-players { width: min(720px, 100%); margin-top: 10px; text-align: left; }
 .vote-details h3, .round-players h3 { margin: 0 0 7px; font-size: 12px; }
 .vote-details > div { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 5px; }
