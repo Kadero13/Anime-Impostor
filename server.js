@@ -339,6 +339,7 @@ function normalizeSettings(data = {}) {
     let time = clamp(data.time, 8, 180, 30);
     let cardTime = clamp(data.cardTime, 3, 20, 5);
     let impostors = clamp(data.impostors, 1, 5, 1);
+    const discussionRounds = clamp(data.discussionRounds, 1, 5, 1);
     if (mode === "fast") {
         time = Math.min(time, 15);
         cardTime = Math.min(cardTime, 3);
@@ -353,6 +354,7 @@ function normalizeSettings(data = {}) {
         time,
         cardTime,
         impostors,
+        discussionRounds,
         customSubjects,
         customSubjectsText: String(data.customSubjects || "").slice(0, 7000)
     };
@@ -367,6 +369,7 @@ function publicSettings(settings) {
         time: settings.time,
         cardTime: settings.cardTime,
         impostors: settings.impostors,
+        discussionRounds: settings.discussionRounds,
         customSubjectsText: settings.customSubjectsText
     };
 }
@@ -506,6 +509,10 @@ function roomPayload(room, token) {
         currentSpeakerToken: room.order[room.turnIndex] || null,
         turnIndex: room.turnIndex,
         turnTotal: room.order.length,
+        discussionCycle: Math.floor(room.turnIndex / Math.max(1, room.baseOrder?.length || room.order.length || 1)) + 1,
+        discussionCycleTotal: room.settings.discussionRounds || 1,
+        playerTurnIndex: room.baseOrder?.length ? room.turnIndex % room.baseOrder.length : room.turnIndex,
+        playerTurnTotal: room.baseOrder?.length || room.order.length,
         started: room.started,
         canEditSettings: room.phase === "lobby" || room.phase === "result",
         result: room.result,
@@ -536,6 +543,7 @@ function removePlayer(room, token, reason = "left") {
 
     room.players = room.players.filter((item) => item.token !== token);
     room.order = room.order.filter((item) => item !== token);
+    room.baseOrder = (room.baseOrder || []).filter((item) => item !== token);
     if (room.roundData?.activeTokens) room.roundData.activeTokens = room.roundData.activeTokens.filter((item) => item !== token);
 
     if (room.hostToken === token) {
@@ -613,8 +621,9 @@ async function startRound(room) {
     const requested = room.settings.mode === "duo" ? Math.max(2, room.settings.impostors) : room.settings.impostors;
     const impostorCount = Math.min(Math.max(1, requested), Math.max(1, active.length - 1));
     const impostorTokens = shuffled(active.map((player) => player.token)).slice(0, impostorCount);
-    const order = shuffled(active.map((player) => player.token));
-    room.order = order;
+    const baseOrder = shuffled(active.map((player) => player.token));
+    room.baseOrder = baseOrder;
+    room.order = Array.from({ length: room.settings.discussionRounds || 1 }, () => baseOrder).flat();
 
     const mainImage = immediateImage(pair.main);
     const fakeImage = immediateImage(pair.fake);
@@ -696,6 +705,10 @@ function startCurrentTurn(room) {
         playerName: player?.name || "Joueur",
         turnIndex: room.turnIndex,
         total: room.order.length,
+        cycle: Math.floor(room.turnIndex / Math.max(1, room.baseOrder.length)) + 1,
+        cycleTotal: room.settings.discussionRounds || 1,
+        playerIndex: room.turnIndex % Math.max(1, room.baseOrder.length),
+        playerTotal: room.baseOrder.length,
         phaseEndsAt: room.phaseEndsAt
     });
 
@@ -901,6 +914,7 @@ io.on("connection", (socket) => {
                 phaseEndsAt: null,
                 started: false,
                 order: [],
+                baseOrder: [],
                 turnIndex: 0,
                 votes: {},
                 votesByPlayer: {},
@@ -992,6 +1006,7 @@ io.on("connection", (socket) => {
         room.phaseEndsAt = null;
         room.started = false;
         room.order = [];
+        room.baseOrder = [];
         room.turnIndex = 0;
         room.votes = {};
         room.votesByPlayer = {};
@@ -1134,7 +1149,7 @@ setInterval(() => {
 }, 15 * 60 * 1000).unref();
 
 app.get("/api/health", (_req, res) => {
-    res.json({ ok: true, rooms: rooms.size, subjects: database.length, version: "16.1.0" });
+    res.json({ ok: true, rooms: rooms.size, subjects: database.length, version: "16.2.0" });
 });
 
 app.get("*", (_req, res) => {
@@ -1142,4 +1157,4 @@ app.get("*", (_req, res) => {
 });
 
 loadDatabase();
-server.listen(PORT, () => console.log(`🎭 Anime Imposteur V16.1 lancé sur le port ${PORT}`));
+server.listen(PORT, () => console.log(`🎭 Anime Imposteur V16.2 lancé sur le port ${PORT}`));

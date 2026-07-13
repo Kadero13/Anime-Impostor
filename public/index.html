@@ -33,7 +33,7 @@
     <meta name="twitter:description" content="Un sujet. Un imposteur. À vous de le trouver dans ce jeu multijoueur entre amis.">
     <meta name="twitter:image" content="https://anime-impostor.onrender.com/images/preview.png?v=2">
 
-    <link rel="stylesheet" href="/style.css?v=16">
+    <link rel="stylesheet" href="/style.css?v=16.2">
 </head>
 <body>
     <div class="background-layer" aria-hidden="true"></div>
@@ -68,7 +68,7 @@
             <section class="setup-card glass-card">
                 <div class="section-title">
                     <div><p class="eyebrow">CONFIGURATION</p><h2>Créer une partie</h2></div>
-                    <span class="version-chip">V16.1</span>
+                    <span class="version-chip">V16.2</span>
                 </div>
 
                 <label class="field full-field"><span>Ton pseudo</span><input id="username" placeholder="Ex. Kader" maxlength="18" autocomplete="nickname"></label>
@@ -136,6 +136,7 @@
                     <label class="field"><span>Temps de parole</span><select id="time"><option value="10">10 secondes</option><option value="15">15 secondes</option><option value="30" selected>30 secondes</option><option value="45">45 secondes</option><option value="60">60 secondes</option><option value="90">90 secondes</option></select></label>
                     <label class="field"><span>Carte visible</span><select id="cardTime"><option value="3">3 secondes</option><option value="5" selected>5 secondes</option><option value="8">8 secondes</option><option value="10">10 secondes</option><option value="15">15 secondes</option></select></label>
                     <label class="field"><span>Imposteurs</span><select id="impostors"><option value="1">1 imposteur</option><option value="2">2 imposteurs</option><option value="3">3 imposteurs</option></select></label>
+                    <label class="field"><span>Tours de parole</span><select id="discussionRounds"><option value="1" selected>1 tour par joueur</option><option value="2">2 tours par joueur</option><option value="3">3 tours par joueur</option><option value="4">4 tours par joueur</option><option value="5">5 tours par joueur</option></select></label>
                 </div>
 
                 <button class="main-button" type="button" onclick="createRoom()"><span>Créer la partie</span><i>→</i></button>
@@ -275,6 +276,7 @@
                 <label class="field"><span>Temps</span><select id="roomTime"><option value="10">10 s</option><option value="15">15 s</option><option value="30">30 s</option><option value="45">45 s</option><option value="60">60 s</option><option value="90">90 s</option></select></label>
                 <label class="field"><span>Carte visible</span><select id="roomCardTime"><option value="3">3 s</option><option value="5">5 s</option><option value="8">8 s</option><option value="10">10 s</option><option value="15">15 s</option></select></label>
                 <label class="field"><span>Imposteurs</span><select id="roomImpostors"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></label>
+                <label class="field"><span>Tours de parole</span><select id="roomDiscussionRounds"><option value="1">1 tour</option><option value="2">2 tours</option><option value="3">3 tours</option><option value="4">4 tours</option><option value="5">5 tours</option></select></label>
             </div>
             <label class="room-check"><input id="roomLinkedMix" type="checkbox"><span>Activer le mix lié</span></label>
             <div class="room-setting-block"><b>Catégories</b><div class="mini-check-grid">
@@ -297,6 +299,6 @@
 
     <div id="toast" class="toast" hidden></div>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/app.js?v=16"></script>
+    <script src="/app.js?v=16.2"></script>
 </body>
 </html>

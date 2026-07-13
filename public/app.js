@@ -349,6 +349,7 @@ function collectSettings() {
         time: Number($("time").value),
         cardTime: Number($("cardTime").value),
         impostors: Number($("impostors").value),
+        discussionRounds: Number($("discussionRounds").value),
         customSubjects: $("customSubjects").value
     };
 }
@@ -413,7 +414,7 @@ function modeLabel(mode) {
 
 function displaySettings() {
     if (!roomSettings || !Object.keys(roomSettings).length) return;
-    const nextKey = JSON.stringify([roomSettings.mode, roomSettings.categories, roomSettings.difficulties, roomSettings.time]);
+    const nextKey = JSON.stringify([roomSettings.mode, roomSettings.categories, roomSettings.difficulties, roomSettings.time, roomSettings.discussionRounds]);
     if (nextKey === settingsRenderKey) return;
     settingsRenderKey = nextKey;
     const categoryNames = {
@@ -426,7 +427,8 @@ function displaySettings() {
         <span>${escapeHtml(modeLabel(roomSettings.mode))}</span>
         <span>${roomSettings.mode === "custom" ? "Sujets personnalisés" : escapeHtml((roomSettings.categories || []).map((value) => categoryNames[value] || value).join(" · "))}</span>
         <span>${escapeHtml((roomSettings.difficulties || []).map((value) => difficultyNames[value] || value).join(" · "))}</span>
-        <span>${roomSettings.time || 30}s par joueur</span>`;
+        <span>${roomSettings.time || 30}s par joueur</span>
+        <span>${roomSettings.discussionRounds || 1} tour${(roomSettings.discussionRounds || 1) > 1 ? "s" : ""} de parole</span>`;
 }
 
 function copyText(text, successMessage) {
@@ -682,7 +684,7 @@ function updateTimerDisplay() {
     if (remainingMs <= 0) clearInterval(timerInterval);
 }
 
-function renderTurn(token, turnIndex, total, deadline) {
+function renderTurn(token, turnIndex, total, deadline, cycle = 1, cycleTotal = 1, playerIndex = 0, playerTotal = total) {
     currentSpeakerToken = token;
     if (document.hidden) {
         currentPhase = "discussion";
@@ -693,7 +695,13 @@ function renderTurn(token, turnIndex, total, deadline) {
     const speaker = players.find((player) => player.token === token);
     showStage("turnPanel");
     $("phase").textContent = "Tour de parole";
-    $("turnCounter").textContent = `JOUEUR ${turnIndex + 1} SUR ${total}`;
+    const safeCycle = Math.max(1, Number(cycle) || 1);
+    const safeCycleTotal = Math.max(1, Number(cycleTotal) || 1);
+    const safePlayerIndex = Math.max(0, Number(playerIndex) || 0);
+    const safePlayerTotal = Math.max(1, Number(playerTotal) || total || 1);
+    $("turnCounter").textContent = safeCycleTotal > 1
+        ? `TOUR ${safeCycle} SUR ${safeCycleTotal} · JOUEUR ${safePlayerIndex + 1} SUR ${safePlayerTotal}`
+        : `JOUEUR ${safePlayerIndex + 1} SUR ${safePlayerTotal}`;
     $("currentSpeaker").textContent = speaker?.name || "Joueur";
     $("speakerAvatar").textContent = (speaker?.name || "?").slice(0, 1).toUpperCase();
     const myTurn = token === playerToken;
@@ -914,6 +922,7 @@ function openSettingsModal() {
     $("roomTime").value = String(roomSettings.time || 30);
     $("roomCardTime").value = String(roomSettings.cardTime || 5);
     $("roomImpostors").value = String(roomSettings.impostors || 1);
+    $("roomDiscussionRounds").value = String(roomSettings.discussionRounds || 1);
     $("roomLinkedMix").checked = Boolean(roomSettings.linkedMix);
     $("roomCustomSubjects").value = roomSettings.customSubjectsText || "";
 
@@ -954,6 +963,7 @@ function saveRoomSettings() {
         time: Number($("roomTime").value),
         cardTime: Number($("roomCardTime").value),
         impostors: Number($("roomImpostors").value),
+        discussionRounds: Number($("roomDiscussionRounds").value),
         customSubjects
     };
     socket.emit("updateSettings", { code: currentRoom, settings });
@@ -1039,7 +1049,7 @@ function applyRoomState(state) {
         }
         startTimer(state.phaseEndsAt, "cards");
     } else if (state.phase === "discussion") {
-        renderTurn(state.currentSpeakerToken, state.turnIndex || 0, state.turnTotal || players.length, state.phaseEndsAt);
+        renderTurn(state.currentSpeakerToken, state.turnIndex || 0, state.turnTotal || players.length, state.phaseEndsAt, state.discussionCycle, state.discussionCycleTotal, state.playerTurnIndex, state.playerTurnTotal);
     } else if (state.phase === "vote") {
         alreadyVoted = false;
         $("phase").textContent = "Vote";
@@ -1102,7 +1112,7 @@ socket.on("players", (list) => {
     if (document.hidden) return;
     renderPlayers();
     if (pendingRoomState?.phase === "discussion") {
-        renderTurn(pendingRoomState.currentSpeakerToken, pendingRoomState.turnIndex || 0, pendingRoomState.turnTotal || players.length, pendingRoomState.phaseEndsAt);
+        renderTurn(pendingRoomState.currentSpeakerToken, pendingRoomState.turnIndex || 0, pendingRoomState.turnTotal || players.length, pendingRoomState.phaseEndsAt, pendingRoomState.discussionCycle, pendingRoomState.discussionCycleTotal, pendingRoomState.playerTurnIndex, pendingRoomState.playerTurnTotal);
     } else if (pendingRoomState?.phase === "vote") {
         renderVotePlayers(players.filter((player) => player.connected));
         $("voteOverlay").hidden = false;
@@ -1141,9 +1151,9 @@ socket.on("cardImage", ({ image } = {}) => {
     if (!document.hidden && cardRevealed && !$("card").hidden && !$("characterImage").src) loadCardImage(image);
 });
 
-socket.on("turn", ({ token, turnIndex, total, phaseEndsAt }) => {
+socket.on("turn", ({ token, turnIndex, total, phaseEndsAt, cycle, cycleTotal, playerIndex, playerTotal }) => {
     pendingRoomState = null;
-    renderTurn(token, turnIndex, total, phaseEndsAt);
+    renderTurn(token, turnIndex, total, phaseEndsAt, cycle, cycleTotal, playerIndex, playerTotal);
 });
 
 socket.on("turnFinished", ({ playerName, reason }) => {

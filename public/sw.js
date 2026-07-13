@@ -1,10 +1,10 @@
 "use strict";
-const CACHE_NAME = "anime-imposteur-v16-1-static-v1";
+const CACHE_NAME = "anime-imposteur-v16-2-static-v1";
 const STATIC_ASSETS = [
   "/",
   "/index.html",
-  "/style.css?v=16",
-  "/app.js?v=16",
+  "/style.css?v=16.2",
+  "/app.js?v=16.2",
   "/site.webmanifest",
   "/images/logo.png",
   "/images/favicon.png",
