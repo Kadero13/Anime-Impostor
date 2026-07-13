@@ -1,145 +1,212 @@
 [
   {
     "name": "Michael Jackson",
-    "difficulty": "easy",
     "universe": "Pop",
+    "difficulty": "easy",
     "tags": [
-      "music",
-      "singer",
-      "icon"
+      "pop",
+      "usa",
+      "chanteur"
     ]
   },
   {
     "name": "Beyoncé",
-    "difficulty": "easy",
     "universe": "Pop",
-    "tags": [
-      "music",
-      "singer",
-      "icon"
-    ]
-  },
-  {
-    "name": "Eminem",
     "difficulty": "easy",
-    "universe": "Rap",
     "tags": [
-      "music",
-      "rapper"
-    ]
-  },
-  {
-    "name": "Drake",
-    "difficulty": "easy",
-    "universe": "Rap",
-    "tags": [
-      "music",
-      "rapper"
-    ]
-  },
-  {
-    "name": "The Weeknd",
-    "difficulty": "easy",
-    "universe": "Pop",
-    "tags": [
-      "music",
-      "singer"
+      "pop",
+      "usa",
+      "chanteuse"
     ]
   },
   {
     "name": "Rihanna",
-    "difficulty": "easy",
     "universe": "Pop",
+    "difficulty": "easy",
     "tags": [
-      "music",
-      "singer"
+      "pop",
+      "barbade",
+      "chanteuse"
+    ]
+  },
+  {
+    "name": "The Weeknd",
+    "universe": "Pop",
+    "difficulty": "easy",
+    "tags": [
+      "pop",
+      "canada",
+      "chanteur"
     ]
   },
   {
     "name": "Taylor Swift",
-    "difficulty": "easy",
     "universe": "Pop",
+    "difficulty": "easy",
     "tags": [
-      "music",
-      "singer"
+      "pop",
+      "usa",
+      "chanteuse"
+    ]
+  },
+  {
+    "name": "Eminem",
+    "universe": "Rap US",
+    "difficulty": "easy",
+    "tags": [
+      "rap",
+      "usa",
+      "rappeur"
     ]
   },
   {
     "name": "Kanye West",
-    "difficulty": "normal",
-    "universe": "Rap",
+    "universe": "Rap US",
+    "difficulty": "easy",
     "tags": [
-      "music",
-      "rapper",
-      "producer"
+      "rap",
+      "usa",
+      "rappeur"
+    ]
+  },
+  {
+    "name": "Drake",
+    "universe": "Rap US",
+    "difficulty": "easy",
+    "tags": [
+      "rap",
+      "canada",
+      "rappeur"
+    ]
+  },
+  {
+    "name": "Travis Scott",
+    "universe": "Rap US",
+    "difficulty": "easy",
+    "tags": [
+      "rap",
+      "usa",
+      "rappeur"
+    ]
+  },
+  {
+    "name": "Kendrick Lamar",
+    "universe": "Rap US",
+    "difficulty": "easy",
+    "tags": [
+      "rap",
+      "usa",
+      "rappeur"
     ]
   },
   {
     "name": "Snoop Dogg",
+    "universe": "Rap US",
     "difficulty": "easy",
-    "universe": "Rap",
     "tags": [
-      "music",
-      "rapper"
-    ]
-  },
-  {
-    "name": "50 Cent",
-    "difficulty": "easy",
-    "universe": "Rap",
-    "tags": [
-      "music",
-      "rapper"
-    ]
-  },
-  {
-    "name": "Booba",
-    "difficulty": "easy",
-    "universe": "Rap français",
-    "tags": [
-      "music",
-      "rapper",
-      "france"
+      "rap",
+      "usa",
+      "rappeur"
     ]
   },
   {
     "name": "Jul",
-    "difficulty": "easy",
     "universe": "Rap français",
+    "difficulty": "easy",
     "tags": [
-      "music",
-      "rapper",
-      "france"
+      "rap",
+      "france",
+      "marseille"
     ]
   },
   {
     "name": "Ninho",
-    "difficulty": "easy",
     "universe": "Rap français",
+    "difficulty": "easy",
     "tags": [
-      "music",
-      "rapper",
-      "france"
+      "rap",
+      "france",
+      "rappeur"
+    ]
+  },
+  {
+    "name": "Gims",
+    "universe": "Rap français",
+    "difficulty": "easy",
+    "tags": [
+      "rap",
+      "france",
+      "chanteur"
+    ]
+  },
+  {
+    "name": "SCH",
+    "universe": "Rap français",
+    "difficulty": "easy",
+    "tags": [
+      "rap",
+      "france",
+      "marseille"
     ]
   },
   {
     "name": "PNL",
-    "difficulty": "easy",
     "universe": "Rap français",
+    "difficulty": "easy",
     "tags": [
-      "music",
-      "rapper",
-      "france"
+      "rap",
+      "france",
+      "duo"
+    ]
+  },
+  {
+    "name": "Booba",
+    "universe": "Rap français",
+    "difficulty": "easy",
+    "tags": [
+      "rap",
+      "france",
+      "rappeur"
+    ]
+  },
+  {
+    "name": "Orelsan",
+    "universe": "Rap français",
+    "difficulty": "easy",
+    "tags": [
+      "rap",
+      "france",
+      "rappeur"
+    ]
+  },
+  {
+    "name": "Daft Punk",
+    "universe": "Électro",
+    "difficulty": "easy",
+    "tags": [
+      "électro",
+      "france",
+      "duo"
+    ]
+  },
+  {
+    "name": "David Guetta",
+    "universe": "Électro",
+    "difficulty": "easy",
+    "tags": [
+      "électro",
+      "france",
+      "dj"
     ]
   },
   {
     "name": "Aya Nakamura",
+    "universe": "Pop française",
     "difficulty": "easy",
-    "universe": "Pop français",
     "tags": [
-      "music",
-      "singer",
-      "france"
+      "pop",
+      "france",
+      "chanteuse"
     ]
   }
 ]

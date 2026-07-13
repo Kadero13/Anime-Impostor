@@ -1,159 +1,142 @@
 [
   {
     "name": "Batman",
+    "universe": "DC",
     "difficulty": "easy",
-    "universe": "DC Comics",
     "tags": [
-      "hero",
-      "masked",
-      "dark",
-      "comic"
+      "super-héros",
+      "détective",
+      "dc"
     ]
   },
   {
     "name": "Superman",
+    "universe": "DC",
     "difficulty": "easy",
-    "universe": "DC Comics",
     "tags": [
-      "hero",
-      "powerful",
-      "alien",
-      "comic"
+      "super-héros",
+      "force",
+      "dc"
     ]
   },
   {
     "name": "Wonder Woman",
+    "universe": "DC",
     "difficulty": "easy",
-    "universe": "DC Comics",
     "tags": [
-      "hero",
-      "warrior",
-      "mythology",
-      "comic"
+      "super-héros",
+      "déesse",
+      "dc"
     ]
   },
   {
-    "name": "The Flash",
+    "name": "Flash",
+    "universe": "DC",
     "difficulty": "easy",
-    "universe": "DC Comics",
     "tags": [
-      "hero",
-      "speed",
-      "comic"
+      "super-héros",
+      "vitesse",
+      "dc"
     ]
   },
   {
     "name": "Aquaman",
-    "difficulty": "normal",
-    "universe": "DC Comics",
+    "universe": "DC",
+    "difficulty": "easy",
     "tags": [
-      "hero",
-      "ocean",
-      "king",
-      "comic"
+      "super-héros",
+      "océan",
+      "dc"
     ]
   },
   {
     "name": "Green Lantern",
+    "universe": "DC",
     "difficulty": "normal",
-    "universe": "DC Comics",
     "tags": [
-      "hero",
-      "space",
-      "comic"
+      "super-héros",
+      "espace",
+      "dc"
     ]
   },
   {
     "name": "Joker",
-    "difficulty": "easy",
     "universe": "Batman",
+    "difficulty": "easy",
     "tags": [
-      "villain",
-      "masked",
-      "dark",
-      "comic"
+      "vilain",
+      "folie",
+      "dc"
     ]
   },
   {
     "name": "Harley Quinn",
-    "difficulty": "easy",
     "universe": "Batman",
+    "difficulty": "easy",
     "tags": [
-      "villain",
-      "comic",
-      "chaotic"
+      "antihéros",
+      "folie",
+      "dc"
     ]
   },
   {
-    "name": "Nightwing",
-    "difficulty": "normal",
+    "name": "Bane",
     "universe": "Batman",
+    "difficulty": "normal",
     "tags": [
-      "hero",
-      "masked",
-      "comic"
+      "vilain",
+      "force",
+      "dc"
     ]
   },
   {
     "name": "Catwoman",
-    "difficulty": "normal",
     "universe": "Batman",
+    "difficulty": "easy",
     "tags": [
-      "antihero",
-      "masked",
-      "comic"
+      "antihéros",
+      "voleuse",
+      "dc"
     ]
   },
   {
     "name": "Lex Luthor",
-    "difficulty": "normal",
     "universe": "Superman",
+    "difficulty": "normal",
     "tags": [
-      "villain",
-      "genius",
-      "comic"
+      "vilain",
+      "intelligence",
+      "dc"
     ]
   },
   {
     "name": "Darkseid",
-    "difficulty": "hard",
-    "universe": "DC Comics",
+    "universe": "DC",
+    "difficulty": "normal",
     "tags": [
-      "villain",
-      "cosmic",
-      "powerful",
-      "comic"
+      "vilain",
+      "dieu",
+      "dc"
     ]
   },
   {
-    "name": "Raven",
+    "name": "Deathstroke",
+    "universe": "DC",
     "difficulty": "normal",
-    "universe": "Teen Titans",
     "tags": [
-      "hero",
-      "magic",
-      "dark",
-      "comic"
+      "antihéros",
+      "assassin",
+      "dc"
     ]
   },
   {
-    "name": "Beast Boy",
+    "name": "Shazam",
+    "universe": "DC",
     "difficulty": "normal",
-    "universe": "Teen Titans",
     "tags": [
-      "hero",
-      "shapeshifter",
-      "comic"
-    ]
-  },
-  {
-    "name": "Cyborg",
-    "difficulty": "normal",
-    "universe": "Teen Titans",
-    "tags": [
-      "hero",
-      "technology",
-      "comic"
+      "super-héros",
+      "magie",
+      "dc"
     ]
   }
 ]

@@ -1,32 +1,82 @@
-const socket = io();
+"use strict";
 
-let currentRoom = "";
+const $ = (id) => document.getElementById(id);
+const TIMER_CIRCUMFERENCE = 2 * Math.PI * 20;
+const TAB_CHANNEL_NAME = "anime-imposteur-v15-performance";
+const MAX_RENDERED_MESSAGES = 60;
+
+let playerToken = sessionStorage.getItem("imposteurPlayerToken");
+if (!playerToken) {
+    playerToken = (crypto.randomUUID?.() || `${Date.now()}-${Math.random()}`).replace(/[^A-Za-z0-9_-]/g, "");
+    sessionStorage.setItem("imposteurPlayerToken", playerToken);
+}
+
+const socket = io({
+    auth: { playerToken },
+    transports: ["websocket", "polling"],
+    upgrade: true,
+    reconnection: true,
+    reconnectionAttempts: Infinity,
+    reconnectionDelay: 600,
+    reconnectionDelayMax: 5000
+});
+
+let currentRoom = sessionStorage.getItem("imposteurRoom") || "";
 let username = localStorage.getItem("imposteurName") || "";
 let isHost = false;
+let hostToken = "";
 let roomSettings = {};
+let players = [];
 let myCard = null;
+let currentRound = 0;
 let cardRevealed = false;
 let alreadyVoted = false;
 let selectedVoteId = null;
+let phaseDeadline = null;
+let currentPhase = "lobby";
+let currentSpeakerToken = null;
 let timerInterval = null;
 let cardHideTimeout = null;
 let soundEnabled = localStorage.getItem("imposteurSound") !== "off";
 let audioContext = null;
+let lowPowerMode = false;
+let pendingRoomState = null;
+let installPrompt = null;
+let confirmCallback = null;
 
-const $ = (id) => document.getElementById(id);
-const TIMER_CIRCUMFERENCE = 2 * Math.PI * 20;
+const tabId = sessionStorage.getItem("imposteurTabId") || (crypto.randomUUID?.() || String(Math.random()));
+sessionStorage.setItem("imposteurTabId", tabId);
+const peerTabs = new Map();
+const tabChannel = "BroadcastChannel" in window ? new BroadcastChannel(TAB_CHANNEL_NAME) : null;
 
-window.addEventListener("load", () => {
+window.addEventListener("DOMContentLoaded", () => {
     if (username) $("username").value = username;
+    const queryRoom = new URLSearchParams(location.search).get("room");
+    if (queryRoom) $("roomCode").value = queryRoom.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6);
     bindControls();
     updateSoundButton();
+    updateLocalStats();
+    setupPerformanceMode();
+    registerServiceWorker();
+});
+
+window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    installPrompt = event;
+    $("installButton").hidden = false;
+});
+
+window.addEventListener("beforeunload", (event) => {
+    if (!currentRoom) return;
+    event.preventDefault();
+    event.returnValue = "";
 });
 
 function bindControls() {
     $("toggleAllCategories").addEventListener("click", () => {
         const boxes = [...document.querySelectorAll(".category")];
         const shouldCheck = boxes.some((box) => !box.checked);
-        boxes.forEach((box) => { box.checked = shouldCheck; });
+        for (const box of boxes) box.checked = shouldCheck;
         $("toggleAllCategories").textContent = shouldCheck ? "Tout désélectionner" : "Tout sélectionner";
     });
 
@@ -44,6 +94,103 @@ function bindControls() {
         updateSoundButton();
         if (soundEnabled) playSound("click");
     });
+
+    $("gameMode").addEventListener("change", updateModeFields);
+    $("roomMode").addEventListener("change", updateRoomModeFields);
+    $("installButton").addEventListener("click", installApp);
+
+    $("players").addEventListener("click", (event) => {
+        const actionButton = event.target.closest("button[data-player-action]");
+        if (!actionButton) return;
+        const token = actionButton.dataset.token;
+        const action = actionButton.dataset.playerAction;
+        const target = players.find((player) => player.token === token);
+        if (!target) return;
+
+        if (action === "kick") {
+            openConfirm("Expulser ce joueur ?", `${target.name} sera retiré de la room.`, () => {
+                socket.emit("kickPlayer", { code: currentRoom, token });
+            });
+        }
+        if (action === "host") {
+            openConfirm("Transférer le rôle d’hôte ?", `${target.name} contrôlera désormais la partie.`, () => {
+                socket.emit("transferHost", { code: currentRoom, token });
+            });
+        }
+    });
+
+    document.addEventListener("visibilitychange", () => {
+        updatePerformanceMode();
+        restartTimerLoop();
+        if (document.hidden) audioContext?.suspend?.();
+    });
+
+    updateModeFields();
+}
+
+function setupPerformanceMode() {
+    if (!tabChannel) {
+        updatePerformanceMode();
+        return;
+    }
+
+    tabChannel.onmessage = (event) => {
+        const data = event.data || {};
+        if (!data.id || data.id === tabId) return;
+        if (data.type === "bye") peerTabs.delete(data.id);
+        else peerTabs.set(data.id, Date.now());
+        if (data.type === "hello") tabChannel.postMessage({ type: "heartbeat", id: tabId });
+        updatePerformanceMode();
+    };
+
+    const heartbeat = () => tabChannel.postMessage({ type: "heartbeat", id: tabId });
+    tabChannel.postMessage({ type: "hello", id: tabId });
+    heartbeat();
+    setInterval(() => {
+        const now = Date.now();
+        for (const [id, seenAt] of peerTabs) {
+            if (now - seenAt > 12_000) peerTabs.delete(id);
+        }
+        heartbeat();
+        updatePerformanceMode();
+    }, 4000);
+
+    window.addEventListener("pagehide", () => tabChannel.postMessage({ type: "bye", id: tabId }));
+}
+
+function updatePerformanceMode() {
+    const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    const shouldUseLowPower = document.hidden || peerTabs.size > 0 || reduced;
+    lowPowerMode = Boolean(shouldUseLowPower);
+    document.documentElement.classList.toggle("low-power", lowPowerMode);
+    $("performanceBadge").hidden = !lowPowerMode || document.hidden;
+}
+
+function registerServiceWorker() {
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js").catch(() => {});
+    }
+}
+
+async function installApp() {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    await installPrompt.userChoice.catch(() => null);
+    installPrompt = null;
+    $("installButton").hidden = true;
+}
+
+function updateModeFields() {
+    const custom = $("gameMode").value === "custom";
+    $("customSubjectsBlock").hidden = !custom;
+    document.querySelectorAll(".category, .difficulty, #linkedMix").forEach((element) => {
+        element.disabled = custom;
+    });
+    if ($("gameMode").value === "fast") {
+        $("time").value = "15";
+        $("cardTime").value = "3";
+    }
+    if ($("gameMode").value === "duo" && Number($("impostors").value) < 2) $("impostors").value = "2";
 }
 
 function updateSoundButton() {
@@ -53,13 +200,13 @@ function updateSoundButton() {
 }
 
 function getAudioContext() {
-    if (!soundEnabled) return null;
+    if (!soundEnabled || document.hidden) return null;
     if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    if (audioContext.state === "suspended") audioContext.resume();
+    if (audioContext.state === "suspended") audioContext.resume().catch(() => {});
     return audioContext;
 }
 
-function tone(frequency, start, duration, volume = 0.035, type = "sine") {
+function tone(frequency, start, duration, volume = 0.025, type = "sine") {
     const context = getAudioContext();
     if (!context) return;
     const oscillator = context.createOscillator();
@@ -67,7 +214,7 @@ function tone(frequency, start, duration, volume = 0.035, type = "sine") {
     oscillator.type = type;
     oscillator.frequency.setValueAtTime(frequency, context.currentTime + start);
     gain.gain.setValueAtTime(0.0001, context.currentTime + start);
-    gain.gain.exponentialRampToValueAtTime(volume, context.currentTime + start + 0.015);
+    gain.gain.exponentialRampToValueAtTime(volume, context.currentTime + start + 0.012);
     gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + start + duration);
     oscillator.connect(gain).connect(context.destination);
     oscillator.start(context.currentTime + start);
@@ -75,21 +222,25 @@ function tone(frequency, start, duration, volume = 0.035, type = "sine") {
 }
 
 function playSound(name) {
-    if (!soundEnabled) return;
+    if (!soundEnabled || lowPowerMode) return;
     const patterns = {
-        click: [[460, 0, .08, .025, "sine"]],
-        launch: [[220, 0, .18, .04, "sine"], [330, .12, .2, .04, "sine"], [520, .26, .28, .045, "triangle"]],
-        reveal: [[300, 0, .12, .035, "triangle"], [620, .08, .22, .045, "sine"]],
-        turn: [[420, 0, .1, .03, "sine"], [560, .11, .18, .035, "sine"]],
-        vote: [[180, 0, .22, .04, "triangle"], [240, .18, .25, .04, "triangle"]],
-        eliminate: [[310, 0, .12, .045, "sawtooth"], [220, .12, .18, .045, "sawtooth"], [120, .28, .35, .05, "sine"]],
-        success: [[440, 0, .12, .035, "sine"], [660, .12, .16, .04, "sine"], [880, .25, .25, .04, "sine"]]
+        click: [[460, 0, .07, .02, "sine"]],
+        launch: [[220, 0, .15, .025, "sine"], [340, .11, .17, .025, "sine"], [520, .23, .2, .03, "triangle"]],
+        reveal: [[300, 0, .1, .025, "triangle"], [620, .07, .17, .03, "sine"]],
+        turn: [[420, 0, .08, .02, "sine"], [560, .09, .14, .025, "sine"]],
+        vote: [[180, 0, .18, .03, "triangle"], [240, .15, .2, .03, "triangle"]],
+        eliminate: [[310, 0, .1, .035, "sawtooth"], [210, .1, .16, .035, "sawtooth"], [120, .24, .3, .04, "sine"]],
+        success: [[440, 0, .1, .025, "sine"], [660, .1, .13, .03, "sine"], [880, .21, .2, .03, "sine"]]
     };
     for (const values of patterns[name] || patterns.click) tone(...values);
 }
 
+function vibrate(pattern) {
+    if (!document.hidden && navigator.vibrate) navigator.vibrate(pattern);
+}
+
 function escapeHtml(value) {
-    return String(value)
+    return String(value ?? "")
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
@@ -102,16 +253,19 @@ function showToast(message) {
     toast.textContent = message;
     toast.hidden = false;
     toast.classList.remove("toast-out");
-    void toast.offsetWidth;
-    toast.classList.add("toast-in");
+    requestAnimationFrame(() => toast.classList.add("toast-in"));
     clearTimeout(showToast.timer);
     showToast.timer = setTimeout(() => {
         toast.classList.add("toast-out");
-        setTimeout(() => { toast.hidden = true; }, 260);
-    }, 2600);
+        setTimeout(() => {
+            toast.hidden = true;
+            toast.classList.remove("toast-in", "toast-out");
+        }, 220);
+    }, 2500);
 }
 
-function playCinematic({ icon = "I", eyebrow = "", title = "", text = "", duration = 1450, toneName = "default" }) {
+function playCinematic({ icon = "I", eyebrow = "", title = "", text = "", duration = 1400, toneName = "default" }) {
+    if (lowPowerMode || document.hidden) return;
     const overlay = $("cinematicOverlay");
     $("cinematicIcon").textContent = icon;
     $("cinematicEyebrow").textContent = eyebrow;
@@ -120,15 +274,14 @@ function playCinematic({ icon = "I", eyebrow = "", title = "", text = "", durati
     overlay.dataset.tone = toneName;
     overlay.hidden = false;
     overlay.classList.remove("cinematic-out");
-    void overlay.offsetWidth;
-    overlay.classList.add("cinematic-in");
+    requestAnimationFrame(() => overlay.classList.add("cinematic-in"));
     clearTimeout(playCinematic.timer);
     playCinematic.timer = setTimeout(() => {
         overlay.classList.add("cinematic-out");
         setTimeout(() => {
             overlay.hidden = true;
             overlay.classList.remove("cinematic-in", "cinematic-out");
-        }, 420);
+        }, 320);
     }, duration);
 }
 
@@ -145,24 +298,30 @@ function getDifficulties() {
     return [...document.querySelectorAll(".difficulty:checked")].map((item) => item.value);
 }
 
-function createRoom() {
-    saveName();
-    const categories = getCategories();
-    const difficulties = getDifficulties();
-    if (!username) return showToast("Entre un pseudo.");
-    if (!categories.length) return showToast("Choisis au moins une catégorie.");
-    if (!difficulties.length) return showToast("Choisis au moins une difficulté.");
-
-    playSound("click");
-    socket.emit("createRoom", {
-        name: username,
-        categories,
-        difficulties,
+function collectSettings() {
+    return {
+        categories: getCategories(),
+        difficulties: getDifficulties(),
         linkedMix: $("linkedMix").checked,
+        mode: $("gameMode").value,
         time: Number($("time").value),
         cardTime: Number($("cardTime").value),
-        impostors: Number($("impostors").value)
-    });
+        impostors: Number($("impostors").value),
+        customSubjects: $("customSubjects").value
+    };
+}
+
+function createRoom() {
+    saveName();
+    const settings = collectSettings();
+    if (!username) return showToast("Entre un pseudo.");
+    if (settings.mode !== "custom" && !settings.categories.length) return showToast("Choisis au moins une catégorie.");
+    if (settings.mode !== "custom" && !settings.difficulties.length) return showToast("Choisis au moins une difficulté.");
+    if (settings.mode === "custom" && settings.customSubjects.split(/\r?\n/).filter((line) => line.trim()).length < 2) {
+        return showToast("Ajoute au moins deux sujets personnalisés.");
+    }
+    playSound("click");
+    socket.emit("createRoom", { name: username, ...settings });
 }
 
 function joinRoom() {
@@ -178,12 +337,32 @@ function openGame() {
     $("login").hidden = true;
     $("game").hidden = false;
     $("roomCodeDisplay").textContent = currentRoom;
-    $("startButton").hidden = !isHost;
+    history.replaceState(null, "", `/?room=${encodeURIComponent(currentRoom)}`);
+    refreshHostUi();
     displaySettings();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: lowPowerMode ? "auto" : "smooth" });
+}
+
+function resetToLogin(message) {
+    currentRoom = "";
+    sessionStorage.removeItem("imposteurRoom");
+    isHost = false;
+    hostToken = "";
+    players = [];
+    pendingRoomState = null;
+    clearInterval(timerInterval);
+    $("game").hidden = true;
+    $("login").hidden = false;
+    history.replaceState(null, "", "/");
+    if (message) showToast(message);
+}
+
+function modeLabel(mode) {
+    return ({ classic: "Classique", duo: "Duo", clue: "Indice", blind: "Aveugle", fast: "Rapide", chaos: "Chaos", custom: "Personnalisé" })[mode] || mode;
 }
 
 function displaySettings() {
+    if (!roomSettings || !Object.keys(roomSettings).length) return;
     const categoryNames = {
         anime: "Anime & novels", games: "Jeux vidéo", movie: "Films", series: "Séries",
         marvel: "Marvel", dc: "DC Comics", cartoon: "Cartoons", sport: "Sport",
@@ -191,30 +370,74 @@ function displaySettings() {
     };
     const difficultyNames = { easy: "Facile", normal: "Normal", hard: "Difficile", demon: "Démon" };
     $("settingsDisplay").innerHTML = `
-        <span>${roomSettings.categories.map((value) => categoryNames[value] || value).join(" · ")}</span>
-        <span>${roomSettings.difficulties.map((value) => difficultyNames[value] || value).join(" · ")}</span>
-        <span>${roomSettings.linkedMix ? "Mix lié" : "Même univers"}</span>
-        <span>${roomSettings.time}s par joueur</span>`;
+        <span>${escapeHtml(modeLabel(roomSettings.mode))}</span>
+        <span>${roomSettings.mode === "custom" ? "Sujets personnalisés" : escapeHtml((roomSettings.categories || []).map((value) => categoryNames[value] || value).join(" · "))}</span>
+        <span>${escapeHtml((roomSettings.difficulties || []).map((value) => difficultyNames[value] || value).join(" · "))}</span>
+        <span>${roomSettings.time || 30}s par joueur</span>`;
+}
+
+function copyText(text, successMessage) {
+    if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(text).then(() => showToast(successMessage)).catch(() => fallbackCopy(text, successMessage));
+    } else fallbackCopy(text, successMessage);
+}
+
+function fallbackCopy(text, successMessage) {
+    const input = document.createElement("textarea");
+    input.value = text;
+    input.style.position = "fixed";
+    input.style.opacity = "0";
+    document.body.appendChild(input);
+    input.select();
+    try { document.execCommand("copy"); } catch {}
+    input.remove();
+    showToast(successMessage);
 }
 
 function copyRoom() {
-    navigator.clipboard.writeText(currentRoom)
-        .then(() => showToast(`Code ${currentRoom} copié.`))
-        .catch(() => showToast(`Code : ${currentRoom}`));
+    copyText(currentRoom, `Code ${currentRoom} copié.`);
     playSound("click");
 }
 
+function inviteLink() {
+    return `${location.origin}/?room=${encodeURIComponent(currentRoom)}`;
+}
+
+function copyInviteLink() {
+    copyText(inviteLink(), "Lien d’invitation copié.");
+    playSound("click");
+}
+
+function openQrCode() {
+    const link = inviteLink();
+    $("qrImage").src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=12&data=${encodeURIComponent(link)}`;
+    $("qrLink").textContent = link;
+    $("qrOverlay").hidden = false;
+}
+
+function closeQrCode() {
+    $("qrOverlay").hidden = true;
+    $("qrImage").removeAttribute("src");
+}
+
 function startGame() {
+    if (!isHost) return;
     playSound("launch");
-    playCinematic({ icon: "3", eyebrow: "PRÉPAREZ-VOUS", title: "La partie commence", text: "Les cartes vont être distribuées.", duration: 1650 });
+    playCinematic({ icon: "3", eyebrow: "PRÉPAREZ-VOUS", title: "La partie commence", text: "Les cartes vont être distribuées.", duration: 1500 });
     $("startButton").disabled = true;
     socket.emit("startGame", currentRoom);
 }
 
 function newRound() {
+    if (!isHost) return;
     playSound("launch");
-    $("newRound").hidden = true;
+    $("newRound").disabled = true;
     socket.emit("newGame", currentRoom);
+}
+
+function returnLobby() {
+    if (!isHost) return;
+    socket.emit("returnLobby", currentRoom);
 }
 
 function showStage(stageId) {
@@ -231,13 +454,18 @@ function resetCard() {
     card.hidden = false;
     card.disabled = false;
     card.classList.remove("is-flipped", "card-vanish");
-    $("characterImage").hidden = true;
-    $("characterImage").removeAttribute("src");
+    const image = $("characterImage");
+    image.hidden = true;
+    image.onload = null;
+    image.onerror = null;
+    image.removeAttribute("src");
     $("imageFallback").textContent = "?";
     $("imageLoading").hidden = true;
     $("subjectName").textContent = "...";
     $("subjectUniverse").textContent = "...";
     $("subjectCategory").textContent = "SUJET";
+    $("subjectClue").hidden = true;
+    $("subjectClue").textContent = "";
     $("cardHint").textContent = "La carte ne pourra être consultée qu’une seule fois.";
 }
 
@@ -245,94 +473,18 @@ function categoryLabel(category) {
     const labels = {
         anime: "ANIME & NOVELS", games: "JEUX VIDÉO", movie: "FILM", series: "SÉRIE",
         marvel: "MARVEL", dc: "DC COMICS", cartoon: "CARTOON", sport: "SPORT",
-        music: "MUSIQUE", internet: "INTERNET", food: "NOURRITURE", timmy: "TIMMY"
+        music: "MUSIQUE", internet: "INTERNET", food: "NOURRITURE", timmy: "TIMMY",
+        custom: "PERSONNALISÉ", blind: "IMPOSTEUR"
     };
     return labels[category] || "SUJET";
-}
-
-function testImageUrl(url, timeout = 4500) {
-    return new Promise((resolve) => {
-        if (!url) return resolve(null);
-        const image = new Image();
-        let finished = false;
-        const done = (value) => {
-            if (finished) return;
-            finished = true;
-            clearTimeout(timer);
-            image.onload = null;
-            image.onerror = null;
-            resolve(value);
-        };
-        const timer = setTimeout(() => done(null), timeout);
-        image.onload = () => done(url);
-        image.onerror = () => done(null);
-        image.referrerPolicy = "no-referrer";
-        image.src = url;
-    });
-}
-
-async function searchJikanInBrowser(card) {
-    if (card.category !== "anime") return null;
-    try {
-        const response = await fetch(`https://api.jikan.moe/v4/characters?q=${encodeURIComponent(card.character)}&limit=5`);
-        if (!response.ok) return null;
-        const data = await response.json();
-        const entry = data.data?.[0];
-        return entry?.images?.jpg?.large_image_url || entry?.images?.jpg?.image_url || null;
-    } catch {
-        return null;
-    }
-}
-
-async function searchWikipediaInBrowser(card, language) {
-    const query = `${card.character} ${card.universe}`.trim();
-    const params = new URLSearchParams({
-        action: "query",
-        format: "json",
-        origin: "*",
-        generator: "search",
-        gsrsearch: query,
-        gsrlimit: "6",
-        gsrnamespace: "0",
-        prop: "pageimages|pageprops",
-        piprop: "thumbnail|original",
-        pithumbsize: "800",
-        redirects: "1"
-    });
-    try {
-        const response = await fetch(`https://${language}.wikipedia.org/w/api.php?${params}`);
-        if (!response.ok) return null;
-        const data = await response.json();
-        const pages = Object.values(data.query?.pages || {})
-            .filter((page) => !page.pageprops?.disambiguation)
-            .filter((page) => page.thumbnail?.source || page.original?.source)
-            .sort((a, b) => (a.index ?? 999) - (b.index ?? 999));
-        return pages[0]?.thumbnail?.source || pages[0]?.original?.source || null;
-    } catch {
-        return null;
-    }
-}
-
-async function resolveCardImage(card) {
-    for (const candidate of [card.image, card.remoteImage]) {
-        const working = await testImageUrl(candidate);
-        if (working) return working;
-    }
-
-    const jikan = await searchJikanInBrowser(card);
-    if (await testImageUrl(jikan)) return jikan;
-
-    for (const language of ["fr", "en"]) {
-        const wikipedia = await searchWikipediaInBrowser(card, language);
-        if (await testImageUrl(wikipedia)) return wikipedia;
-    }
-    return null;
 }
 
 function revealCard() {
     if (!myCard || cardRevealed) return;
     cardRevealed = true;
+    sessionStorage.setItem(`imposteurRevealed:${currentRoom}:${currentRound}`, "1");
     playSound("reveal");
+    vibrate(35);
 
     const card = $("card");
     card.disabled = true;
@@ -341,275 +493,607 @@ function revealCard() {
     $("subjectName").textContent = myCard.character;
     $("subjectUniverse").textContent = myCard.universe;
     $("subjectCategory").textContent = categoryLabel(myCard.category);
+    if (myCard.clue) {
+        $("subjectClue").textContent = `Indice : ${myCard.clue}`;
+        $("subjectClue").hidden = false;
+    }
     $("cardHint").textContent = `Mémorise ta carte : elle disparaît dans ${roomSettings.cardTime || 5} secondes.`;
 
-    const cardData = myCard;
     const image = $("characterImage");
     const loading = $("imageLoading");
-    loading.hidden = false;
-    image.hidden = true;
-    image.classList.remove("image-ready");
-
-    Promise.resolve(cardData._imagePromise || resolveCardImage(cardData)).then((source) => {
-        if (!cardRevealed || card.hidden || myCard !== cardData) return;
-        loading.hidden = true;
-        if (!source) return;
+    if (myCard.image) {
+        loading.hidden = false;
+        image.hidden = true;
         image.onload = () => {
+            loading.hidden = true;
             image.hidden = false;
-            requestAnimationFrame(() => image.classList.add("image-ready"));
+            image.classList.add("image-ready");
         };
         image.onerror = () => {
+            loading.hidden = true;
             image.hidden = true;
             image.removeAttribute("src");
         };
-        image.referrerPolicy = "no-referrer";
-        image.src = source;
-    });
+        image.src = myCard.image;
+    } else {
+        loading.hidden = true;
+        image.hidden = true;
+    }
 
     requestAnimationFrame(() => card.classList.add("is-flipped"));
-    cardHideTimeout = setTimeout(() => {
-        card.classList.add("card-vanish");
-        setTimeout(() => {
-            myCard = null;
-            card.hidden = true;
-            $("cardHint").textContent = "Carte mémorisée. Prépare ton indice.";
-        }, 520);
-    }, (roomSettings.cardTime || 5) * 1000);
+    cardHideTimeout = setTimeout(hideCard, (roomSettings.cardTime || 5) * 1000);
 }
 
-function startLocalTimer(seconds, prefix = "") {
+function hideCard() {
+    const card = $("card");
+    card.classList.add("card-vanish");
+    setTimeout(() => {
+        card.hidden = true;
+        const image = $("characterImage");
+        image.removeAttribute("src");
+        image.hidden = true;
+        $("imageLoading").hidden = true;
+        $("cardHint").textContent = "Carte mémorisée. Prépare ton indice.";
+    }, lowPowerMode ? 50 : 420);
+}
+
+function renderPlayers() {
+    $("playerCount").textContent = `${players.length} joueur${players.length > 1 ? "s" : ""}`;
+    const fragment = document.createDocumentFragment();
+    for (const player of players) {
+        const li = document.createElement("li");
+        li.className = `${player.connected ? "" : "is-offline"} ${player.token === currentSpeakerToken ? "is-speaking" : ""}`;
+        const initials = player.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+        const actions = isHost && player.token !== playerToken
+            ? `<span class="player-actions"><button data-player-action="host" data-token="${escapeHtml(player.token)}" title="Donner le rôle d’hôte">H</button><button data-player-action="kick" data-token="${escapeHtml(player.token)}" title="Expulser">×</button></span>`
+            : "";
+        li.innerHTML = `
+            <span class="avatar">${escapeHtml(initials || "?")}</span>
+            <span class="player-name">${escapeHtml(player.name)}</span>
+            ${player.isHost ? '<span class="host-badge">HÔTE</span>' : ""}
+            ${player.token === playerToken ? '<span class="you-badge">TOI</span>' : ""}
+            ${!player.connected ? '<span class="offline-badge">HORS LIGNE</span>' : ""}
+            <span class="score-badge">${Number(player.score) || 0}</span>
+            ${actions}`;
+        fragment.appendChild(li);
+    }
+    $("players").replaceChildren(fragment);
+    refreshHostUi();
+    renderSpeakerWheel();
+}
+
+function refreshHostUi() {
+    $("startButton").hidden = !isHost || !["lobby", "result"].includes(currentPhase);
+    $("hostPanel").hidden = !isHost;
+    $("newRound").hidden = !isHost;
+    $("returnLobbyButton").hidden = !isHost;
+}
+
+function renderSpeakerWheel() {
+    const wheel = $("speakerWheel");
+    if (!wheel) return;
+    const active = players.filter((player) => player.connected);
+    wheel.style.setProperty("--count", Math.max(1, active.length));
+    wheel.innerHTML = active.map((player, index) => {
+        const initials = player.name.slice(0, 1).toUpperCase();
+        const activeClass = player.token === currentSpeakerToken ? " active" : "";
+        return `<span class="wheel-player${activeClass}" style="--i:${index}" title="${escapeHtml(player.name)}">${escapeHtml(initials)}</span>`;
+    }).join("");
+}
+
+function startTimer(deadline, phase = currentPhase) {
+    phaseDeadline = Number(deadline) || null;
+    currentPhase = phase;
+    restartTimerLoop();
+    updateTimerDisplay();
+}
+
+function restartTimerLoop() {
     clearInterval(timerInterval);
-    const total = Math.max(1, Number(seconds) || 1);
-    let remaining = total;
-    const progress = $("timerProgress");
-    progress.style.strokeDasharray = String(TIMER_CIRCUMFERENCE);
+    if (!phaseDeadline) return;
+    timerInterval = setInterval(updateTimerDisplay, document.hidden ? 1000 : 250);
+}
 
-    const render = () => {
-        $("timer").textContent = prefix ? `${prefix} ${remaining}s` : `${remaining}s`;
-        const ratio = Math.max(0, remaining / total);
-        progress.style.strokeDashoffset = String(TIMER_CIRCUMFERENCE * (1 - ratio));
-        $("timerWrap").classList.toggle("timer-danger", remaining <= 5);
-        if (remaining <= 0) {
-            clearInterval(timerInterval);
-            return;
-        }
-        remaining -= 1;
-    };
+function updateTimerDisplay() {
+    if (!phaseDeadline) {
+        $("timer").textContent = "--";
+        $("timerProgress").style.strokeDashoffset = "0";
+        return;
+    }
+    const remainingMs = Math.max(0, phaseDeadline - Date.now());
+    const remaining = Math.ceil(remainingMs / 1000);
+    $("timer").textContent = remaining > 99 ? `${Math.ceil(remaining / 60)}m` : `${remaining}`;
 
-    render();
-    timerInterval = setInterval(render, 1000);
+    const total = currentPhase === "vote" ? 45 : currentPhase === "cards" ? Math.max(7, (roomSettings.cardTime || 5) + 3) : (roomSettings.time || 30);
+    const ratio = Math.max(0, Math.min(1, remainingMs / (total * 1000)));
+    $("timerProgress").style.strokeDashoffset = String(TIMER_CIRCUMFERENCE * (1 - ratio));
+    $("timerWrap").classList.toggle("timer-danger", remaining <= 5 && remaining > 0);
+    if (remainingMs <= 0) clearInterval(timerInterval);
+}
+
+function renderTurn(token, turnIndex, total, deadline) {
+    currentSpeakerToken = token;
+    currentPhase = "discussion";
+    const speaker = players.find((player) => player.token === token);
+    showStage("turnPanel");
+    $("phase").textContent = "Tour de parole";
+    $("turnCounter").textContent = `JOUEUR ${turnIndex + 1} SUR ${total}`;
+    $("currentSpeaker").textContent = speaker?.name || "Joueur";
+    $("speakerAvatar").textContent = (speaker?.name || "?").slice(0, 1).toUpperCase();
+    const myTurn = token === playerToken;
+    $("speakerInstruction").textContent = myTurn ? "Donne ton indice sans révéler directement ton sujet." : "Écoute bien son indice et repère les incohérences.";
+    $("finishTurnButton").hidden = !myTurn;
+    $("finishTurnButton").disabled = false;
+    $("finishTurnHint").hidden = !myTurn;
+    renderPlayers();
+    startTimer(deadline, "discussion");
+    playSound("turn");
+    vibrate(myTurn ? [50, 30, 50] : 30);
+    playCinematic({ icon: "●", eyebrow: "TOUR DE PAROLE", title: speaker?.name || "Joueur", text: myTurn ? "C’est à toi de donner un indice." : "Écoutez attentivement son indice.", duration: 1050, toneName: "active" });
 }
 
 function finishMyTurn() {
-    const button = $("finishTurnButton");
-    if (button.hidden || button.disabled) return;
-    button.disabled = true;
-    button.querySelector("span").textContent = "Tour terminé";
-    playSound("click");
+    if (currentSpeakerToken !== playerToken) return;
+    $("finishTurnButton").disabled = true;
     socket.emit("finishTurn", currentRoom);
 }
 
-function sendChat() {
-    const message = $("chatInput").value.trim();
-    if (!message) return;
-    socket.emit("chat", { code: currentRoom, message });
-    $("chatInput").value = "";
-}
-
-function renderVotePlayers(players) {
+function renderVotePlayers(votePlayers) {
     selectedVoteId = null;
     $("voteButton").disabled = true;
-    $("voteGrid").innerHTML = "";
-
-    players.filter((player) => player.id !== socket.id).forEach((player) => {
+    const grid = $("voteGrid");
+    const fragment = document.createDocumentFragment();
+    for (const player of votePlayers) {
+        if (player.token === playerToken) continue;
         const button = document.createElement("button");
         button.className = "vote-player";
         button.type = "button";
-        button.dataset.playerId = player.id;
-        button.innerHTML = `<span>${escapeHtml(player.name.charAt(0).toUpperCase())}</span><b>${escapeHtml(player.name)}</b><small>Choisir</small>`;
+        button.disabled = !player.connected;
+        button.dataset.token = player.token;
+        button.innerHTML = `<span>${escapeHtml(player.name.slice(0, 1).toUpperCase())}</span><b>${escapeHtml(player.name)}</b><small>${player.connected ? "Sélectionner" : "Déconnecté"}</small>`;
         button.addEventListener("click", () => {
             if (alreadyVoted) return;
-            selectedVoteId = player.id;
-            document.querySelectorAll(".vote-player").forEach((item) => item.classList.toggle("selected", item === button));
+            grid.querySelectorAll(".vote-player").forEach((item) => item.classList.remove("selected"));
+            button.classList.add("selected");
+            selectedVoteId = player.token;
             $("voteButton").disabled = false;
-            playSound("click");
         });
-        $("voteGrid").appendChild(button);
-    });
+        fragment.appendChild(button);
+    }
+    grid.replaceChildren(fragment);
 }
 
 function vote() {
-    if (alreadyVoted) return showToast("Tu as déjà voté.");
-    if (!selectedVoteId) return showToast("Choisis un joueur.");
-    playSound("vote");
+    if (alreadyVoted || !selectedVoteId) return;
+    alreadyVoted = true;
+    $("voteButton").disabled = true;
+    $("voteGrid").querySelectorAll("button").forEach((button) => { button.disabled = true; });
     socket.emit("vote", { code: currentRoom, target: selectedVoteId });
-    lockVote();
+    showToast("Vote enregistré.");
 }
 
 function skipVote() {
     if (alreadyVoted) return;
-    playSound("vote");
-    socket.emit("vote", { code: currentRoom, target: "skip" });
-    lockVote();
-}
-
-function lockVote() {
     alreadyVoted = true;
     $("voteButton").disabled = true;
-    document.querySelectorAll(".vote-player").forEach((item) => { item.disabled = true; });
-    $("voteProgress").textContent = "Vote envoyé. En attente des autres joueurs…";
+    $("voteGrid").querySelectorAll("button").forEach((button) => { button.disabled = true; });
+    socket.emit("vote", { code: currentRoom, target: "skip" });
+    showToast("Tu as choisi de ne désigner personne.");
 }
 
-socket.on("roomCreated", ({ code, settings }) => {
-    currentRoom = code;
-    roomSettings = settings;
-    isHost = true;
-    openGame();
-});
-
-socket.on("joined", ({ code, settings }) => {
-    currentRoom = code;
-    roomSettings = settings;
-    isHost = false;
-    openGame();
-});
-
-socket.on("becameHost", () => {
-    isHost = true;
-    $("startButton").hidden = false;
-    showToast("Tu es maintenant l’hôte.");
-});
-
-socket.on("players", (players) => {
-    $("playerCount").textContent = `${players.length} joueur${players.length > 1 ? "s" : ""}`;
-    $("players").innerHTML = "";
-    players.forEach((player) => {
-        const li = document.createElement("li");
-        li.innerHTML = `<span class="avatar">${escapeHtml(player.name.charAt(0).toUpperCase())}</span><span class="player-name">${escapeHtml(player.name)}</span>${player.isHost ? '<span class="host-badge">Hôte</span>' : ""}${player.id === socket.id ? '<span class="you-badge">Toi</span>' : ""}<span class="score-badge">${player.score || 0}</span>`;
-        $("players").appendChild(li);
-    });
-});
-
-socket.on("roundStarting", ({ round }) => {
-    $("round").textContent = round;
-    $("phase").textContent = "Préparation";
-    $("startButton").hidden = true;
-    $("startButton").disabled = false;
+function renderResult(result) {
+    if (!result) return;
+    currentPhase = "result";
+    phaseDeadline = null;
+    clearInterval(timerInterval);
+    currentSpeakerToken = null;
     $("voteOverlay").hidden = true;
+    $("phase").textContent = "Résultat";
+    $("timer").textContent = "FIN";
+    $("timerProgress").style.strokeDashoffset = "0";
+    $("timerWrap").classList.remove("timer-danger");
+    showStage("resultPanel");
+
+    const noElimination = !result.eliminated;
+    if (noElimination) playSound("vote");
+    else if (result.correct) playSound("success");
+    else playSound("eliminate");
+    vibrate(result.correct ? [60, 35, 60] : 80);
+
+    playCinematic({
+        icon: noElimination ? "=" : "×",
+        eyebrow: "RÉSULTAT",
+        title: noElimination ? "Personne n’est éliminé" : `${result.eliminated} est éliminé`,
+        text: noElimination ? (result.tie ? "Les votes sont à égalité." : "La majorité a passé le vote.") : (result.correct ? "Bien joué : un imposteur a été trouvé." : "Mauvais choix : l’imposteur s’en sort."),
+        duration: 1900,
+        toneName: noElimination ? "default" : (result.correct ? "active" : "danger")
+    });
+
+    $("resultIcon").textContent = noElimination ? "=" : "×";
+    $("resultPanel").classList.toggle("correct-result", Boolean(result.correct));
+    $("resultPanel").classList.toggle("wrong-result", Boolean(result.eliminated && !result.correct));
+    $("resultTitle").textContent = noElimination ? "Aucune élimination" : `${result.eliminated} a été désigné`;
+    $("resultText").textContent = noElimination
+        ? (result.tie ? "Égalité : personne ne quitte la manche." : "Le vote a été passé.")
+        : (result.correct ? "Le groupe a démasqué un imposteur." : "Ce joueur n’était pas un imposteur.");
+
+    $("roleReveal").innerHTML = `
+        <article><small>SUJET PRINCIPAL</small><b>${escapeHtml(result.mainSubject)}</b><span>${escapeHtml(result.mainUniverse)}</span></article>
+        <article><small>SUJET DES IMPOSTEURS</small><b>${escapeHtml(result.fakeSubject)}</b><span>${escapeHtml(result.fakeUniverse)}</span></article>
+        <article class="impostor-reveal"><small>IMPOSTEUR${result.impostors?.length > 1 ? "S" : ""}</small><b>${escapeHtml((result.impostors || []).join(", ") || "Inconnu")}</b></article>`;
+
+    $("voteDetails").innerHTML = `<h3>Détail des votes</h3><div>${(result.votes || []).length
+        ? result.votes.map((item) => `<p><b>${escapeHtml(item.voterName)}</b><span>→</span><strong>${escapeHtml(item.targetName)}</strong></p>`).join("")
+        : "<p>Aucun vote enregistré.</p>"}</div>`;
+
+    $("roundPlayers").innerHTML = `<h3>Cartes et classement</h3><div>${(result.players || []).map((player, index) => `
+        <article class="${player.isImpostor ? "was-impostor" : ""}">
+            <span class="ranking">#${index + 1}</span>
+            <div><b>${escapeHtml(player.name)}</b><small>${escapeHtml(player.card?.character || "?")} · ${escapeHtml(player.card?.universe || "")}</small></div>
+            <strong>${Number(player.score) || 0} pt${Number(player.score) > 1 ? "s" : ""}</strong>
+        </article>`).join("")}</div>`;
+
+    $("newRound").disabled = false;
+    refreshHostUi();
+    updateStatsFromResult(result);
+}
+
+function sendChat() {
+    const input = $("chatInput");
+    const message = input.value.trim();
+    if (!message || !currentRoom) return;
+    socket.emit("chat", { code: currentRoom, message });
+    input.value = "";
+}
+
+function appendMessage(item) {
+    const box = $("messages");
+    const systemPlaceholder = box.querySelector(".system-message");
+    if (systemPlaceholder) systemPlaceholder.remove();
+    const p = document.createElement("p");
+    if (item.system) {
+        p.className = "system-chat";
+        p.textContent = item.message;
+    } else {
+        p.innerHTML = `<b>${escapeHtml(item.name)}</b><span>${escapeHtml(item.message)}</span>`;
+    }
+    box.appendChild(p);
+    while (box.children.length > MAX_RENDERED_MESSAGES) box.firstElementChild?.remove();
+    box.scrollTop = box.scrollHeight;
+}
+
+function renderMessages(messages) {
+    const box = $("messages");
+    box.replaceChildren();
+    if (!messages?.length) {
+        const p = document.createElement("p");
+        p.className = "system-message";
+        p.textContent = "Les messages de la room apparaîtront ici.";
+        box.appendChild(p);
+        return;
+    }
+    for (const message of messages.slice(-MAX_RENDERED_MESSAGES)) appendMessage(message);
+}
+
+function addTime(seconds) {
+    if (!isHost) return;
+    socket.emit("addTime", { code: currentRoom, seconds });
+}
+
+function hostNextPhase() {
+    if (!isHost) return;
+    socket.emit("hostNextPhase", currentRoom);
+}
+
+function updateRoomModeFields() {
+    const custom = $("roomMode").value === "custom";
+    $("roomCustomBlock").hidden = !custom;
+    for (const control of document.querySelectorAll(".room-category, .room-difficulty, #roomLinkedMix")) {
+        control.disabled = custom;
+    }
+}
+
+function openSettingsModal() {
+    if (!isHost) return;
+    $("roomMode").value = roomSettings.mode || "classic";
+    $("roomTime").value = String(roomSettings.time || 30);
+    $("roomCardTime").value = String(roomSettings.cardTime || 5);
+    $("roomImpostors").value = String(roomSettings.impostors || 1);
+    $("roomLinkedMix").checked = Boolean(roomSettings.linkedMix);
+    $("roomCustomSubjects").value = roomSettings.customSubjectsText || "";
+
+    const categories = new Set(roomSettings.categories || ["anime"]);
+    for (const input of document.querySelectorAll(".room-category")) {
+        input.checked = categories.has("Tout") || categories.has(input.value);
+    }
+    const difficulties = new Set(roomSettings.difficulties || ["easy"]);
+    for (const input of document.querySelectorAll(".room-difficulty")) {
+        input.checked = difficulties.has(input.value);
+    }
+
+    updateRoomModeFields();
+    $("settingsOverlay").hidden = false;
+}
+
+function closeSettingsModal() {
+    $("settingsOverlay").hidden = true;
+}
+
+function saveRoomSettings() {
+    const categories = [...document.querySelectorAll(".room-category:checked")].map((input) => input.value);
+    const difficulties = [...document.querySelectorAll(".room-difficulty:checked")].map((input) => input.value);
+    const mode = $("roomMode").value;
+    const customSubjects = $("roomCustomSubjects").value.trim();
+
+    if (mode !== "custom" && !categories.length) return showToast("Choisis au moins une catégorie.");
+    if (mode !== "custom" && !difficulties.length) return showToast("Choisis au moins une difficulté.");
+    if (mode === "custom" && customSubjects.split(/\r?\n/).filter((line) => line.trim()).length < 2) {
+        return showToast("Ajoute au moins deux sujets personnalisés.");
+    }
+
+    const settings = {
+        categories: categories.length === document.querySelectorAll(".room-category").length ? ["Tout"] : categories,
+        difficulties,
+        linkedMix: $("roomLinkedMix").checked,
+        mode,
+        time: Number($("roomTime").value),
+        cardTime: Number($("roomCardTime").value),
+        impostors: Number($("roomImpostors").value),
+        customSubjects
+    };
+    socket.emit("updateSettings", { code: currentRoom, settings });
+    closeSettingsModal();
+}
+
+function leaveRoom() {
+    openConfirm("Quitter la room ?", "Ta place sera libérée et tu retourneras à l’accueil.", () => {
+        socket.emit("leaveRoom", currentRoom);
+        resetToLogin("Tu as quitté la room.");
+    });
+}
+
+function openConfirm(title, text, callback) {
+    confirmCallback = callback;
+    $("confirmTitle").textContent = title;
+    $("confirmText").textContent = text;
+    $("confirmOverlay").hidden = false;
+    $("confirmAction").onclick = () => {
+        const action = confirmCallback;
+        closeConfirm();
+        action?.();
+    };
+}
+
+function closeConfirm() {
+    confirmCallback = null;
+    $("confirmOverlay").hidden = true;
+}
+
+function updateStatsFromResult(result) {
+    const processedKey = `imposteurStatsProcessed:${currentRoom}:${currentRound}`;
+    if (sessionStorage.getItem(processedKey) === "1") return;
+    const me = result.players?.find((player) => player.token === playerToken);
+    if (!me) return;
+    sessionStorage.setItem(processedKey, "1");
+    const stats = JSON.parse(localStorage.getItem("imposteurLocalStats") || "{}") || {};
+    stats.rounds = (stats.rounds || 0) + 1;
+    const won = (result.correct && !me.isImpostor) || (!result.correct && me.isImpostor);
+    if (won) stats.wins = (stats.wins || 0) + 1;
+    if (me.isImpostor) stats.impostorRounds = (stats.impostorRounds || 0) + 1;
+    localStorage.setItem("imposteurLocalStats", JSON.stringify(stats));
+    updateLocalStats();
+}
+
+function updateLocalStats() {
+    const stats = JSON.parse(localStorage.getItem("imposteurLocalStats") || "{}") || {};
+    $("localStats").textContent = `${stats.rounds || 0} partie${(stats.rounds || 0) > 1 ? "s" : ""} · ${stats.wins || 0} victoire${(stats.wins || 0) > 1 ? "s" : ""} · ${stats.impostorRounds || 0} fois imposteur`;
+}
+
+function applyRoomState(state) {
+    if (!state) return;
+    pendingRoomState = state;
+    currentRound = Number(state.round) || 0;
+    currentPhase = state.phase || "lobby";
+    roomSettings = state.settings || roomSettings;
+    isHost = Boolean(state.isHost);
+    hostToken = state.hostToken || hostToken;
+    $("round").textContent = String(currentRound);
+    displaySettings();
+    refreshHostUi();
+    renderMessages(state.messages || []);
+
+    if (state.card) {
+        myCard = state.card;
+        cardRevealed = sessionStorage.getItem(`imposteurRevealed:${currentRoom}:${currentRound}`) === "1";
+    }
+
+    if (state.phase === "lobby") {
+        phaseDeadline = null;
+        $("phase").textContent = "En attente";
+        showStage("waitingStage");
+        $("startButton").disabled = false;
+        startTimer(null, "lobby");
+    } else if (state.phase === "cards") {
+        $("phase").textContent = "Découverte des cartes";
+        showStage("cardStage");
+        if (!state.card) showStage("loadingStage");
+        else if (cardRevealed) {
+            $("card").hidden = true;
+            $("cardHint").textContent = "Carte déjà consultée. Prépare ton indice.";
+        }
+        startTimer(state.phaseEndsAt, "cards");
+    } else if (state.phase === "discussion") {
+        renderTurn(state.currentSpeakerToken, state.turnIndex || 0, state.turnTotal || players.length, state.phaseEndsAt);
+    } else if (state.phase === "vote") {
+        alreadyVoted = false;
+        $("phase").textContent = "Vote";
+        renderVotePlayers(players.filter((player) => player.connected));
+        $("voteProgress").textContent = `${state.voteProgress?.voted || 0} vote(s) sur ${state.voteProgress?.total || 0}`;
+        $("voteOverlay").hidden = false;
+        startTimer(state.phaseEndsAt, "vote");
+    } else if (state.phase === "result") {
+        renderResult(state.result);
+    }
+}
+
+socket.on("identity", ({ playerToken: serverToken }) => {
+    if (serverToken && serverToken !== playerToken) {
+        playerToken = serverToken;
+        sessionStorage.setItem("imposteurPlayerToken", playerToken);
+    }
+    if (currentRoom && username) socket.emit("reconnectRoom", { code: currentRoom, name: username });
+});
+
+socket.on("connect", () => {
+    if (currentRoom && username) socket.emit("reconnectRoom", { code: currentRoom, name: username });
+});
+
+socket.on("roomCreated", ({ code, settings, isHost: host }) => {
+    currentRoom = code;
+    roomSettings = settings;
+    isHost = Boolean(host);
+    sessionStorage.setItem("imposteurRoom", currentRoom);
+    openGame();
+    showToast(`Room ${code} créée.`);
+});
+
+socket.on("joined", ({ code, settings, isHost: host, reconnected }) => {
+    currentRoom = code;
+    roomSettings = settings;
+    isHost = Boolean(host);
+    sessionStorage.setItem("imposteurRoom", currentRoom);
+    openGame();
+    if (!reconnected) showToast(`Tu as rejoint la room ${code}.`);
+});
+
+socket.on("roomState", (state) => {
+    openGame();
+    applyRoomState(state);
+});
+
+socket.on("players", (list) => {
+    players = Array.isArray(list) ? list : [];
+    const me = players.find((player) => player.token === playerToken);
+    isHost = Boolean(me?.isHost || hostToken === playerToken);
+    const host = players.find((player) => player.isHost);
+    if (host) hostToken = host.token;
+    renderPlayers();
+    if (pendingRoomState?.phase === "discussion") {
+        renderTurn(pendingRoomState.currentSpeakerToken, pendingRoomState.turnIndex || 0, pendingRoomState.turnTotal || players.length, pendingRoomState.phaseEndsAt);
+    } else if (pendingRoomState?.phase === "vote") {
+        renderVotePlayers(players.filter((player) => player.connected));
+        $("voteOverlay").hidden = false;
+    }
+});
+
+socket.on("roundStarted", ({ round, phaseEndsAt }) => {
+    currentRound = Number(round) || currentRound + 1;
+    $("round").textContent = String(currentRound);
+    currentPhase = "cards";
+    currentSpeakerToken = null;
+    alreadyVoted = false;
+    selectedVoteId = null;
+    resetCard();
     showStage("loadingStage");
+    $("phase").textContent = "Distribution";
+    $("startButton").disabled = false;
+    startTimer(phaseEndsAt, "cards");
 });
 
 socket.on("card", (card) => {
-    resetCard();
-    card._imagePromise = resolveCardImage(card);
     myCard = card;
-});
-
-socket.on("cardPhase", ({ round, cardTime, preparationTime }) => {
-    roomSettings.cardTime = cardTime;
-    $("round").textContent = round;
-    $("phase").textContent = "Découverte des cartes";
+    cardRevealed = false;
     showStage("cardStage");
-    playCinematic({ icon: "?", eyebrow: `MANCHE ${round}`, title: "Découvre ta carte", text: "Clique dessus et mémorise bien ton sujet.", duration: 1450 });
-    startLocalTimer(preparationTime, "Début dans");
+    $("phase").textContent = "Découvre ta carte";
 });
 
-socket.on("speakingTurn", ({ playerId, playerName, turnNumber, totalTurns, time }) => {
-    const myTurn = playerId === socket.id;
-    playSound("turn");
-    playCinematic({
-        icon: String(turnNumber),
-        eyebrow: `TOUR ${turnNumber} SUR ${totalTurns}`,
-        title: myTurn ? "C’est à toi de parler" : `${playerName} prend la parole`,
-        text: myTurn ? "Donne ton indice, puis termine ton tour quand tu as fini." : "Écoute attentivement son indice.",
-        duration: 1100,
-        toneName: myTurn ? "active" : "default"
-    });
-
-    $("phase").textContent = "Tour de discussion";
-    showStage("turnPanel");
-    $("turnPanel").classList.toggle("my-turn", myTurn);
-    $("turnCounter").textContent = `TOUR ${turnNumber} SUR ${totalTurns}`;
-    $("currentSpeaker").textContent = playerName;
-    $("speakerAvatar").textContent = playerName.charAt(0).toUpperCase();
-    $("speakerInstruction").textContent = myTurn
-        ? "Donne un indice sans révéler directement ton sujet. Appuie sur le bouton dès que tu as fini."
-        : `Écoute l’indice de ${playerName}.`;
-
-    const finishButton = $("finishTurnButton");
-    finishButton.hidden = !myTurn;
-    finishButton.disabled = false;
-    finishButton.querySelector("span").textContent = "J’ai fini de parler";
-    $("finishTurnHint").hidden = !myTurn;
-    startLocalTimer(time);
+socket.on("turn", ({ token, turnIndex, total, phaseEndsAt }) => {
+    pendingRoomState = null;
+    renderTurn(token, turnIndex, total, phaseEndsAt);
 });
 
-socket.on("turnFinished", ({ playerName }) => {
-    showToast(`${playerName} a terminé son tour.`);
+socket.on("turnFinished", ({ playerName, reason }) => {
+    if (reason === "manual") showToast(`${playerName} a terminé son tour.`);
 });
 
-socket.on("votePhase", ({ players }) => {
-    clearInterval(timerInterval);
+socket.on("votePhase", ({ players: votePlayers, phaseEndsAt }) => {
+    pendingRoomState = null;
+    currentPhase = "vote";
+    currentSpeakerToken = null;
     alreadyVoted = false;
+    selectedVoteId = null;
     $("phase").textContent = "Vote";
-    $("timer").textContent = "VOTE";
-    $("timerProgress").style.strokeDashoffset = "0";
-    $("timerWrap").classList.remove("timer-danger");
-    renderVotePlayers(players);
+    renderPlayers();
+    renderVotePlayers(votePlayers || []);
     $("voteProgress").textContent = "En attente des votes…";
     $("voteOverlay").hidden = false;
+    startTimer(phaseEndsAt, "vote");
     playSound("vote");
-    playCinematic({ icon: "V", eyebrow: "PHASE FINALE", title: "Place au vote", text: "Choisis la personne qui te semble la plus suspecte.", duration: 1400, toneName: "vote" });
+    vibrate([50, 25, 50]);
+    playCinematic({ icon: "V", eyebrow: "PHASE FINALE", title: "Place au vote", text: "Choisis la personne qui te semble la plus suspecte.", duration: 1200, toneName: "vote" });
 });
 
 socket.on("voteProgress", ({ voted, total }) => {
     $("voteProgress").textContent = `${voted} vote${voted > 1 ? "s" : ""} sur ${total}`;
 });
 
-socket.on("voteResult", ({ eliminated, tie, correct, mainSubject, mainUniverse, fakeSubject, fakeUniverse, impostors }) => {
+socket.on("voteResult", (result) => {
+    pendingRoomState = null;
+    renderResult(result);
+});
+
+socket.on("chat", appendMessage);
+
+socket.on("timeAdded", ({ phaseEndsAt, seconds }) => {
+    startTimer(phaseEndsAt, currentPhase);
+    showToast(`${seconds} secondes ajoutées.`);
+});
+
+socket.on("settingsUpdated", (settings) => {
+    roomSettings = settings;
+    displaySettings();
+    showToast("Réglages mis à jour.");
+});
+
+socket.on("hostChanged", ({ hostToken: token }) => {
+    hostToken = token;
+    isHost = token === playerToken;
+    refreshHostUi();
+    showToast(isHost ? "Tu es maintenant l’hôte." : "L’hôte de la room a changé.");
+});
+
+socket.on("returnedToLobby", () => {
+    currentPhase = "lobby";
+    phaseDeadline = null;
+    currentSpeakerToken = null;
+    myCard = null;
+    resetCard();
     $("voteOverlay").hidden = true;
-    $("phase").textContent = "Résultat";
-    showStage("resultPanel");
-
-    const noElimination = !eliminated;
-    if (noElimination) playSound("vote");
-    else if (correct) playSound("success");
-    else playSound("eliminate");
-
-    playCinematic({
-        icon: noElimination ? "=" : "×",
-        eyebrow: "RÉSULTAT",
-        title: noElimination ? "Personne n’est éliminé" : `${eliminated} est éliminé`,
-        text: noElimination ? (tie ? "Les votes sont à égalité." : "La majorité a choisi de ne désigner personne.") : (correct ? "Bien joué : un imposteur a été trouvé." : "Mauvais choix : l’imposteur s’en sort."),
-        duration: 2400,
-        toneName: noElimination ? "default" : (correct ? "active" : "danger")
-    });
-
-    $("resultIcon").textContent = noElimination ? "=" : "×";
-    $("resultPanel").classList.toggle("correct-result", Boolean(correct));
-    $("resultPanel").classList.toggle("wrong-result", Boolean(eliminated && !correct));
-    $("resultTitle").textContent = noElimination ? "Aucune élimination" : `${eliminated} a été désigné`;
-    $("resultText").textContent = noElimination
-        ? (tie ? "Égalité : personne ne quitte la manche." : "Le vote a été passé.")
-        : (correct ? "Le groupe a démasqué un imposteur." : "Ce joueur n’était pas un imposteur.");
-    $("roleReveal").innerHTML = `
-        <article><small>SUJET PRINCIPAL</small><b>${escapeHtml(mainSubject)}</b><span>${escapeHtml(mainUniverse)}</span></article>
-        <article><small>SUJET DES IMPOSTEURS</small><b>${escapeHtml(fakeSubject)}</b><span>${escapeHtml(fakeUniverse)}</span></article>
-        <article class="impostor-reveal"><small>IMPOSTEUR${impostors.length > 1 ? "S" : ""}</small><b>${escapeHtml(impostors.join(", ") || "Inconnu")}</b></article>`;
-    $("newRound").hidden = !isHost;
+    $("phase").textContent = "En attente";
+    showStage("waitingStage");
+    $("startButton").disabled = false;
+    refreshHostUi();
 });
 
-socket.on("chat", ({ name, message }) => {
-    const system = $("messages").querySelector(".system-message");
-    if (system) system.remove();
-    const p = document.createElement("p");
-    p.innerHTML = `<b>${escapeHtml(name)}</b><span>${escapeHtml(message)}</span>`;
-    $("messages").appendChild(p);
-    $("messages").scrollTop = $("messages").scrollHeight;
-});
+socket.on("playerKicked", ({ name }) => showToast(`${name} a été expulsé.`));
+socket.on("kicked", ({ reason }) => resetToLogin(reason || "Tu as été expulsé."));
+socket.on("roomExpired", () => resetToLogin("La room a expiré."));
+socket.on("reconnectFailed", () => resetToLogin("La room n’existe plus ou ta place a expiré."));
 
 socket.on("gameError", (message) => {
     $("startButton").disabled = false;
-    if (isHost) $("startButton").hidden = false;
-    showToast(message);
+    $("newRound").disabled = false;
+    showToast(message || "Une erreur est survenue.");
+});
+
+socket.on("disconnect", () => {
+    if (currentRoom) showToast("Connexion perdue. Reconnexion automatique…");
+});
+
+Object.assign(window, {
+    createRoom, joinRoom, copyRoom, copyInviteLink, openQrCode, closeQrCode,
+    startGame, newRound, returnLobby, revealCard, finishMyTurn,
+    vote, skipVote, sendChat, addTime, hostNextPhase,
+    openSettingsModal, closeSettingsModal, saveRoomSettings,
+    leaveRoom, closeConfirm
 });

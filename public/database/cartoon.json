@@ -1,152 +1,182 @@
 [
   {
-    "name": "SpongeBob",
+    "name": "Bob l’éponge",
+    "universe": "Bob l’éponge",
     "difficulty": "easy",
-    "universe": "SpongeBob SquarePants",
     "tags": [
-      "cartoon",
-      "comedy",
-      "sea"
+      "comédie",
+      "océan",
+      "animation"
     ]
   },
   {
-    "name": "Patrick Star",
+    "name": "Patrick Étoile",
+    "universe": "Bob l’éponge",
     "difficulty": "easy",
-    "universe": "SpongeBob SquarePants",
     "tags": [
-      "cartoon",
-      "comedy",
-      "sea"
+      "comédie",
+      "océan",
+      "animation"
     ]
   },
   {
-    "name": "Squidward",
+    "name": "Carlo Tentacule",
+    "universe": "Bob l’éponge",
     "difficulty": "normal",
-    "universe": "SpongeBob SquarePants",
     "tags": [
-      "cartoon",
-      "comedy",
-      "sea"
-    ]
-  },
-  {
-    "name": "Finn",
-    "difficulty": "easy",
-    "universe": "Adventure Time",
-    "tags": [
-      "cartoon",
-      "adventure",
-      "hero"
-    ]
-  },
-  {
-    "name": "Jake",
-    "difficulty": "easy",
-    "universe": "Adventure Time",
-    "tags": [
-      "cartoon",
-      "adventure",
-      "magic"
-    ]
-  },
-  {
-    "name": "Rick Sanchez",
-    "difficulty": "easy",
-    "universe": "Rick and Morty",
-    "tags": [
-      "cartoon",
-      "sci-fi",
-      "genius"
-    ]
-  },
-  {
-    "name": "Morty Smith",
-    "difficulty": "easy",
-    "universe": "Rick and Morty",
-    "tags": [
-      "cartoon",
-      "sci-fi",
-      "teen"
-    ]
-  },
-  {
-    "name": "Ben Tennyson",
-    "difficulty": "easy",
-    "universe": "Ben 10",
-    "tags": [
-      "cartoon",
-      "hero",
-      "alien"
-    ]
-  },
-  {
-    "name": "Gwen Tennyson",
-    "difficulty": "normal",
-    "universe": "Ben 10",
-    "tags": [
-      "cartoon",
-      "magic",
-      "hero"
-    ]
-  },
-  {
-    "name": "Samurai Jack",
-    "difficulty": "normal",
-    "universe": "Samurai Jack",
-    "tags": [
-      "cartoon",
-      "warrior",
-      "sword"
-    ]
-  },
-  {
-    "name": "Aang",
-    "difficulty": "easy",
-    "universe": "Avatar",
-    "tags": [
-      "cartoon",
-      "magic",
-      "hero"
-    ]
-  },
-  {
-    "name": "Zuko",
-    "difficulty": "easy",
-    "universe": "Avatar",
-    "tags": [
-      "cartoon",
-      "fire",
-      "warrior"
+      "comédie",
+      "océan",
+      "animation"
     ]
   },
   {
     "name": "Homer Simpson",
+    "universe": "Les Simpson",
     "difficulty": "easy",
-    "universe": "The Simpsons",
     "tags": [
-      "cartoon",
-      "comedy",
-      "family"
+      "famille",
+      "comédie",
+      "animation"
     ]
   },
   {
     "name": "Bart Simpson",
+    "universe": "Les Simpson",
     "difficulty": "easy",
-    "universe": "The Simpsons",
     "tags": [
-      "cartoon",
-      "comedy",
-      "family"
+      "famille",
+      "comédie",
+      "animation"
+    ]
+  },
+  {
+    "name": "Lisa Simpson",
+    "universe": "Les Simpson",
+    "difficulty": "normal",
+    "tags": [
+      "famille",
+      "intelligence",
+      "animation"
     ]
   },
   {
     "name": "Peter Griffin",
-    "difficulty": "easy",
     "universe": "Family Guy",
+    "difficulty": "easy",
     "tags": [
-      "cartoon",
-      "comedy",
-      "family"
+      "famille",
+      "comédie",
+      "animation"
+    ]
+  },
+  {
+    "name": "Stewie Griffin",
+    "universe": "Family Guy",
+    "difficulty": "normal",
+    "tags": [
+      "famille",
+      "intelligence",
+      "animation"
+    ]
+  },
+  {
+    "name": "Scooby-Doo",
+    "universe": "Scooby-Doo",
+    "difficulty": "easy",
+    "tags": [
+      "animal",
+      "mystère",
+      "animation"
+    ]
+  },
+  {
+    "name": "Sammy Rogers",
+    "universe": "Scooby-Doo",
+    "difficulty": "easy",
+    "tags": [
+      "mystère",
+      "comédie",
+      "animation"
+    ]
+  },
+  {
+    "name": "Bugs Bunny",
+    "universe": "Looney Tunes",
+    "difficulty": "easy",
+    "tags": [
+      "animal",
+      "comédie",
+      "animation"
+    ]
+  },
+  {
+    "name": "Daffy Duck",
+    "universe": "Looney Tunes",
+    "difficulty": "normal",
+    "tags": [
+      "animal",
+      "comédie",
+      "animation"
+    ]
+  },
+  {
+    "name": "Titi",
+    "universe": "Looney Tunes",
+    "difficulty": "easy",
+    "tags": [
+      "animal",
+      "comédie",
+      "animation"
+    ]
+  },
+  {
+    "name": "Ben Tennyson",
+    "universe": "Ben 10",
+    "difficulty": "easy",
+    "tags": [
+      "super-héros",
+      "alien",
+      "animation"
+    ]
+  },
+  {
+    "name": "Samouraï Jack",
+    "universe": "Samouraï Jack",
+    "difficulty": "normal",
+    "tags": [
+      "épéiste",
+      "héros",
+      "animation"
+    ]
+  },
+  {
+    "name": "Finn",
+    "universe": "Adventure Time",
+    "difficulty": "easy",
+    "tags": [
+      "aventure",
+      "héros",
+      "animation"
+    ]
+  },
+  {
+    "name": "Jake",
+    "universe": "Adventure Time",
+    "difficulty": "easy",
+    "tags": [
+      "aventure",
+      "animal",
+      "animation"
+    ]
+  },
+  {
+    "name": "Princesse Chewing-Gum",
+    "universe": "Adventure Time",
+    "difficulty": "normal",
+    "tags": [
+      "princesse",
+      "science",
+      "animation"
     ]
   }
 ]

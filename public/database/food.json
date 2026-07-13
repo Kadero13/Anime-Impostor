@@ -1,149 +1,212 @@
 [
   {
     "name": "Pizza",
-    "difficulty": "easy",
     "universe": "Cuisine italienne",
+    "difficulty": "easy",
     "tags": [
-      "food",
-      "cheese",
-      "italy"
+      "italie",
+      "fromage",
+      "plat"
     ]
   },
   {
-    "name": "Burger",
+    "name": "Pâtes carbonara",
+    "universe": "Cuisine italienne",
     "difficulty": "easy",
-    "universe": "Fast-food",
     "tags": [
-      "food",
-      "meat",
-      "fast-food"
-    ]
-  },
-  {
-    "name": "Tacos",
-    "difficulty": "easy",
-    "universe": "Cuisine mexicaine",
-    "tags": [
-      "food",
-      "mexico"
-    ]
-  },
-  {
-    "name": "Sushi",
-    "difficulty": "easy",
-    "universe": "Cuisine japonaise",
-    "tags": [
-      "food",
-      "japan",
-      "rice"
-    ]
-  },
-  {
-    "name": "Kebab",
-    "difficulty": "easy",
-    "universe": "Fast-food",
-    "tags": [
-      "food",
-      "meat",
-      "fast-food"
-    ]
-  },
-  {
-    "name": "Couscous",
-    "difficulty": "easy",
-    "universe": "Cuisine maghrébine",
-    "tags": [
-      "food",
-      "maghreb"
-    ]
-  },
-  {
-    "name": "Ramen",
-    "difficulty": "easy",
-    "universe": "Cuisine japonaise",
-    "tags": [
-      "food",
-      "japan",
-      "noodles"
+      "italie",
+      "pâtes",
+      "plat"
     ]
   },
   {
     "name": "Lasagnes",
-    "difficulty": "normal",
     "universe": "Cuisine italienne",
-    "tags": [
-      "food",
-      "italy",
-      "pasta"
-    ]
-  },
-  {
-    "name": "Crêpe",
     "difficulty": "easy",
-    "universe": "Cuisine française",
     "tags": [
-      "food",
-      "france",
-      "dessert"
-    ]
-  },
-  {
-    "name": "Croissant",
-    "difficulty": "easy",
-    "universe": "Cuisine française",
-    "tags": [
-      "food",
-      "france",
-      "pastry"
-    ]
-  },
-  {
-    "name": "Donut",
-    "difficulty": "easy",
-    "universe": "Pâtisserie",
-    "tags": [
-      "food",
-      "dessert"
+      "italie",
+      "pâtes",
+      "plat"
     ]
   },
   {
     "name": "Tiramisu",
-    "difficulty": "normal",
     "universe": "Cuisine italienne",
-    "tags": [
-      "food",
-      "italy",
-      "dessert"
-    ]
-  },
-  {
-    "name": "Paella",
-    "difficulty": "normal",
-    "universe": "Cuisine espagnole",
-    "tags": [
-      "food",
-      "spain",
-      "rice"
-    ]
-  },
-  {
-    "name": "Nuggets",
     "difficulty": "easy",
-    "universe": "Fast-food",
     "tags": [
-      "food",
-      "chicken",
-      "fast-food"
+      "italie",
+      "dessert",
+      "café"
+    ]
+  },
+  {
+    "name": "Couscous",
+    "universe": "Cuisine maghrébine",
+    "difficulty": "easy",
+    "tags": [
+      "maghreb",
+      "semoule",
+      "plat"
+    ]
+  },
+  {
+    "name": "Tajine",
+    "universe": "Cuisine maghrébine",
+    "difficulty": "easy",
+    "tags": [
+      "maghreb",
+      "viande",
+      "plat"
+    ]
+  },
+  {
+    "name": "Chorba",
+    "universe": "Cuisine maghrébine",
+    "difficulty": "normal",
+    "tags": [
+      "maghreb",
+      "soupe",
+      "plat"
+    ]
+  },
+  {
+    "name": "Msemen",
+    "universe": "Cuisine maghrébine",
+    "difficulty": "normal",
+    "tags": [
+      "maghreb",
+      "pain",
+      "plat"
+    ]
+  },
+  {
+    "name": "Burger",
+    "universe": "Fast-food",
+    "difficulty": "easy",
+    "tags": [
+      "fast-food",
+      "viande",
+      "plat"
+    ]
+  },
+  {
+    "name": "Tacos français",
+    "universe": "Fast-food",
+    "difficulty": "easy",
+    "tags": [
+      "fast-food",
+      "france",
+      "plat"
+    ]
+  },
+  {
+    "name": "Kebab",
+    "universe": "Fast-food",
+    "difficulty": "easy",
+    "tags": [
+      "fast-food",
+      "viande",
+      "plat"
+    ]
+  },
+  {
+    "name": "Hot-dog",
+    "universe": "Fast-food",
+    "difficulty": "easy",
+    "tags": [
+      "fast-food",
+      "usa",
+      "plat"
+    ]
+  },
+  {
+    "name": "Sushi",
+    "universe": "Cuisine japonaise",
+    "difficulty": "easy",
+    "tags": [
+      "japon",
+      "poisson",
+      "plat"
+    ]
+  },
+  {
+    "name": "Ramen",
+    "universe": "Cuisine japonaise",
+    "difficulty": "easy",
+    "tags": [
+      "japon",
+      "nouilles",
+      "plat"
+    ]
+  },
+  {
+    "name": "Mochi",
+    "universe": "Cuisine japonaise",
+    "difficulty": "normal",
+    "tags": [
+      "japon",
+      "dessert",
+      "riz"
+    ]
+  },
+  {
+    "name": "Crêpe",
+    "universe": "Cuisine française",
+    "difficulty": "easy",
+    "tags": [
+      "france",
+      "dessert",
+      "pâte"
+    ]
+  },
+  {
+    "name": "Croissant",
+    "universe": "Cuisine française",
+    "difficulty": "easy",
+    "tags": [
+      "france",
+      "viennoiserie",
+      "beurre"
+    ]
+  },
+  {
+    "name": "Ratatouille",
+    "universe": "Cuisine française",
+    "difficulty": "normal",
+    "tags": [
+      "france",
+      "légumes",
+      "plat"
+    ]
+  },
+  {
+    "name": "Poulet rôti",
+    "universe": "Cuisine familiale",
+    "difficulty": "easy",
+    "tags": [
+      "poulet",
+      "viande",
+      "plat"
     ]
   },
   {
     "name": "Frites",
+    "universe": "Accompagnement",
     "difficulty": "easy",
-    "universe": "Fast-food",
     "tags": [
-      "food",
-      "potato",
-      "fast-food"
+      "pomme de terre",
+      "fast-food",
+      "plat"
+    ]
+  },
+  {
+    "name": "Glace",
+    "universe": "Dessert",
+    "difficulty": "easy",
+    "tags": [
+      "dessert",
+      "froid",
+      "sucré"
     ]
   }
 ]

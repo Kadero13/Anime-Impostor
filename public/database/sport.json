@@ -1,698 +1,262 @@
 [
   {
     "name": "Lionel Messi",
-    "difficulty": "easy",
     "universe": "Football",
+    "difficulty": "easy",
     "tags": [
-      "sport",
       "football",
-      "équipe",
-      "ballon",
-      "compétition"
+      "argentine",
+      "attaquant"
     ]
   },
   {
     "name": "Cristiano Ronaldo",
-    "difficulty": "easy",
     "universe": "Football",
+    "difficulty": "easy",
     "tags": [
-      "sport",
       "football",
-      "équipe",
-      "ballon",
-      "compétition"
+      "portugal",
+      "attaquant"
     ]
   },
   {
     "name": "Kylian Mbappé",
-    "difficulty": "easy",
     "universe": "Football",
+    "difficulty": "easy",
     "tags": [
-      "sport",
       "football",
-      "équipe",
-      "ballon",
-      "compétition"
+      "france",
+      "attaquant"
     ]
   },
   {
     "name": "Neymar",
+    "universe": "Football",
     "difficulty": "easy",
-    "universe": "Football",
     "tags": [
-      "sport",
       "football",
-      "équipe",
-      "ballon",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Erling Haaland",
-    "difficulty": "normal",
-    "universe": "Football",
-    "tags": [
-      "sport",
-      "football",
-      "équipe",
-      "ballon",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Kevin De Bruyne",
-    "difficulty": "normal",
-    "universe": "Football",
-    "tags": [
-      "sport",
-      "football",
-      "équipe",
-      "ballon",
-      "compétition"
+      "brésil",
+      "attaquant"
     ]
   },
   {
     "name": "Zinedine Zidane",
-    "difficulty": "easy",
     "universe": "Football",
+    "difficulty": "easy",
     "tags": [
-      "sport",
       "football",
-      "équipe",
-      "ballon",
-      "compétition"
+      "france",
+      "milieu"
     ]
   },
   {
     "name": "Ronaldinho",
+    "universe": "Football",
     "difficulty": "easy",
-    "universe": "Football",
     "tags": [
-      "sport",
       "football",
-      "équipe",
-      "ballon",
-      "compétition"
+      "brésil",
+      "milieu"
     ]
   },
   {
-    "name": "Mohamed Salah",
-    "difficulty": "normal",
+    "name": "Erling Haaland",
     "universe": "Football",
-    "tags": [
-      "sport",
-      "football",
-      "équipe",
-      "ballon",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Karim Benzema",
     "difficulty": "normal",
-    "universe": "Football",
     "tags": [
-      "sport",
       "football",
-      "équipe",
-      "ballon",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Luka Modrić",
-    "difficulty": "normal",
-    "universe": "Football",
-    "tags": [
-      "sport",
-      "football",
-      "équipe",
-      "ballon",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Vinícius Júnior",
-    "difficulty": "normal",
-    "universe": "Football",
-    "tags": [
-      "sport",
-      "football",
-      "équipe",
-      "ballon",
-      "compétition"
+      "norvège",
+      "attaquant"
     ]
   },
   {
     "name": "Michael Jordan",
-    "difficulty": "easy",
     "universe": "Basketball",
+    "difficulty": "easy",
     "tags": [
-      "sport",
       "basketball",
-      "équipe",
-      "ballon",
-      "compétition"
+      "usa",
+      "légende"
     ]
   },
   {
     "name": "LeBron James",
-    "difficulty": "easy",
     "universe": "Basketball",
+    "difficulty": "easy",
     "tags": [
-      "sport",
       "basketball",
-      "équipe",
-      "ballon",
-      "compétition"
+      "usa",
+      "légende"
     ]
   },
   {
     "name": "Stephen Curry",
-    "difficulty": "easy",
     "universe": "Basketball",
+    "difficulty": "easy",
     "tags": [
-      "sport",
       "basketball",
-      "équipe",
-      "ballon",
-      "compétition"
+      "usa",
+      "tireur"
     ]
   },
   {
     "name": "Kobe Bryant",
+    "universe": "Basketball",
     "difficulty": "easy",
-    "universe": "Basketball",
     "tags": [
-      "sport",
       "basketball",
-      "équipe",
-      "ballon",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Shaquille O’Neal",
-    "difficulty": "normal",
-    "universe": "Basketball",
-    "tags": [
-      "sport",
-      "basketball",
-      "équipe",
-      "ballon",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Kevin Durant",
-    "difficulty": "normal",
-    "universe": "Basketball",
-    "tags": [
-      "sport",
-      "basketball",
-      "équipe",
-      "ballon",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Giannis Antetokounmpo",
-    "difficulty": "normal",
-    "universe": "Basketball",
-    "tags": [
-      "sport",
-      "basketball",
-      "équipe",
-      "ballon",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Luka Dončić",
-    "difficulty": "normal",
-    "universe": "Basketball",
-    "tags": [
-      "sport",
-      "basketball",
-      "équipe",
-      "ballon",
-      "compétition"
+      "usa",
+      "légende"
     ]
   },
   {
     "name": "Lewis Hamilton",
-    "difficulty": "easy",
     "universe": "Formule 1",
+    "difficulty": "easy",
     "tags": [
-      "sport",
-      "formule-1",
-      "vitesse",
-      "pilote",
-      "compétition"
+      "f1",
+      "royaume-uni",
+      "pilote"
     ]
   },
   {
     "name": "Max Verstappen",
-    "difficulty": "easy",
     "universe": "Formule 1",
+    "difficulty": "easy",
     "tags": [
-      "sport",
-      "formule-1",
-      "vitesse",
-      "pilote",
-      "compétition"
+      "f1",
+      "pays-bas",
+      "pilote"
     ]
   },
   {
     "name": "Charles Leclerc",
+    "universe": "Formule 1",
     "difficulty": "normal",
-    "universe": "Formule 1",
     "tags": [
-      "sport",
-      "formule-1",
-      "vitesse",
-      "pilote",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Fernando Alonso",
-    "difficulty": "normal",
-    "universe": "Formule 1",
-    "tags": [
-      "sport",
-      "formule-1",
-      "vitesse",
-      "pilote",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Lando Norris",
-    "difficulty": "normal",
-    "universe": "Formule 1",
-    "tags": [
-      "sport",
-      "formule-1",
-      "vitesse",
-      "pilote",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Sebastian Vettel",
-    "difficulty": "easy",
-    "universe": "Formule 1",
-    "tags": [
-      "sport",
-      "formule-1",
-      "vitesse",
-      "pilote",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Michael Schumacher",
-    "difficulty": "easy",
-    "universe": "Formule 1",
-    "tags": [
-      "sport",
-      "formule-1",
-      "vitesse",
-      "pilote",
-      "compétition"
+      "f1",
+      "monaco",
+      "pilote"
     ]
   },
   {
     "name": "Conor McGregor",
-    "difficulty": "easy",
     "universe": "MMA",
+    "difficulty": "easy",
     "tags": [
-      "sport",
       "mma",
-      "combat",
-      "athlète",
-      "compétition"
+      "irlande",
+      "combat"
     ]
   },
   {
     "name": "Khabib Nurmagomedov",
-    "difficulty": "normal",
     "universe": "MMA",
+    "difficulty": "easy",
     "tags": [
-      "sport",
       "mma",
-      "combat",
-      "athlète",
-      "compétition"
+      "russie",
+      "combat"
     ]
   },
   {
     "name": "Jon Jones",
-    "difficulty": "hard",
     "universe": "MMA",
-    "tags": [
-      "sport",
-      "mma",
-      "combat",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Israel Adesanya",
     "difficulty": "normal",
-    "universe": "MMA",
     "tags": [
-      "sport",
       "mma",
-      "combat",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Francis Ngannou",
-    "difficulty": "normal",
-    "universe": "MMA",
-    "tags": [
-      "sport",
-      "mma",
-      "combat",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Georges St-Pierre",
-    "difficulty": "hard",
-    "universe": "MMA",
-    "tags": [
-      "sport",
-      "mma",
-      "combat",
-      "athlète",
-      "compétition"
+      "usa",
+      "combat"
     ]
   },
   {
     "name": "Mike Tyson",
-    "difficulty": "easy",
     "universe": "Boxe",
+    "difficulty": "easy",
     "tags": [
-      "sport",
       "boxe",
-      "combat",
-      "athlète",
-      "compétition"
+      "usa",
+      "combat"
     ]
   },
   {
     "name": "Muhammad Ali",
-    "difficulty": "easy",
     "universe": "Boxe",
+    "difficulty": "easy",
     "tags": [
-      "sport",
       "boxe",
-      "combat",
-      "athlète",
-      "compétition"
+      "usa",
+      "légende"
     ]
   },
   {
     "name": "Floyd Mayweather",
-    "difficulty": "normal",
     "universe": "Boxe",
-    "tags": [
-      "sport",
-      "boxe",
-      "combat",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Canelo Álvarez",
     "difficulty": "normal",
-    "universe": "Boxe",
     "tags": [
-      "sport",
       "boxe",
-      "combat",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Tyson Fury",
-    "difficulty": "normal",
-    "universe": "Boxe",
-    "tags": [
-      "sport",
-      "boxe",
-      "combat",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Anthony Joshua",
-    "difficulty": "normal",
-    "universe": "Boxe",
-    "tags": [
-      "sport",
-      "boxe",
-      "combat",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Manny Pacquiao",
-    "difficulty": "normal",
-    "universe": "Boxe",
-    "tags": [
-      "sport",
-      "boxe",
-      "combat",
-      "athlète",
-      "compétition"
+      "usa",
+      "combat"
     ]
   },
   {
     "name": "Rafael Nadal",
-    "difficulty": "easy",
     "universe": "Tennis",
+    "difficulty": "easy",
     "tags": [
-      "sport",
       "tennis",
-      "raquette",
-      "athlète",
-      "compétition"
+      "espagne",
+      "sport"
     ]
   },
   {
     "name": "Novak Djokovic",
-    "difficulty": "easy",
     "universe": "Tennis",
+    "difficulty": "easy",
     "tags": [
-      "sport",
       "tennis",
-      "raquette",
-      "athlète",
-      "compétition"
+      "serbie",
+      "sport"
     ]
   },
   {
     "name": "Roger Federer",
-    "difficulty": "easy",
     "universe": "Tennis",
+    "difficulty": "easy",
     "tags": [
-      "sport",
       "tennis",
-      "raquette",
-      "athlète",
-      "compétition"
+      "suisse",
+      "sport"
     ]
   },
   {
     "name": "Serena Williams",
+    "universe": "Tennis",
     "difficulty": "easy",
-    "universe": "Tennis",
     "tags": [
-      "sport",
       "tennis",
-      "raquette",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Carlos Alcaraz",
-    "difficulty": "normal",
-    "universe": "Tennis",
-    "tags": [
-      "sport",
-      "tennis",
-      "raquette",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Jannik Sinner",
-    "difficulty": "normal",
-    "universe": "Tennis",
-    "tags": [
-      "sport",
-      "tennis",
-      "raquette",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Coco Gauff",
-    "difficulty": "normal",
-    "universe": "Tennis",
-    "tags": [
-      "sport",
-      "tennis",
-      "raquette",
-      "athlète",
-      "compétition"
+      "usa",
+      "sport"
     ]
   },
   {
     "name": "Usain Bolt",
+    "universe": "Athlétisme",
     "difficulty": "easy",
-    "universe": "Athlétisme",
     "tags": [
-      "sport",
       "athlétisme",
-      "vitesse",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Shelly-Ann Fraser-Pryce",
-    "difficulty": "hard",
-    "universe": "Athlétisme",
-    "tags": [
-      "sport",
-      "athlétisme",
-      "vitesse",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Eliud Kipchoge",
-    "difficulty": "hard",
-    "universe": "Athlétisme",
-    "tags": [
-      "sport",
-      "athlétisme",
-      "vitesse",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Armand Duplantis",
-    "difficulty": "hard",
-    "universe": "Athlétisme",
-    "tags": [
-      "sport",
-      "athlétisme",
-      "vitesse",
-      "athlète",
-      "compétition"
+      "jamaïque",
+      "vitesse"
     ]
   },
   {
     "name": "Michael Phelps",
+    "universe": "Natation",
     "difficulty": "normal",
-    "universe": "Natation",
     "tags": [
-      "sport",
       "natation",
-      "eau",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Léon Marchand",
-    "difficulty": "easy",
-    "universe": "Natation",
-    "tags": [
-      "sport",
-      "natation",
-      "eau",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Katie Ledecky",
-    "difficulty": "hard",
-    "universe": "Natation",
-    "tags": [
-      "sport",
-      "natation",
-      "eau",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Caeleb Dressel",
-    "difficulty": "hard",
-    "universe": "Natation",
-    "tags": [
-      "sport",
-      "natation",
-      "eau",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Tiger Woods",
-    "difficulty": "normal",
-    "universe": "Golf",
-    "tags": [
-      "sport",
-      "golf",
-      "précision",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Rory McIlroy",
-    "difficulty": "hard",
-    "universe": "Golf",
-    "tags": [
-      "sport",
-      "golf",
-      "précision",
-      "athlète",
-      "compétition"
-    ]
-  },
-  {
-    "name": "Scottie Scheffler",
-    "difficulty": "hard",
-    "universe": "Golf",
-    "tags": [
-      "sport",
-      "golf",
-      "précision",
-      "athlète",
-      "compétition"
+      "usa",
+      "sport"
     ]
   }
 ]

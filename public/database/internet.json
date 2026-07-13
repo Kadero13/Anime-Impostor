@@ -1,150 +1,152 @@
 [
   {
-    "name": "MrBeast",
-    "difficulty": "easy",
-    "universe": "YouTube",
-    "tags": [
-      "internet",
-      "creator",
-      "youtube"
-    ]
-  },
-  {
     "name": "Squeezie",
-    "difficulty": "easy",
     "universe": "YouTube France",
-    "tags": [
-      "internet",
-      "creator",
-      "france"
-    ]
-  },
-  {
-    "name": "Inoxtag",
     "difficulty": "easy",
-    "universe": "YouTube France",
     "tags": [
-      "internet",
-      "creator",
-      "france"
-    ]
-  },
-  {
-    "name": "AmineMaTue",
-    "difficulty": "easy",
-    "universe": "Streaming France",
-    "tags": [
-      "internet",
-      "streamer",
-      "france"
-    ]
-  },
-  {
-    "name": "Mister V",
-    "difficulty": "easy",
-    "universe": "YouTube France",
-    "tags": [
-      "internet",
-      "creator",
-      "france"
-    ]
-  },
-  {
-    "name": "Michou",
-    "difficulty": "easy",
-    "universe": "YouTube France",
-    "tags": [
-      "internet",
-      "creator",
-      "france"
-    ]
-  },
-  {
-    "name": "IShowSpeed",
-    "difficulty": "easy",
-    "universe": "Streaming",
-    "tags": [
-      "internet",
-      "streamer"
-    ]
-  },
-  {
-    "name": "Kai Cenat",
-    "difficulty": "easy",
-    "universe": "Streaming",
-    "tags": [
-      "internet",
-      "streamer"
-    ]
-  },
-  {
-    "name": "PewDiePie",
-    "difficulty": "easy",
-    "universe": "YouTube",
-    "tags": [
-      "internet",
-      "creator"
-    ]
-  },
-  {
-    "name": "KSI",
-    "difficulty": "easy",
-    "universe": "YouTube",
-    "tags": [
-      "internet",
-      "creator",
-      "boxing"
-    ]
-  },
-  {
-    "name": "Logan Paul",
-    "difficulty": "easy",
-    "universe": "YouTube",
-    "tags": [
-      "internet",
-      "creator",
-      "boxing"
+      "youtube",
+      "france",
+      "créateur"
     ]
   },
   {
     "name": "Cyprien",
-    "difficulty": "normal",
     "universe": "YouTube France",
-    "tags": [
-      "internet",
-      "creator",
-      "france"
-    ]
-  },
-  {
-    "name": "Joyca",
-    "difficulty": "normal",
-    "universe": "YouTube France",
-    "tags": [
-      "internet",
-      "creator",
-      "france"
-    ]
-  },
-  {
-    "name": "Mastu",
-    "difficulty": "normal",
-    "universe": "YouTube France",
-    "tags": [
-      "internet",
-      "creator",
-      "france"
-    ]
-  },
-  {
-    "name": "Tibo InShape",
     "difficulty": "easy",
-    "universe": "YouTube France",
     "tags": [
-      "internet",
-      "creator",
-      "sport",
-      "france"
+      "youtube",
+      "france",
+      "créateur"
+    ]
+  },
+  {
+    "name": "Mister V",
+    "universe": "YouTube France",
+    "difficulty": "easy",
+    "tags": [
+      "youtube",
+      "france",
+      "humour"
+    ]
+  },
+  {
+    "name": "Inoxtag",
+    "universe": "YouTube France",
+    "difficulty": "easy",
+    "tags": [
+      "youtube",
+      "france",
+      "aventure"
+    ]
+  },
+  {
+    "name": "Michou",
+    "universe": "YouTube France",
+    "difficulty": "easy",
+    "tags": [
+      "youtube",
+      "france",
+      "gaming"
+    ]
+  },
+  {
+    "name": "AmineMaTue",
+    "universe": "Streaming France",
+    "difficulty": "easy",
+    "tags": [
+      "streaming",
+      "france",
+      "créateur"
+    ]
+  },
+  {
+    "name": "Kameto",
+    "universe": "Streaming France",
+    "difficulty": "easy",
+    "tags": [
+      "streaming",
+      "france",
+      "esport"
+    ]
+  },
+  {
+    "name": "ZeratoR",
+    "universe": "Streaming France",
+    "difficulty": "normal",
+    "tags": [
+      "streaming",
+      "france",
+      "gaming"
+    ]
+  },
+  {
+    "name": "MrBeast",
+    "universe": "YouTube Monde",
+    "difficulty": "easy",
+    "tags": [
+      "youtube",
+      "usa",
+      "créateur"
+    ]
+  },
+  {
+    "name": "PewDiePie",
+    "universe": "YouTube Monde",
+    "difficulty": "easy",
+    "tags": [
+      "youtube",
+      "suède",
+      "gaming"
+    ]
+  },
+  {
+    "name": "IShowSpeed",
+    "universe": "Streaming Monde",
+    "difficulty": "easy",
+    "tags": [
+      "streaming",
+      "usa",
+      "football"
+    ]
+  },
+  {
+    "name": "Kai Cenat",
+    "universe": "Streaming Monde",
+    "difficulty": "easy",
+    "tags": [
+      "streaming",
+      "usa",
+      "créateur"
+    ]
+  },
+  {
+    "name": "xQc",
+    "universe": "Streaming Monde",
+    "difficulty": "normal",
+    "tags": [
+      "streaming",
+      "canada",
+      "gaming"
+    ]
+  },
+  {
+    "name": "KSI",
+    "universe": "YouTube Monde",
+    "difficulty": "easy",
+    "tags": [
+      "youtube",
+      "royaume-uni",
+      "boxe"
+    ]
+  },
+  {
+    "name": "Logan Paul",
+    "universe": "YouTube Monde",
+    "difficulty": "easy",
+    "tags": [
+      "youtube",
+      "usa",
+      "boxe"
     ]
   }
 ]

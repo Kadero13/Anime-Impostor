@@ -1,3 +1,5 @@
+"use strict";
+
 const express = require("express");
 const http = require("http");
 const cors = require("cors");
@@ -7,51 +9,130 @@ const path = require("path");
 const crypto = require("crypto");
 const axios = require("axios");
 
+const PORT = Number(process.env.PORT) || 3000;
+const PUBLIC_DIR = path.join(__dirname, "public");
+const DATABASE_DIR = path.join(PUBLIC_DIR, "database");
+const RECONNECT_GRACE_MS = 90_000;
+const ROOM_IDLE_TTL_MS = 6 * 60 * 60 * 1000;
+const MAX_CHAT_MESSAGES = 60;
+
 const app = express();
+app.disable("x-powered-by");
 app.use(cors());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.json({ limit: "100kb" }));
+app.use(express.static(PUBLIC_DIR, {
+    etag: true,
+    maxAge: "1h",
+    setHeaders(res, filePath) {
+        if (/\.(png|jpg|jpeg|webp|svg|ico)$/i.test(filePath)) {
+            res.setHeader("Cache-Control", "public, max-age=604800, immutable");
+        }
+    }
+}));
 
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: "*" } });
+const io = new Server(server, {
+    cors: { origin: "*" },
+    transports: ["websocket", "polling"],
+    pingInterval: 25_000,
+    pingTimeout: 20_000,
+    maxHttpBufferSize: 100_000,
+    perMessageDeflate: false
+});
 
-const DATABASE_DIR = path.join(__dirname, "public", "database");
-const rooms = {};
-const imageSearchCache = new Map();
-const imageRegistry = new Map();
-const imageBinaryCache = new Map();
+const rooms = new Map();
 let database = [];
 let availableCategories = [];
 
+const imageSearchCache = new Map();
+const imageRegistry = new Map();
+const imageBinaryCache = new Map();
+let imageBinaryBytes = 0;
+
+function clamp(value, min, max, fallback) {
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed)) return fallback;
+    return Math.min(max, Math.max(min, parsed));
+}
+
+function cleanText(value, max = 80) {
+    return String(value || "")
+        .replace(/[\u0000-\u001F\u007F]/g, "")
+        .trim()
+        .slice(0, max);
+}
+
+function makeToken() {
+    return crypto.randomBytes(18).toString("base64url");
+}
+
+function shuffled(values) {
+    const result = [...values];
+    for (let i = result.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [result[i], result[j]] = [result[j], result[i]];
+    }
+    return result;
+}
+
+function lruSet(map, key, value, maxSize) {
+    if (map.has(key)) map.delete(key);
+    map.set(key, value);
+    while (map.size > maxSize) map.delete(map.keys().next().value);
+}
+
 function loadDatabase() {
     database = [];
+    if (!fs.existsSync(DATABASE_DIR)) fs.mkdirSync(DATABASE_DIR, { recursive: true });
+
     const files = fs.readdirSync(DATABASE_DIR).filter((file) => file.endsWith(".json"));
-    availableCategories = files.map((file) => file.replace(".json", ""));
+    availableCategories = files.map((file) => path.basename(file, ".json"));
 
     for (const file of files) {
-        const category = file.replace(".json", "");
-        const subjects = JSON.parse(fs.readFileSync(path.join(DATABASE_DIR, file), "utf8"));
+        const category = path.basename(file, ".json");
+        try {
+            const parsed = JSON.parse(fs.readFileSync(path.join(DATABASE_DIR, file), "utf8"));
+            if (!Array.isArray(parsed)) continue;
 
-        for (const subject of subjects) {
-            if (!subject?.name || !subject?.universe) continue;
-            database.push({
-                ...subject,
-                category,
-                difficulty: subject.difficulty || "normal",
-                tags: Array.isArray(subject.tags)
-                    ? [...new Set(subject.tags.map((tag) => String(tag).trim().toLowerCase()).filter(Boolean))]
-                    : []
-            });
+            for (const entry of parsed) {
+                const name = cleanText(entry?.name, 90);
+                const universe = cleanText(entry?.universe, 90);
+                if (!name || !universe) continue;
+
+                database.push({
+                    name,
+                    universe,
+                    category,
+                    difficulty: ["easy", "normal", "hard", "demon"].includes(entry?.difficulty)
+                        ? entry.difficulty
+                        : "normal",
+                    tags: Array.isArray(entry?.tags)
+                        ? [...new Set(entry.tags.map((tag) => cleanText(tag, 30).toLowerCase()).filter(Boolean))]
+                        : [],
+                    image: safeRemoteImageUrl(entry?.image) ? entry.image : null
+                });
+            }
+        } catch (error) {
+            console.warn(`Base ignorée (${file}) :`, error.message);
         }
+    }
+
+    if (database.length < 2) {
+        database = [
+            { name: "Naruto", universe: "Naruto", category: "anime", difficulty: "easy", tags: ["ninja", "héros"], image: null },
+            { name: "Sasuke", universe: "Naruto", category: "anime", difficulty: "easy", tags: ["ninja", "rival"], image: null },
+            { name: "Mario", universe: "Super Mario", category: "games", difficulty: "easy", tags: ["jeu vidéo", "héros"], image: null },
+            { name: "Luigi", universe: "Super Mario", category: "games", difficulty: "easy", tags: ["jeu vidéo", "frère"], image: null }
+        ];
+        availableCategories = ["anime", "games"];
     }
 
     console.log(`✅ ${database.length} sujets chargés dans ${availableCategories.length} catégories`);
 }
 
-loadDatabase();
-
 function safeRemoteImageUrl(value) {
     try {
-        const url = new URL(value);
+        const url = new URL(String(value || ""));
         const allowedHosts = new Set([
             "cdn.myanimelist.net",
             "images.myanimelist.net",
@@ -66,30 +147,32 @@ function safeRemoteImageUrl(value) {
 function registerRemoteImage(url) {
     if (!safeRemoteImageUrl(url)) return null;
     const token = crypto.createHash("sha1").update(url).digest("hex");
-    imageRegistry.set(token, url);
+    lruSet(imageRegistry, token, url, 400);
     return `/api/image/${token}`;
 }
 
 app.get("/api/image/:token", async (req, res) => {
-    const token = String(req.params.token || "");
+    const token = cleanText(req.params.token, 60);
     const remoteUrl = imageRegistry.get(token);
     if (!remoteUrl) return res.sendStatus(404);
 
     const cached = imageBinaryCache.get(token);
     if (cached) {
+        imageBinaryCache.delete(token);
+        imageBinaryCache.set(token, cached);
         res.set("Content-Type", cached.contentType);
-        res.set("Cache-Control", "public, max-age=86400");
+        res.set("Cache-Control", "public, max-age=604800, immutable");
         return res.send(cached.data);
     }
 
     try {
         const response = await axios.get(remoteUrl, {
             responseType: "arraybuffer",
-            timeout: 9000,
-            maxContentLength: 8 * 1024 * 1024,
+            timeout: 7000,
+            maxContentLength: 2 * 1024 * 1024,
             headers: {
-                "User-Agent": "Mozilla/5.0 Anime-Imposteur-V14",
-                Accept: "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8"
+                "User-Agent": "Anime-Imposteur-V15",
+                Accept: "image/avif,image/webp,image/jpeg,image/png,image/*;q=0.8"
             }
         });
 
@@ -97,21 +180,26 @@ app.get("/api/image/:token", async (req, res) => {
         if (!contentType.startsWith("image/")) return res.sendStatus(415);
 
         const data = Buffer.from(response.data);
+        if (data.length > 2 * 1024 * 1024) return res.sendStatus(413);
+
         imageBinaryCache.set(token, { contentType, data });
-        if (imageBinaryCache.size > 250) imageBinaryCache.delete(imageBinaryCache.keys().next().value);
+        imageBinaryBytes += data.length;
+        while (imageBinaryCache.size > 24 || imageBinaryBytes > 24 * 1024 * 1024) {
+            const oldestKey = imageBinaryCache.keys().next().value;
+            const oldest = imageBinaryCache.get(oldestKey);
+            imageBinaryBytes -= oldest?.data?.length || 0;
+            imageBinaryCache.delete(oldestKey);
+        }
 
         res.set("Content-Type", contentType);
-        res.set("Cache-Control", "public, max-age=86400");
+        res.set("Cache-Control", "public, max-age=604800, immutable");
         return res.send(data);
-    } catch (error) {
-        console.warn("Image proxy indisponible:", error.message);
+    } catch {
         return res.sendStatus(404);
     }
 });
 
 function buildImageQueries(subject) {
-    const name = String(subject.name || "").trim();
-    const universe = String(subject.universe || "").trim();
     const suffixes = {
         anime: "anime character",
         games: "video game character",
@@ -123,34 +211,31 @@ function buildImageQueries(subject) {
         sport: "athlete",
         music: "musician",
         internet: "content creator",
-        food: "dish food"
+        food: "food dish"
     };
-
     return [
-        `${name} ${universe}`,
-        `${name} ${suffixes[subject.category] || "character"}`,
-        name
-    ].map((query) => query.trim()).filter((query, index, list) => query && list.indexOf(query) === index);
+        `${subject.name} ${subject.universe}`,
+        `${subject.name} ${suffixes[subject.category] || "character"}`,
+        subject.name
+    ].map((item) => item.trim()).filter((item, index, list) => item && list.indexOf(item) === index);
 }
 
 async function getJikanImage(subject) {
     if (subject.category !== "anime") return null;
     try {
         const response = await axios.get("https://api.jikan.moe/v4/characters", {
-            params: { q: subject.name, limit: 5 },
-            timeout: 4500,
-            headers: { "User-Agent": "Anime-Imposteur-V14" }
+            params: { q: subject.name, limit: 4 },
+            timeout: 4000,
+            headers: { "User-Agent": "Anime-Imposteur-V15" }
         });
         const entries = response.data?.data || [];
         const searched = subject.name.toLowerCase();
-        const exact = entries.find((entry) => {
-            const names = [entry.name, entry.name_kanji, ...(entry.nicknames || [])]
-                .filter(Boolean)
-                .map((name) => String(name).toLowerCase());
-            return names.some((name) => name === searched || name.includes(searched) || searched.includes(name));
-        });
+        const exact = entries.find((entry) => [entry.name, entry.name_kanji, ...(entry.nicknames || [])]
+            .filter(Boolean)
+            .map((name) => String(name).toLowerCase())
+            .some((name) => name === searched || name.includes(searched) || searched.includes(name)));
         const entry = exact || entries[0];
-        return entry?.images?.jpg?.large_image_url || entry?.images?.jpg?.image_url || null;
+        return entry?.images?.jpg?.image_url || entry?.images?.jpg?.large_image_url || null;
     } catch {
         return null;
     }
@@ -166,33 +251,33 @@ async function searchWikipediaImage(subject, language) {
                     origin: "*",
                     generator: "search",
                     gsrsearch: query,
-                    gsrlimit: 8,
+                    gsrlimit: 5,
                     gsrnamespace: 0,
                     prop: "pageimages|pageprops",
-                    piprop: "thumbnail|original",
-                    pithumbsize: 800,
+                    piprop: "thumbnail",
+                    pithumbsize: 520,
                     redirects: 1
                 },
-                timeout: 4500,
-                headers: { "User-Agent": "Anime-Imposteur-V14 automatic image search" }
+                timeout: 4000,
+                headers: { "User-Agent": "Anime-Imposteur-V15" }
             });
-
             const pages = Object.values(response.data?.query?.pages || {})
                 .filter((page) => !page.pageprops?.disambiguation)
-                .filter((page) => page.thumbnail?.source || page.original?.source)
+                .filter((page) => page.thumbnail?.source)
                 .sort((a, b) => (a.index ?? 999) - (b.index ?? 999));
-
-            const image = pages[0]?.thumbnail?.source || pages[0]?.original?.source;
-            if (safeRemoteImageUrl(image)) return image;
+            const url = pages[0]?.thumbnail?.source || null;
+            if (safeRemoteImageUrl(url)) return url;
         } catch {
-            // Une autre requête ou langue sera essayée.
+            // Essaie la requête suivante.
         }
     }
     return null;
 }
 
 async function getImage(subject) {
-    if (!subject || subject.category === "timmy") return { image: null, remoteImage: null };
+    if (!subject || subject.category === "timmy" || subject.category === "custom" || subject.noImage) {
+        return { image: null, remoteImage: null };
+    }
     if (subject.image && safeRemoteImageUrl(subject.image)) {
         return { image: registerRemoteImage(subject.image), remoteImage: subject.image };
     }
@@ -200,408 +285,790 @@ async function getImage(subject) {
     const cacheKey = `${subject.category}|${subject.universe}|${subject.name}`.toLowerCase();
     if (imageSearchCache.has(cacheKey)) return imageSearchCache.get(cacheKey);
 
-    const [jikanImage, frenchImage, englishImage] = await Promise.all([
-        getJikanImage(subject),
-        searchWikipediaImage(subject, "fr"),
-        searchWikipediaImage(subject, "en")
-    ]);
-    const remoteImage = jikanImage || frenchImage || englishImage || null;
+    const pending = (async () => {
+        const [jikan, wikipediaFr, wikipediaEn] = await Promise.all([
+            getJikanImage(subject),
+            searchWikipediaImage(subject, "fr"),
+            searchWikipediaImage(subject, "en")
+        ]);
+        const remoteImage = jikan || wikipediaFr || wikipediaEn || null;
+        return {
+            image: remoteImage ? registerRemoteImage(remoteImage) : null,
+            remoteImage
+        };
+    })();
 
-    const result = {
-        image: remoteImage ? registerRemoteImage(remoteImage) : null,
-        remoteImage: remoteImage || null
-    };
-    imageSearchCache.set(cacheKey, result);
+    lruSet(imageSearchCache, cacheKey, pending, 500);
+    const result = await pending;
+    lruSet(imageSearchCache, cacheKey, Promise.resolve(result), 500);
     return result;
+}
+
+function parseCustomSubjects(value) {
+    const lines = String(value || "").split(/\r?\n/).slice(0, 120);
+    const subjects = [];
+    for (const line of lines) {
+        const [rawName, rawUniverse = "Personnalisé"] = line.split("|");
+        const name = cleanText(rawName, 70);
+        const universe = cleanText(rawUniverse, 70) || "Personnalisé";
+        if (!name) continue;
+        subjects.push({
+            name,
+            universe,
+            category: "custom",
+            difficulty: "normal",
+            tags: ["personnalisé", universe.toLowerCase()],
+            image: null
+        });
+    }
+    return subjects;
 }
 
 function normalizeSettings(data = {}) {
     const validCategories = new Set([...availableCategories, "Tout"]);
     const validDifficulties = new Set(["easy", "normal", "hard", "demon"]);
+    const validModes = new Set(["classic", "duo", "clue", "blind", "fast", "chaos", "custom"]);
 
     let categories = Array.isArray(data.categories)
-        ? [...new Set(data.categories.filter((category) => validCategories.has(category)))]
+        ? [...new Set(data.categories.map((item) => cleanText(item, 30)).filter((item) => validCategories.has(item)))]
         : ["anime"];
     let difficulties = Array.isArray(data.difficulties)
-        ? [...new Set(data.difficulties.filter((difficulty) => validDifficulties.has(difficulty)))]
+        ? [...new Set(data.difficulties.map((item) => cleanText(item, 20)).filter((item) => validDifficulties.has(item)))]
         : ["easy"];
+    const mode = validModes.has(data.mode) ? data.mode : "classic";
+    const customSubjects = parseCustomSubjects(data.customSubjects);
 
     if (categories.includes("Tout")) categories = ["Tout"];
-    if (!categories.length) categories = ["anime"];
+    if (!categories.length) categories = availableCategories.includes("anime") ? ["anime"] : [availableCategories[0] || "Tout"];
     if (!difficulties.length) difficulties = ["easy"];
+
+    let time = clamp(data.time, 8, 180, 30);
+    let cardTime = clamp(data.cardTime, 3, 20, 5);
+    let impostors = clamp(data.impostors, 1, 5, 1);
+    if (mode === "fast") {
+        time = Math.min(time, 15);
+        cardTime = Math.min(cardTime, 3);
+    }
+    if (mode === "duo") impostors = Math.max(2, impostors);
 
     return {
         categories,
         difficulties,
         linkedMix: Boolean(data.linkedMix),
-        time: Math.min(180, Math.max(8, Number(data.time) || 30)),
-        cardTime: Math.min(20, Math.max(3, Number(data.cardTime) || 5)),
-        impostors: Math.min(5, Math.max(1, Number(data.impostors) || 1))
+        mode,
+        time,
+        cardTime,
+        impostors,
+        customSubjects,
+        customSubjectsText: String(data.customSubjects || "").slice(0, 7000)
+    };
+}
+
+function publicSettings(settings) {
+    return {
+        categories: settings.categories,
+        difficulties: settings.difficulties,
+        linkedMix: settings.linkedMix,
+        mode: settings.mode,
+        time: settings.time,
+        cardTime: settings.cardTime,
+        impostors: settings.impostors,
+        customSubjectsText: settings.customSubjectsText
     };
 }
 
 function getPool(room) {
-    const selected = database.filter((subject) => {
+    if (room.settings.mode === "custom" && room.settings.customSubjects.length >= 2) {
+        return room.settings.customSubjects;
+    }
+    const filtered = database.filter((subject) => {
         const categoryOk = room.settings.categories.includes("Tout") || room.settings.categories.includes(subject.category);
         const difficultyOk = room.settings.difficulties.includes(subject.difficulty);
         return categoryOk && difficultyOk;
     });
-    return selected.length >= 2 ? selected : database;
+    return filtered.length >= 2 ? filtered : database;
 }
 
 function sharedTags(a, b) {
-    const bTags = new Set(b.tags || []);
-    return (a.tags || []).filter((tag) => bTags.has(tag));
-}
-
-function weightedChoice(entries, weightFn) {
-    if (!entries.length) return null;
-    const weighted = entries.map((entry) => ({ entry, weight: Math.max(1, weightFn(entry)) }));
-    const total = weighted.reduce((sum, item) => sum + item.weight, 0);
-    let cursor = Math.random() * total;
-    for (const item of weighted) {
-        cursor -= item.weight;
-        if (cursor <= 0) return item.entry;
-    }
-    return weighted.at(-1).entry;
+    const tags = new Set(b.tags || []);
+    return (a.tags || []).filter((tag) => tags.has(tag));
 }
 
 function choosePair(room) {
     const pool = getPool(room);
-    const recentNames = new Set(room.recentSubjects.slice(-28));
-    const freshPool = pool.filter((subject) => !recentNames.has(subject.name));
-    const mainPool = freshPool.length >= 2 ? freshPool : pool;
+    const recent = new Set(room.recentSubjects.slice(-30));
+    const fresh = pool.filter((item) => !recent.has(`${item.category}|${item.name}`));
+    const mainPool = fresh.length >= 2 ? fresh : pool;
     const main = mainPool[Math.floor(Math.random() * mainPool.length)];
 
-    if (room.settings.linkedMix) {
-        const mixed = pool
-            .filter((candidate) => candidate.name !== main.name && candidate.universe !== main.universe)
-            .map((candidate) => ({ candidate, links: sharedTags(main, candidate) }))
-            .filter((entry) => entry.links.length >= 2);
-
-        const selected = weightedChoice(mixed, (entry) => {
-            const categoryBonus = entry.candidate.category !== main.category ? 2.2 : 1;
-            const freshness = recentNames.has(entry.candidate.name) ? 0.35 : 1;
-            return (entry.links.length ** 3) * categoryBonus * freshness;
-        });
-
-        if (selected) return { main, fake: selected.candidate, links: selected.links };
+    let candidates = [];
+    if (room.settings.mode === "chaos") {
+        candidates = pool.filter((item) => item.name !== main.name);
+    } else if (room.settings.linkedMix || room.settings.mode === "clue") {
+        candidates = pool
+            .filter((item) => item.name !== main.name)
+            .map((item) => ({ item, links: sharedTags(main, item) }))
+            .filter((entry) => entry.links.length >= 1)
+            .sort((a, b) => b.links.length - a.links.length)
+            .slice(0, 30)
+            .map((entry) => entry.item);
     }
-
-    let candidates = pool.filter((candidate) =>
-        candidate.name !== main.name &&
-        candidate.universe === main.universe &&
-        candidate.category === main.category
-    );
 
     if (!candidates.length) {
-        candidates = pool
-            .filter((candidate) => candidate.name !== main.name)
-            .map((candidate) => ({ candidate, links: sharedTags(main, candidate) }))
-            .filter((entry) => entry.links.length >= 2)
-            .sort((a, b) => b.links.length - a.links.length)
-            .slice(0, 20)
-            .map((entry) => entry.candidate);
+        candidates = pool.filter((item) => item.name !== main.name && item.universe === main.universe);
     }
+    if (!candidates.length) {
+        candidates = pool.filter((item) => item.name !== main.name && item.category === main.category);
+    }
+    if (!candidates.length) candidates = pool.filter((item) => item.name !== main.name);
 
     const fake = candidates[Math.floor(Math.random() * candidates.length)] || main;
-    return { main, fake, links: sharedTags(main, fake) };
-}
-
-function chooseImpostors(players, requestedCount) {
-    const count = Math.min(Math.max(1, requestedCount), Math.max(1, players.length - 1));
-    return [...players].sort(() => Math.random() - 0.5).slice(0, count).map((player) => player.id);
+    const links = sharedTags(main, fake);
+    const clue = links[0] || (main.universe === fake.universe ? main.universe : main.category);
+    return { main, fake, links, clue };
 }
 
 function createRoomCode() {
     let code;
-    do code = Math.random().toString(36).slice(2, 8).toUpperCase(); while (rooms[code]);
+    do {
+        code = crypto.randomBytes(4).toString("base64url").replace(/[^A-Z0-9]/gi, "").slice(0, 6).toUpperCase();
+    } while (code.length !== 6 || rooms.has(code));
     return code;
+}
+
+function playerByToken(room, token) {
+    return room.players.find((player) => player.token === token);
+}
+
+function connectedPlayers(room) {
+    return room.players.filter((player) => player.connected);
 }
 
 function publicPlayers(room) {
     return room.players.map((player) => ({
-        id: player.id,
+        token: player.token,
         name: player.name,
         score: player.score,
-        isHost: player.id === room.host
+        connected: player.connected,
+        isHost: player.token === room.hostToken,
+        stats: player.stats
     }));
 }
 
-function sendPlayers(code) {
-    const room = rooms[code];
-    if (room) io.to(code).emit("players", publicPlayers(room));
+function emitPlayers(room) {
+    io.to(room.code).emit("players", publicPlayers(room));
+}
+
+function isHost(socket, room) {
+    return socket.data.playerToken && room.hostToken === socket.data.playerToken;
 }
 
 function clearRoomTimers(room) {
     for (const timer of room.timers) clearTimeout(timer);
-    room.timers = [];
-    if (room.turnTimer) clearTimeout(room.turnTimer);
-    room.turnTimer = null;
+    room.timers.clear();
 }
 
 function schedule(room, callback, delay) {
-    const timer = setTimeout(callback, delay);
-    room.timers.push(timer);
+    const timer = setTimeout(() => {
+        room.timers.delete(timer);
+        callback();
+    }, Math.max(0, delay));
+    room.timers.add(timer);
     return timer;
 }
 
-function beginVote(code) {
-    const room = rooms[code];
-    if (!room || !room.started) return;
-    if (room.turnTimer) clearTimeout(room.turnTimer);
-    room.turnTimer = null;
-    room.currentSpeakerId = null;
-    room.phase = "vote";
-    room.votes = {};
-    room.votedPlayers = [];
-    io.to(code).emit("votePhase", { players: publicPlayers(room) });
+function touchRoom(room) {
+    room.updatedAt = Date.now();
 }
 
-function launchCurrentTurn(code) {
-    const room = rooms[code];
-    if (!room || room.phase !== "discussion") return;
+function roomPayload(room, token) {
+    return {
+        code: room.code,
+        settings: publicSettings(room.settings),
+        round: room.round,
+        phase: room.phase,
+        phaseEndsAt: room.phaseEndsAt,
+        isHost: room.hostToken === token,
+        hostToken: room.hostToken,
+        currentSpeakerToken: room.order[room.turnIndex] || null,
+        turnIndex: room.turnIndex,
+        turnTotal: room.order.length,
+        started: room.started,
+        canEditSettings: room.phase === "lobby" || room.phase === "result",
+        result: room.result,
+        card: room.roundData?.cards?.[token] || null,
+        voteProgress: {
+            voted: Object.keys(room.votesByPlayer).length,
+            total: room.roundData?.activeTokens?.filter((playerToken) => playerByToken(room, playerToken)?.connected).length || 0
+        },
+        messages: room.messages.slice(-MAX_CHAT_MESSAGES)
+    };
+}
 
-    while (
-        room.currentTurnIndex < room.turnOrder.length &&
-        !room.players.some((player) => player.id === room.turnOrder[room.currentTurnIndex].id)
-    ) {
-        room.currentTurnIndex += 1;
+function syncSocket(socket, room) {
+    socket.emit("roomState", roomPayload(room, socket.data.playerToken));
+    socket.emit("players", publicPlayers(room));
+}
+
+function addSystemMessage(room, message) {
+    const item = { system: true, message: cleanText(message, 180), at: Date.now() };
+    room.messages.push(item);
+    if (room.messages.length > MAX_CHAT_MESSAGES) room.messages.shift();
+    io.to(room.code).emit("chat", item);
+}
+
+function removePlayer(room, token, reason = "left") {
+    const player = playerByToken(room, token);
+    if (!player) return;
+
+    room.players = room.players.filter((item) => item.token !== token);
+    room.order = room.order.filter((item) => item !== token);
+    if (room.roundData?.activeTokens) room.roundData.activeTokens = room.roundData.activeTokens.filter((item) => item !== token);
+
+    if (room.hostToken === token) {
+        room.hostToken = room.players.find((item) => item.connected)?.token || room.players[0]?.token || null;
+        if (room.hostToken) io.to(room.code).emit("hostChanged", { hostToken: room.hostToken });
     }
 
-    if (room.currentTurnIndex >= room.turnOrder.length) {
-        beginVote(code);
+    if (!room.players.length) {
+        clearRoomTimers(room);
+        rooms.delete(room.code);
         return;
     }
 
-    const player = room.turnOrder[room.currentTurnIndex];
-    room.currentSpeakerId = player.id;
-    io.to(code).emit("speakingTurn", {
-        playerId: player.id,
-        playerName: player.name,
-        turnNumber: room.currentTurnIndex + 1,
-        totalTurns: room.turnOrder.length,
-        time: room.settings.time
-    });
-
-    if (room.turnTimer) clearTimeout(room.turnTimer);
-    room.turnTimer = setTimeout(() => advanceTurn(code, player.id), room.settings.time * 1000);
+    if (reason === "kicked") io.to(room.code).emit("playerKicked", { token, name: player.name });
+    emitPlayers(room);
+    touchRoom(room);
 }
 
-function advanceTurn(code, expectedSpeakerId = null) {
-    const room = rooms[code];
-    if (!room || room.phase !== "discussion") return;
-    if (expectedSpeakerId && room.currentSpeakerId !== expectedSpeakerId) return;
-    if (room.turnTimer) clearTimeout(room.turnTimer);
-    room.turnTimer = null;
-    room.currentSpeakerId = null;
-    room.currentTurnIndex += 1;
-    launchCurrentTurn(code);
+function cardFor(subject, isImpostor, mode, clue, imageInfo) {
+    if (isImpostor && mode === "blind") {
+        return {
+            character: "Tu es l’imposteur",
+            universe: "Observe les indices des autres",
+            category: "blind",
+            isImpostor: true,
+            clue: null,
+            image: null,
+            remoteImage: null
+        };
+    }
+    return {
+        character: subject.name,
+        universe: subject.universe,
+        category: subject.category,
+        isImpostor,
+        clue: isImpostor && mode === "clue" ? clue : null,
+        image: imageInfo?.image || null,
+        remoteImage: imageInfo?.remoteImage || null
+    };
 }
 
-function beginSpeakingTurns(code) {
-    const room = rooms[code];
-    if (!room || !room.started || !room.players.length) return;
-    room.phase = "discussion";
-    room.turnOrder = [...room.players].sort(() => Math.random() - 0.5);
-    room.currentTurnIndex = 0;
-    launchCurrentTurn(code);
-}
-
-async function startRound(code, socketId) {
-    const room = rooms[code];
-    if (!room) return;
-    if (room.host !== socketId) return io.to(socketId).emit("gameError", "Seul l’hôte peut lancer la manche.");
-    if (room.players.length < 3) return io.to(socketId).emit("gameError", "Il faut au moins 3 joueurs.");
+async function startRound(room) {
+    const active = connectedPlayers(room);
+    if (active.length < 3) throw new Error("Il faut au moins 3 joueurs connectés.");
 
     clearRoomTimers(room);
-    room.started = true;
-    room.phase = "loading";
-    room.votes = {};
-    room.votedPlayers = [];
     room.round += 1;
-    io.to(code).emit("roundStarting", { round: room.round });
+    room.started = true;
+    room.phase = "cards";
+    room.turnIndex = 0;
+    room.votes = {};
+    room.votesByPlayer = {};
+    room.result = null;
 
-    const { main, fake, links } = choosePair(room);
-    const impostorIds = chooseImpostors(room.players, room.settings.impostors);
-    room.roundData = { main, fake, impostorIds, links };
-    room.recentSubjects.push(main.name, fake.name);
-    if (room.recentSubjects.length > 60) room.recentSubjects.splice(0, room.recentSubjects.length - 60);
+    const pair = choosePair(room);
+    const requested = room.settings.mode === "duo" ? Math.max(2, room.settings.impostors) : room.settings.impostors;
+    const impostorCount = Math.min(Math.max(1, requested), Math.max(1, active.length - 1));
+    const impostorTokens = shuffled(active.map((player) => player.token)).slice(0, impostorCount);
+    const order = shuffled(active.map((player) => player.token));
+    room.order = order;
 
-    const [mainImageData, fakeImageData] = await Promise.all([getImage(main), getImage(fake)]);
-    if (!rooms[code] || rooms[code] !== room) return;
-
-    for (const player of room.players) {
-        const isImpostor = impostorIds.includes(player.id);
-        const subject = isImpostor ? fake : main;
-        const imageData = isImpostor ? fakeImageData : mainImageData;
-        io.to(player.id).emit("card", {
-            character: subject.name,
-            universe: subject.universe,
-            category: subject.category,
-            image: imageData.image,
-            remoteImage: imageData.remoteImage
-        });
+    const [mainImage, fakeImage] = await Promise.all([getImage(pair.main), getImage(pair.fake)]);
+    const cards = {};
+    for (const player of active) {
+        const impostor = impostorTokens.includes(player.token);
+        const subject = impostor ? pair.fake : pair.main;
+        cards[player.token] = cardFor(subject, impostor, room.settings.mode, pair.clue, impostor ? fakeImage : mainImage);
+        if (impostor) player.stats.impostorRounds += 1;
+        player.stats.rounds += 1;
     }
 
-    room.phase = "cards";
-    const preparationTime = Math.max(13, room.settings.cardTime + 8);
-    io.to(code).emit("cardPhase", {
+    room.roundData = {
+        main: pair.main,
+        fake: pair.fake,
+        clue: pair.clue,
+        impostorTokens,
+        activeTokens: active.map((player) => player.token),
+        cards
+    };
+    room.recentSubjects.push(`${pair.main.category}|${pair.main.name}`, `${pair.fake.category}|${pair.fake.name}`);
+    room.recentSubjects = room.recentSubjects.slice(-40);
+    room.phaseEndsAt = Date.now() + Math.max(7000, (room.settings.cardTime + 3) * 1000);
+    touchRoom(room);
+
+    io.to(room.code).emit("roundStarted", {
         round: room.round,
-        cardTime: room.settings.cardTime,
-        preparationTime
+        phaseEndsAt: room.phaseEndsAt,
+        cardTime: room.settings.cardTime
     });
-    console.log(`[${code}] ${main.name} VS ${fake.name} | liens: ${links.join(", ") || "même univers"}`);
-    schedule(room, () => beginSpeakingTurns(code), preparationTime * 1000);
+
+    for (const player of active) {
+        if (player.socketId) io.to(player.socketId).emit("card", cards[player.token]);
+    }
+    emitPlayers(room);
+
+    schedule(room, () => beginDiscussion(room), room.phaseEndsAt - Date.now());
 }
 
-io.on("connection", (socket) => {
-    socket.on("createRoom", (data) => {
-        const name = String(data?.name || "").trim().slice(0, 18);
-        if (!name) return socket.emit("gameError", "Entre un pseudo.");
+function beginDiscussion(room) {
+    if (!rooms.has(room.code) || room.phase !== "cards") return;
+    room.phase = "discussion";
+    room.turnIndex = 0;
+    startCurrentTurn(room);
+}
 
-        const code = createRoomCode();
-        const settings = normalizeSettings(data);
-        rooms[code] = {
-            host: socket.id,
-            players: [{ id: socket.id, name, score: 0 }],
-            settings,
-            round: 0,
-            votes: {},
-            votedPlayers: [],
-            started: false,
-            phase: "lobby",
-            timers: [],
-            turnTimer: null,
-            currentSpeakerId: null,
-            recentSubjects: [],
-            roundData: null
-        };
+function startCurrentTurn(room) {
+    if (room.phase !== "discussion") return;
 
-        socket.join(code);
-        socket.emit("roomCreated", { code, settings });
-        sendPlayers(code);
+    while (room.turnIndex < room.order.length) {
+        const token = room.order[room.turnIndex];
+        const player = playerByToken(room, token);
+        if (player?.connected) break;
+        room.turnIndex += 1;
+    }
+
+    if (room.turnIndex >= room.order.length) {
+        beginVote(room);
+        return;
+    }
+
+    clearRoomTimers(room);
+    const token = room.order[room.turnIndex];
+    const player = playerByToken(room, token);
+    room.phaseEndsAt = Date.now() + room.settings.time * 1000;
+    touchRoom(room);
+
+    io.to(room.code).emit("turn", {
+        token,
+        playerName: player?.name || "Joueur",
+        turnIndex: room.turnIndex,
+        total: room.order.length,
+        phaseEndsAt: room.phaseEndsAt
     });
 
-    socket.on("joinRoom", (data) => {
-        const code = String(data?.code || "").trim().toUpperCase();
-        const name = String(data?.name || "").trim().slice(0, 18);
-        const room = rooms[code];
+    schedule(room, () => advanceTurn(room, "timer"), room.phaseEndsAt - Date.now());
+}
 
-        if (!room) return socket.emit("gameError", "Cette room n’existe pas.");
-        if (room.started) return socket.emit("gameError", "La partie a déjà commencé.");
-        if (!name) return socket.emit("gameError", "Entre un pseudo.");
-        if (room.players.some((player) => player.name.toLowerCase() === name.toLowerCase())) {
-            return socket.emit("gameError", "Ce pseudo est déjà utilisé dans la room.");
+function advanceTurn(room, reason = "manual") {
+    if (room.phase !== "discussion") return;
+    const previousToken = room.order[room.turnIndex];
+    const previous = playerByToken(room, previousToken);
+    room.turnIndex += 1;
+    io.to(room.code).emit("turnFinished", { playerName: previous?.name || "Joueur", reason });
+    startCurrentTurn(room);
+}
+
+function beginVote(room) {
+    clearRoomTimers(room);
+    room.phase = "vote";
+    room.votes = {};
+    room.votesByPlayer = {};
+    room.phaseEndsAt = Date.now() + 45_000;
+    touchRoom(room);
+
+    const candidates = room.roundData.activeTokens
+        .map((token) => playerByToken(room, token))
+        .filter(Boolean)
+        .map((player) => ({ token: player.token, name: player.name, connected: player.connected }));
+
+    io.to(room.code).emit("votePhase", {
+        players: candidates,
+        phaseEndsAt: room.phaseEndsAt
+    });
+
+    schedule(room, () => finalizeVote(room), room.phaseEndsAt - Date.now());
+}
+
+function voteTargetsWithNames(room) {
+    return Object.entries(room.votesByPlayer).map(([voterToken, targetToken]) => ({
+        voterToken,
+        voterName: playerByToken(room, voterToken)?.name || "Joueur",
+        targetToken,
+        targetName: targetToken === "skip" ? "Personne" : (playerByToken(room, targetToken)?.name || "Joueur")
+    }));
+}
+
+function finalizeVote(room) {
+    if (room.phase !== "vote") return;
+    clearRoomTimers(room);
+
+    let max = 0;
+    let winners = [];
+    for (const [target, count] of Object.entries(room.votes)) {
+        if (count > max) {
+            max = count;
+            winners = [target];
+        } else if (count === max) {
+            winners.push(target);
         }
+    }
 
-        room.players.push({ id: socket.id, name, score: 0 });
-        socket.join(code);
-        socket.emit("joined", { code, settings: room.settings });
-        sendPlayers(code);
+    const eliminatedToken = winners.length === 1 && winners[0] !== "skip" ? winners[0] : null;
+    const eliminated = eliminatedToken ? playerByToken(room, eliminatedToken) : null;
+    const correct = Boolean(eliminatedToken && room.roundData.impostorTokens.includes(eliminatedToken));
+    const tie = winners.length > 1;
+
+    const activePlayers = room.roundData.activeTokens.map((token) => playerByToken(room, token)).filter(Boolean);
+    for (const player of activePlayers) {
+        if (correct && !room.roundData.impostorTokens.includes(player.token)) {
+            player.score += 1;
+            player.stats.wins += 1;
+        }
+        if (!correct && room.roundData.impostorTokens.includes(player.token)) {
+            player.score += 1;
+            player.stats.wins += 1;
+        }
+        if (correct && !room.roundData.impostorTokens.includes(player.token)) player.stats.correctVotes += 1;
+    }
+
+    const result = {
+        eliminated: eliminated?.name || null,
+        eliminatedToken,
+        tie,
+        correct,
+        mainSubject: room.roundData.main.name,
+        mainUniverse: room.roundData.main.universe,
+        fakeSubject: room.settings.mode === "blind" ? "Aucun sujet" : room.roundData.fake.name,
+        fakeUniverse: room.settings.mode === "blind" ? "Mode aveugle" : room.roundData.fake.universe,
+        impostors: room.roundData.impostorTokens.map((token) => playerByToken(room, token)?.name).filter(Boolean),
+        votes: voteTargetsWithNames(room),
+        players: activePlayers.map((player) => ({
+            token: player.token,
+            name: player.name,
+            score: player.score,
+            card: room.roundData.cards[player.token],
+            isImpostor: room.roundData.impostorTokens.includes(player.token),
+            stats: player.stats
+        })).sort((a, b) => b.score - a.score || a.name.localeCompare(b.name, "fr"))
+    };
+
+    room.result = result;
+    room.phase = "result";
+    room.started = false;
+    room.phaseEndsAt = null;
+    touchRoom(room);
+    io.to(room.code).emit("voteResult", result);
+    emitPlayers(room);
+}
+
+function connectedRoundTokens(room) {
+    return (room.roundData?.activeTokens || []).filter((token) => playerByToken(room, token)?.connected);
+}
+
+function maybeFinalizeVote(room) {
+    if (room.phase !== "vote") return;
+    const eligible = connectedRoundTokens(room);
+    if (eligible.length && eligible.every((token) => room.votesByPlayer[token])) finalizeVote(room);
+}
+
+function createPlayer(token, socket, name) {
+    return {
+        token,
+        socketId: socket.id,
+        name,
+        score: 0,
+        connected: true,
+        joinedAt: Date.now(),
+        disconnectedAt: null,
+        stats: { rounds: 0, wins: 0, impostorRounds: 0, correctVotes: 0 }
+    };
+}
+
+function attachPlayer(socket, room, player) {
+    player.socketId = socket.id;
+    player.connected = true;
+    player.disconnectedAt = null;
+    socket.data.roomCode = room.code;
+    socket.join(room.code);
+    touchRoom(room);
+}
+
+function joinExistingOrCreate(socket, room, name) {
+    const token = socket.data.playerToken;
+    let player = playerByToken(room, token);
+    if (player) {
+        player.name = name || player.name;
+        attachPlayer(socket, room, player);
+        return { player, reconnected: true };
+    }
+    if (room.phase !== "lobby" && room.phase !== "result") throw new Error("La partie a déjà commencé.");
+    if (room.players.length >= 20) throw new Error("La room est pleine.");
+    if (room.players.some((item) => item.name.toLowerCase() === name.toLowerCase())) {
+        throw new Error("Ce pseudo est déjà utilisé dans la room.");
+    }
+    player = createPlayer(token, socket, name);
+    room.players.push(player);
+    attachPlayer(socket, room, player);
+    return { player, reconnected: false };
+}
+
+io.use((socket, next) => {
+    const provided = cleanText(socket.handshake.auth?.playerToken, 80);
+    socket.data.playerToken = provided && /^[A-Za-z0-9_-]{12,80}$/.test(provided) ? provided : makeToken();
+    next();
+});
+
+io.on("connection", (socket) => {
+    socket.emit("identity", { playerToken: socket.data.playerToken });
+
+    socket.on("createRoom", (data = {}) => {
+        try {
+            const name = cleanText(data.name, 18);
+            if (!name) throw new Error("Entre un pseudo.");
+            const code = createRoomCode();
+            const settings = normalizeSettings(data);
+            const player = createPlayer(socket.data.playerToken, socket, name);
+            const room = {
+                code,
+                hostToken: player.token,
+                players: [player],
+                settings,
+                round: 0,
+                phase: "lobby",
+                phaseEndsAt: null,
+                started: false,
+                order: [],
+                turnIndex: 0,
+                votes: {},
+                votesByPlayer: {},
+                roundData: null,
+                result: null,
+                recentSubjects: [],
+                messages: [],
+                timers: new Set(),
+                createdAt: Date.now(),
+                updatedAt: Date.now()
+            };
+            rooms.set(code, room);
+            attachPlayer(socket, room, player);
+            socket.emit("roomCreated", { code, settings: publicSettings(settings), isHost: true });
+            syncSocket(socket, room);
+        } catch (error) {
+            socket.emit("gameError", error.message);
+        }
     });
 
-    socket.on("startGame", (code) => startRound(String(code || "").toUpperCase(), socket.id));
-    socket.on("newGame", (code) => startRound(String(code || "").toUpperCase(), socket.id));
+    socket.on("joinRoom", (data = {}) => {
+        try {
+            const code = cleanText(data.code, 6).toUpperCase();
+            const name = cleanText(data.name, 18);
+            const room = rooms.get(code);
+            if (!room) throw new Error("Room introuvable.");
+            if (!name) throw new Error("Entre un pseudo.");
 
-    socket.on("finishTurn", (code) => {
-        const roomCode = String(code || "").toUpperCase();
-        const room = rooms[roomCode];
+            const { reconnected } = joinExistingOrCreate(socket, room, name);
+            socket.emit("joined", { code, settings: publicSettings(room.settings), isHost: isHost(socket, room), reconnected });
+            addSystemMessage(room, reconnected ? `${name} est revenu dans la partie.` : `${name} a rejoint la partie.`);
+            syncSocket(socket, room);
+            emitPlayers(room);
+        } catch (error) {
+            socket.emit("gameError", error.message);
+        }
+    });
+
+    socket.on("reconnectRoom", (data = {}) => {
+        const code = cleanText(data.code, 6).toUpperCase();
+        const room = rooms.get(code);
+        if (!room) return socket.emit("reconnectFailed");
+        const player = playerByToken(room, socket.data.playerToken);
+        if (!player) return socket.emit("reconnectFailed");
+        if (cleanText(data.name, 18)) player.name = cleanText(data.name, 18);
+        attachPlayer(socket, room, player);
+        socket.emit("joined", { code, settings: publicSettings(room.settings), isHost: isHost(socket, room), reconnected: true });
+        syncSocket(socket, room);
+        emitPlayers(room);
+    });
+
+    socket.on("startGame", async (codeValue) => {
+        const code = cleanText(codeValue, 6).toUpperCase();
+        const room = rooms.get(code);
+        if (!room || !isHost(socket, room)) return;
+        if (!["lobby", "result"].includes(room.phase)) return;
+        try {
+            await startRound(room);
+        } catch (error) {
+            socket.emit("gameError", error.message);
+        }
+    });
+
+    socket.on("newGame", async (codeValue) => {
+        const code = cleanText(codeValue, 6).toUpperCase();
+        const room = rooms.get(code);
+        if (!room || !isHost(socket, room)) return;
+        try {
+            await startRound(room);
+        } catch (error) {
+            socket.emit("gameError", error.message);
+        }
+    });
+
+    socket.on("returnLobby", (codeValue) => {
+        const room = rooms.get(cleanText(codeValue, 6).toUpperCase());
+        if (!room || !isHost(socket, room)) return;
+        clearRoomTimers(room);
+        room.phase = "lobby";
+        room.phaseEndsAt = null;
+        room.started = false;
+        room.order = [];
+        room.turnIndex = 0;
+        room.votes = {};
+        room.votesByPlayer = {};
+        room.roundData = null;
+        room.result = null;
+        touchRoom(room);
+        io.to(room.code).emit("returnedToLobby");
+        emitPlayers(room);
+    });
+
+    socket.on("updateSettings", (data = {}) => {
+        const room = rooms.get(cleanText(data.code, 6).toUpperCase());
+        if (!room || !isHost(socket, room) || !["lobby", "result"].includes(room.phase)) return;
+        room.settings = normalizeSettings(data.settings || {});
+        touchRoom(room);
+        io.to(room.code).emit("settingsUpdated", publicSettings(room.settings));
+    });
+
+    socket.on("finishTurn", (codeValue) => {
+        const room = rooms.get(cleanText(codeValue, 6).toUpperCase());
         if (!room || room.phase !== "discussion") return;
-        if (room.currentSpeakerId !== socket.id) return;
-        const player = room.players.find((item) => item.id === socket.id);
-        io.to(roomCode).emit("turnFinished", { playerName: player?.name || "Le joueur" });
-        advanceTurn(roomCode, socket.id);
+        const currentToken = room.order[room.turnIndex];
+        if (socket.data.playerToken !== currentToken && !isHost(socket, room)) return;
+        advanceTurn(room, "manual");
+    });
+
+    socket.on("hostNextPhase", (codeValue) => {
+        const room = rooms.get(cleanText(codeValue, 6).toUpperCase());
+        if (!room || !isHost(socket, room)) return;
+        if (room.phase === "cards") beginDiscussion(room);
+        else if (room.phase === "discussion") advanceTurn(room, "host");
+        else if (room.phase === "vote") finalizeVote(room);
+    });
+
+    socket.on("addTime", ({ code, seconds } = {}) => {
+        const room = rooms.get(cleanText(code, 6).toUpperCase());
+        if (!room || !isHost(socket, room) || !["cards", "discussion", "vote"].includes(room.phase)) return;
+        const extra = clamp(seconds, 5, 60, 15) * 1000;
+        room.phaseEndsAt = Math.max(Date.now(), room.phaseEndsAt || Date.now()) + extra;
+        clearRoomTimers(room);
+        if (room.phase === "cards") schedule(room, () => beginDiscussion(room), room.phaseEndsAt - Date.now());
+        if (room.phase === "discussion") schedule(room, () => advanceTurn(room, "timer"), room.phaseEndsAt - Date.now());
+        if (room.phase === "vote") schedule(room, () => finalizeVote(room), room.phaseEndsAt - Date.now());
+        io.to(room.code).emit("timeAdded", { phaseEndsAt: room.phaseEndsAt, seconds: extra / 1000 });
     });
 
     socket.on("vote", ({ code, target } = {}) => {
-        const roomCode = String(code || "").toUpperCase();
-        const room = rooms[roomCode];
-        if (!room || room.phase !== "vote") return;
-        if (!room.players.some((player) => player.id === socket.id)) return;
-        if (room.votedPlayers.includes(socket.id)) return;
-        if (target !== "skip" && !room.players.some((player) => player.id === target)) return;
-        if (target === socket.id) return;
+        const room = rooms.get(cleanText(code, 6).toUpperCase());
+        const voterToken = socket.data.playerToken;
+        if (!room || room.phase !== "vote" || room.votesByPlayer[voterToken]) return;
+        if (!room.roundData?.activeTokens.includes(voterToken)) return;
+        const cleanTarget = target === "skip" ? "skip" : cleanText(target, 80);
+        if (cleanTarget !== "skip" && !room.roundData.activeTokens.includes(cleanTarget)) return;
+        if (cleanTarget === voterToken) return;
 
-        room.votedPlayers.push(socket.id);
-        room.votes[target] = (room.votes[target] || 0) + 1;
-        io.to(roomCode).emit("voteProgress", { voted: room.votedPlayers.length, total: room.players.length });
-
-        if (room.votedPlayers.length < room.players.length) return;
-
-        let max = 0;
-        let winnerIds = [];
-        for (const [candidate, count] of Object.entries(room.votes)) {
-            if (count > max) {
-                max = count;
-                winnerIds = [candidate];
-            } else if (count === max) {
-                winnerIds.push(candidate);
-            }
-        }
-
-        const eliminatedId = winnerIds.length === 1 && winnerIds[0] !== "skip" ? winnerIds[0] : null;
-        const eliminated = eliminatedId ? room.players.find((player) => player.id === eliminatedId) : null;
-        const impostorNames = room.players
-            .filter((player) => room.roundData?.impostorIds.includes(player.id))
-            .map((player) => player.name);
-        const correct = Boolean(eliminatedId && room.roundData?.impostorIds.includes(eliminatedId));
-
-        if (correct) {
-            for (const player of room.players) {
-                if (!room.roundData.impostorIds.includes(player.id)) player.score += 1;
-            }
-        } else {
-            for (const player of room.players) {
-                if (room.roundData?.impostorIds.includes(player.id)) player.score += 1;
-            }
-        }
-
-        room.phase = "result";
-        room.started = false;
-        io.to(roomCode).emit("voteResult", {
-            eliminated: eliminated?.name || null,
-            tie: winnerIds.length > 1,
-            correct,
-            mainSubject: room.roundData?.main?.name || "?",
-            mainUniverse: room.roundData?.main?.universe || "",
-            fakeSubject: room.roundData?.fake?.name || "?",
-            fakeUniverse: room.roundData?.fake?.universe || "",
-            impostors: impostorNames
+        room.votesByPlayer[voterToken] = cleanTarget;
+        room.votes[cleanTarget] = (room.votes[cleanTarget] || 0) + 1;
+        const eligible = connectedRoundTokens(room);
+        io.to(room.code).emit("voteProgress", {
+            voted: Object.keys(room.votesByPlayer).length,
+            total: eligible.length
         });
-        sendPlayers(roomCode);
+        maybeFinalizeVote(room);
     });
 
     socket.on("chat", ({ code, message } = {}) => {
-        const roomCode = String(code || "").toUpperCase();
-        const room = rooms[roomCode];
-        const player = room?.players.find((item) => item.id === socket.id);
-        const cleanMessage = String(message || "").trim().slice(0, 300);
+        const room = rooms.get(cleanText(code, 6).toUpperCase());
+        const player = room ? playerByToken(room, socket.data.playerToken) : null;
+        const cleanMessage = cleanText(message, 300);
         if (!room || !player || !cleanMessage) return;
-        io.to(roomCode).emit("chat", { name: player.name, message: cleanMessage });
+        const item = { name: player.name, message: cleanMessage, at: Date.now() };
+        room.messages.push(item);
+        if (room.messages.length > MAX_CHAT_MESSAGES) room.messages.shift();
+        io.to(room.code).emit("chat", item);
+    });
+
+    socket.on("kickPlayer", ({ code, token } = {}) => {
+        const room = rooms.get(cleanText(code, 6).toUpperCase());
+        const targetToken = cleanText(token, 80);
+        if (!room || !isHost(socket, room) || targetToken === room.hostToken) return;
+        const target = playerByToken(room, targetToken);
+        if (!target) return;
+        if (target.socketId) io.to(target.socketId).emit("kicked", { reason: "Tu as été expulsé de la room." });
+        removePlayer(room, targetToken, "kicked");
+    });
+
+    socket.on("transferHost", ({ code, token } = {}) => {
+        const room = rooms.get(cleanText(code, 6).toUpperCase());
+        const targetToken = cleanText(token, 80);
+        if (!room || !isHost(socket, room) || !playerByToken(room, targetToken)) return;
+        room.hostToken = targetToken;
+        touchRoom(room);
+        io.to(room.code).emit("hostChanged", { hostToken: targetToken });
+        emitPlayers(room);
+    });
+
+    socket.on("leaveRoom", (codeValue) => {
+        const room = rooms.get(cleanText(codeValue, 6).toUpperCase());
+        if (!room) return;
+        socket.leave(room.code);
+        removePlayer(room, socket.data.playerToken, "left");
+        socket.data.roomCode = null;
     });
 
     socket.on("disconnect", () => {
-        for (const [code, room] of Object.entries(rooms)) {
-            const wasHost = room.host === socket.id;
-            const wasSpeaker = room.currentSpeakerId === socket.id;
-            room.players = room.players.filter((player) => player.id !== socket.id);
+        const code = socket.data.roomCode;
+        const room = code ? rooms.get(code) : null;
+        if (!room) return;
+        const player = playerByToken(room, socket.data.playerToken);
+        if (!player || player.socketId !== socket.id) return;
 
-            if (!room.players.length) {
-                clearRoomTimers(room);
-                delete rooms[code];
-                continue;
-            }
+        player.connected = false;
+        player.socketId = null;
+        player.disconnectedAt = Date.now();
+        emitPlayers(room);
+        touchRoom(room);
 
-            if (wasHost) {
-                room.host = room.players[0].id;
-                io.to(room.host).emit("becameHost");
+        schedule(room, () => {
+            const currentRoom = rooms.get(room.code);
+            const currentPlayer = currentRoom && playerByToken(currentRoom, player.token);
+            if (!currentRoom || !currentPlayer || currentPlayer.connected) return;
+            removePlayer(currentRoom, currentPlayer.token, "timeout");
+            if (currentRoom.phase === "discussion" && currentRoom.order[currentRoom.turnIndex] === currentPlayer.token) {
+                advanceTurn(currentRoom, "disconnect");
             }
-            sendPlayers(code);
-            if (wasSpeaker && room.phase === "discussion") advanceTurn(code, socket.id);
-        }
+            maybeFinalizeVote(currentRoom);
+        }, RECONNECT_GRACE_MS);
     });
 });
 
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => console.log(`🎭 Imposteur V14 lancé sur le port ${PORT}`));
+setInterval(() => {
+    const now = Date.now();
+    for (const room of rooms.values()) {
+        if (now - room.updatedAt > ROOM_IDLE_TTL_MS) {
+            clearRoomTimers(room);
+            io.to(room.code).emit("roomExpired");
+            rooms.delete(room.code);
+        }
+    }
+}, 15 * 60 * 1000).unref();
+
+app.get("/api/health", (_req, res) => {
+    res.json({ ok: true, rooms: rooms.size, subjects: database.length, version: "15.0.0" });
+});
+
+app.get("*", (_req, res) => {
+    res.sendFile(path.join(PUBLIC_DIR, "index.html"));
+});
+
+loadDatabase();
+server.listen(PORT, () => console.log(`🎭 Anime Imposteur V15 lancé sur le port ${PORT}`));

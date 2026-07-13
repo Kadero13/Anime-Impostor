@@ -1,914 +1,272 @@
 [
   {
     "name": "Walter White",
-    "difficulty": "easy",
     "universe": "Breaking Bad",
+    "difficulty": "easy",
     "tags": [
-      "série",
       "crime",
-      "intelligence",
-      "drogue",
-      "drame"
+      "antihéros",
+      "chimie"
     ]
   },
   {
     "name": "Jesse Pinkman",
-    "difficulty": "easy",
     "universe": "Breaking Bad",
+    "difficulty": "easy",
     "tags": [
-      "série",
       "crime",
-      "intelligence",
-      "drogue",
-      "drame"
+      "antihéros",
+      "drogue"
     ]
   },
   {
     "name": "Saul Goodman",
-    "difficulty": "normal",
     "universe": "Breaking Bad",
+    "difficulty": "easy",
     "tags": [
-      "série",
       "crime",
-      "intelligence",
-      "drogue",
-      "drame"
+      "avocat",
+      "comédie"
     ]
   },
   {
     "name": "Gus Fring",
+    "universe": "Breaking Bad",
     "difficulty": "normal",
-    "universe": "Breaking Bad",
     "tags": [
-      "série",
       "crime",
-      "intelligence",
-      "drogue",
-      "drame"
-    ]
-  },
-  {
-    "name": "Hank Schrader",
-    "difficulty": "normal",
-    "universe": "Breaking Bad",
-    "tags": [
-      "série",
-      "crime",
-      "intelligence",
-      "drogue",
-      "drame"
-    ]
-  },
-  {
-    "name": "Mike Ehrmantraut",
-    "difficulty": "hard",
-    "universe": "Breaking Bad",
-    "tags": [
-      "série",
-      "crime",
-      "intelligence",
-      "drogue",
-      "drame"
+      "vilain",
+      "business"
     ]
   },
   {
     "name": "Jon Snow",
-    "difficulty": "easy",
     "universe": "Game of Thrones",
+    "difficulty": "easy",
     "tags": [
-      "série",
       "fantasy",
-      "guerre",
-      "royaume",
-      "drame"
+      "épéiste",
+      "héros"
     ]
   },
   {
     "name": "Daenerys Targaryen",
-    "difficulty": "easy",
     "universe": "Game of Thrones",
+    "difficulty": "easy",
     "tags": [
-      "série",
       "fantasy",
-      "guerre",
-      "royaume",
-      "drame"
+      "reine",
+      "dragon"
     ]
   },
   {
     "name": "Tyrion Lannister",
-    "difficulty": "normal",
     "universe": "Game of Thrones",
+    "difficulty": "easy",
     "tags": [
-      "série",
       "fantasy",
-      "guerre",
-      "royaume",
-      "drame"
+      "intelligence",
+      "politique"
     ]
   },
   {
     "name": "Arya Stark",
+    "universe": "Game of Thrones",
     "difficulty": "normal",
-    "universe": "Game of Thrones",
     "tags": [
-      "série",
       "fantasy",
-      "guerre",
-      "royaume",
-      "drame"
-    ]
-  },
-  {
-    "name": "Cersei Lannister",
-    "difficulty": "normal",
-    "universe": "Game of Thrones",
-    "tags": [
-      "série",
-      "fantasy",
-      "guerre",
-      "royaume",
-      "drame"
-    ]
-  },
-  {
-    "name": "Jaime Lannister",
-    "difficulty": "normal",
-    "universe": "Game of Thrones",
-    "tags": [
-      "série",
-      "fantasy",
-      "guerre",
-      "royaume",
-      "drame"
-    ]
-  },
-  {
-    "name": "Night King",
-    "difficulty": "hard",
-    "universe": "Game of Thrones",
-    "tags": [
-      "série",
-      "fantasy",
-      "guerre",
-      "royaume",
-      "drame"
+      "assassin",
+      "héroïne"
     ]
   },
   {
     "name": "Eleven",
+    "universe": "Stranger Things",
     "difficulty": "easy",
-    "universe": "Stranger Things",
     "tags": [
-      "série",
-      "science-fiction",
-      "monstre",
-      "adolescent",
-      "surnaturel"
-    ]
-  },
-  {
-    "name": "Mike Wheeler",
-    "difficulty": "normal",
-    "universe": "Stranger Things",
-    "tags": [
-      "série",
-      "science-fiction",
-      "monstre",
-      "adolescent",
-      "surnaturel"
+      "surnaturel",
+      "héroïne",
+      "pouvoir"
     ]
   },
   {
     "name": "Dustin Henderson",
-    "difficulty": "normal",
     "universe": "Stranger Things",
-    "tags": [
-      "série",
-      "science-fiction",
-      "monstre",
-      "adolescent",
-      "surnaturel"
-    ]
-  },
-  {
-    "name": "Lucas Sinclair",
     "difficulty": "normal",
-    "universe": "Stranger Things",
     "tags": [
-      "série",
-      "science-fiction",
-      "monstre",
-      "adolescent",
-      "surnaturel"
-    ]
-  },
-  {
-    "name": "Will Byers",
-    "difficulty": "normal",
-    "universe": "Stranger Things",
-    "tags": [
-      "série",
-      "science-fiction",
-      "monstre",
-      "adolescent",
-      "surnaturel"
-    ]
-  },
-  {
-    "name": "Jim Hopper",
-    "difficulty": "normal",
-    "universe": "Stranger Things",
-    "tags": [
-      "série",
-      "science-fiction",
-      "monstre",
-      "adolescent",
-      "surnaturel"
+      "surnaturel",
+      "ami",
+      "comédie"
     ]
   },
   {
     "name": "Vecna",
-    "difficulty": "hard",
     "universe": "Stranger Things",
+    "difficulty": "normal",
     "tags": [
-      "série",
-      "science-fiction",
-      "monstre",
-      "adolescent",
-      "surnaturel"
+      "surnaturel",
+      "vilain",
+      "horreur"
     ]
   },
   {
     "name": "Rick Sanchez",
-    "difficulty": "easy",
     "universe": "Rick and Morty",
+    "difficulty": "easy",
     "tags": [
-      "série",
-      "animation",
       "science-fiction",
-      "inventeur",
+      "scientifique",
       "comédie"
     ]
   },
   {
     "name": "Morty Smith",
+    "universe": "Rick and Morty",
     "difficulty": "easy",
-    "universe": "Rick and Morty",
     "tags": [
-      "série",
-      "animation",
       "science-fiction",
-      "inventeur",
-      "comédie"
-    ]
-  },
-  {
-    "name": "Summer Smith",
-    "difficulty": "normal",
-    "universe": "Rick and Morty",
-    "tags": [
-      "série",
-      "animation",
-      "science-fiction",
-      "inventeur",
-      "comédie"
-    ]
-  },
-  {
-    "name": "Beth Smith",
-    "difficulty": "normal",
-    "universe": "Rick and Morty",
-    "tags": [
-      "série",
-      "animation",
-      "science-fiction",
-      "inventeur",
-      "comédie"
-    ]
-  },
-  {
-    "name": "Jerry Smith",
-    "difficulty": "easy",
-    "universe": "Rick and Morty",
-    "tags": [
-      "série",
-      "animation",
-      "science-fiction",
-      "inventeur",
-      "comédie"
-    ]
-  },
-  {
-    "name": "Evil Morty",
-    "difficulty": "hard",
-    "universe": "Rick and Morty",
-    "tags": [
-      "série",
-      "animation",
-      "science-fiction",
-      "inventeur",
+      "aventure",
       "comédie"
     ]
   },
   {
     "name": "Homelander",
-    "difficulty": "easy",
     "universe": "The Boys",
+    "difficulty": "easy",
     "tags": [
-      "série",
       "super-héros",
-      "violence",
-      "satire",
-      "pouvoirs"
+      "vilain",
+      "pouvoir"
     ]
   },
   {
     "name": "Billy Butcher",
-    "difficulty": "normal",
     "universe": "The Boys",
-    "tags": [
-      "série",
-      "super-héros",
-      "violence",
-      "satire",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Hughie Campbell",
     "difficulty": "normal",
-    "universe": "The Boys",
     "tags": [
-      "série",
-      "super-héros",
-      "violence",
-      "satire",
-      "pouvoirs"
+      "antihéros",
+      "vengeance",
+      "action"
     ]
   },
   {
     "name": "Starlight",
-    "difficulty": "normal",
     "universe": "The Boys",
-    "tags": [
-      "série",
-      "super-héros",
-      "violence",
-      "satire",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Soldier Boy",
     "difficulty": "normal",
-    "universe": "The Boys",
     "tags": [
-      "série",
       "super-héros",
-      "violence",
-      "satire",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "A-Train",
-    "difficulty": "normal",
-    "universe": "The Boys",
-    "tags": [
-      "série",
-      "super-héros",
-      "violence",
-      "satire",
-      "pouvoirs"
+      "héroïne",
+      "pouvoir"
     ]
   },
   {
     "name": "Thomas Shelby",
-    "difficulty": "easy",
     "universe": "Peaky Blinders",
+    "difficulty": "easy",
     "tags": [
-      "série",
-      "gangster",
       "crime",
-      "famille",
-      "drame"
+      "gangster",
+      "antihéros"
     ]
   },
   {
     "name": "Arthur Shelby",
-    "difficulty": "normal",
     "universe": "Peaky Blinders",
+    "difficulty": "normal",
     "tags": [
-      "série",
+      "crime",
       "gangster",
+      "combat"
+    ]
+  },
+  {
+    "name": "Dexter Morgan",
+    "universe": "Dexter",
+    "difficulty": "easy",
+    "tags": [
       "crime",
-      "famille",
-      "drame"
+      "tueur",
+      "antihéros"
     ]
   },
   {
-    "name": "Polly Gray",
+    "name": "Joe Goldberg",
+    "universe": "You",
     "difficulty": "normal",
-    "universe": "Peaky Blinders",
     "tags": [
-      "série",
-      "gangster",
       "crime",
-      "famille",
-      "drame"
-    ]
-  },
-  {
-    "name": "Alfie Solomons",
-    "difficulty": "normal",
-    "universe": "Peaky Blinders",
-    "tags": [
-      "série",
-      "gangster",
-      "crime",
-      "famille",
-      "drame"
-    ]
-  },
-  {
-    "name": "Michael Gray",
-    "difficulty": "hard",
-    "universe": "Peaky Blinders",
-    "tags": [
-      "série",
-      "gangster",
-      "crime",
-      "famille",
-      "drame"
-    ]
-  },
-  {
-    "name": "Michael Scott",
-    "difficulty": "normal",
-    "universe": "The Office",
-    "tags": [
-      "série",
-      "comédie",
-      "travail",
-      "bureau",
-      "famille"
-    ]
-  },
-  {
-    "name": "Dwight Schrute",
-    "difficulty": "normal",
-    "universe": "The Office",
-    "tags": [
-      "série",
-      "comédie",
-      "travail",
-      "bureau",
-      "famille"
-    ]
-  },
-  {
-    "name": "Jim Halpert",
-    "difficulty": "easy",
-    "universe": "The Office",
-    "tags": [
-      "série",
-      "comédie",
-      "travail",
-      "bureau",
-      "famille"
-    ]
-  },
-  {
-    "name": "Pam Beesly",
-    "difficulty": "easy",
-    "universe": "The Office",
-    "tags": [
-      "série",
-      "comédie",
-      "travail",
-      "bureau",
-      "famille"
-    ]
-  },
-  {
-    "name": "Kevin Malone",
-    "difficulty": "normal",
-    "universe": "The Office",
-    "tags": [
-      "série",
-      "comédie",
-      "travail",
-      "bureau",
-      "famille"
-    ]
-  },
-  {
-    "name": "Aang",
-    "difficulty": "easy",
-    "universe": "Avatar The Last Airbender",
-    "tags": [
-      "série",
-      "animation",
-      "fantasy",
-      "pouvoirs",
-      "aventure"
-    ]
-  },
-  {
-    "name": "Zuko",
-    "difficulty": "easy",
-    "universe": "Avatar The Last Airbender",
-    "tags": [
-      "série",
-      "animation",
-      "fantasy",
-      "pouvoirs",
-      "aventure"
-    ]
-  },
-  {
-    "name": "Katara",
-    "difficulty": "easy",
-    "universe": "Avatar The Last Airbender",
-    "tags": [
-      "série",
-      "animation",
-      "fantasy",
-      "pouvoirs",
-      "aventure"
-    ]
-  },
-  {
-    "name": "Sokka",
-    "difficulty": "easy",
-    "universe": "Avatar The Last Airbender",
-    "tags": [
-      "série",
-      "animation",
-      "fantasy",
-      "pouvoirs",
-      "aventure"
-    ]
-  },
-  {
-    "name": "Toph",
-    "difficulty": "easy",
-    "universe": "Avatar The Last Airbender",
-    "tags": [
-      "série",
-      "animation",
-      "fantasy",
-      "pouvoirs",
-      "aventure"
-    ]
-  },
-  {
-    "name": "Azula",
-    "difficulty": "normal",
-    "universe": "Avatar The Last Airbender",
-    "tags": [
-      "série",
-      "animation",
-      "fantasy",
-      "pouvoirs",
-      "aventure"
-    ]
-  },
-  {
-    "name": "Iroh",
-    "difficulty": "normal",
-    "universe": "Avatar The Last Airbender",
-    "tags": [
-      "série",
-      "animation",
-      "fantasy",
-      "pouvoirs",
-      "aventure"
-    ]
-  },
-  {
-    "name": "Sherlock Holmes",
-    "difficulty": "easy",
-    "universe": "Sherlock",
-    "tags": [
-      "série",
-      "enquête",
-      "intelligence",
-      "crime",
-      "mystère"
-    ]
-  },
-  {
-    "name": "John Watson",
-    "difficulty": "normal",
-    "universe": "Sherlock",
-    "tags": [
-      "série",
-      "enquête",
-      "intelligence",
-      "crime",
-      "mystère"
-    ]
-  },
-  {
-    "name": "Jim Moriarty",
-    "difficulty": "normal",
-    "universe": "Sherlock",
-    "tags": [
-      "série",
-      "enquête",
-      "intelligence",
-      "crime",
-      "mystère"
-    ]
-  },
-  {
-    "name": "Mycroft Holmes",
-    "difficulty": "hard",
-    "universe": "Sherlock",
-    "tags": [
-      "série",
-      "enquête",
-      "intelligence",
-      "crime",
-      "mystère"
-    ]
-  },
-  {
-    "name": "Irene Adler",
-    "difficulty": "hard",
-    "universe": "Sherlock",
-    "tags": [
-      "série",
-      "enquête",
-      "intelligence",
-      "crime",
-      "mystère"
-    ]
-  },
-  {
-    "name": "The Doctor",
-    "difficulty": "normal",
-    "universe": "Doctor Who",
-    "tags": [
-      "série",
-      "science-fiction",
-      "voyage-temporel",
-      "alien",
-      "aventure"
-    ]
-  },
-  {
-    "name": "Rose Tyler",
-    "difficulty": "hard",
-    "universe": "Doctor Who",
-    "tags": [
-      "série",
-      "science-fiction",
-      "voyage-temporel",
-      "alien",
-      "aventure"
-    ]
-  },
-  {
-    "name": "Donna Noble",
-    "difficulty": "hard",
-    "universe": "Doctor Who",
-    "tags": [
-      "série",
-      "science-fiction",
-      "voyage-temporel",
-      "alien",
-      "aventure"
-    ]
-  },
-  {
-    "name": "Amy Pond",
-    "difficulty": "hard",
-    "universe": "Doctor Who",
-    "tags": [
-      "série",
-      "science-fiction",
-      "voyage-temporel",
-      "alien",
-      "aventure"
-    ]
-  },
-  {
-    "name": "The Master",
-    "difficulty": "hard",
-    "universe": "Doctor Who",
-    "tags": [
-      "série",
-      "science-fiction",
-      "voyage-temporel",
-      "alien",
-      "aventure"
-    ]
-  },
-  {
-    "name": "Dalek",
-    "difficulty": "normal",
-    "universe": "Doctor Who",
-    "tags": [
-      "série",
-      "science-fiction",
-      "voyage-temporel",
-      "alien",
-      "aventure"
-    ]
-  },
-  {
-    "name": "Rick Grimes",
-    "difficulty": "easy",
-    "universe": "The Walking Dead",
-    "tags": [
-      "série",
-      "survie",
-      "post-apocalypse",
-      "infecté",
-      "drame"
-    ]
-  },
-  {
-    "name": "Daryl Dixon",
-    "difficulty": "easy",
-    "universe": "The Walking Dead",
-    "tags": [
-      "série",
-      "survie",
-      "post-apocalypse",
-      "infecté",
-      "drame"
-    ]
-  },
-  {
-    "name": "Michonne",
-    "difficulty": "normal",
-    "universe": "The Walking Dead",
-    "tags": [
-      "série",
-      "survie",
-      "post-apocalypse",
-      "infecté",
-      "drame"
-    ]
-  },
-  {
-    "name": "Negan",
-    "difficulty": "easy",
-    "universe": "The Walking Dead",
-    "tags": [
-      "série",
-      "survie",
-      "post-apocalypse",
-      "infecté",
-      "drame"
-    ]
-  },
-  {
-    "name": "Carol Peletier",
-    "difficulty": "normal",
-    "universe": "The Walking Dead",
-    "tags": [
-      "série",
-      "survie",
-      "post-apocalypse",
-      "infecté",
-      "drame"
-    ]
-  },
-  {
-    "name": "Glenn Rhee",
-    "difficulty": "normal",
-    "universe": "The Walking Dead",
-    "tags": [
-      "série",
-      "survie",
-      "post-apocalypse",
-      "infecté",
-      "drame"
+      "tueur",
+      "thriller"
     ]
   },
   {
     "name": "Wednesday Addams",
+    "universe": "Wednesday",
     "difficulty": "easy",
-    "universe": "Wednesday",
     "tags": [
-      "série",
-      "école",
       "surnaturel",
-      "mystère",
-      "adolescent"
+      "héroïne",
+      "école"
     ]
   },
   {
-    "name": "Enid Sinclair",
-    "difficulty": "normal",
-    "universe": "Wednesday",
-    "tags": [
-      "série",
-      "école",
-      "surnaturel",
-      "mystère",
-      "adolescent"
-    ]
-  },
-  {
-    "name": "Thing",
+    "name": "Sherlock Holmes",
+    "universe": "Sherlock",
     "difficulty": "easy",
-    "universe": "Wednesday",
     "tags": [
-      "série",
-      "école",
-      "surnaturel",
-      "mystère",
-      "adolescent"
+      "détective",
+      "intelligence",
+      "crime"
     ]
   },
   {
-    "name": "Tyler Galpin",
-    "difficulty": "hard",
-    "universe": "Wednesday",
-    "tags": [
-      "série",
-      "école",
-      "surnaturel",
-      "mystère",
-      "adolescent"
-    ]
-  },
-  {
-    "name": "Morticia Addams",
-    "difficulty": "normal",
-    "universe": "Wednesday",
-    "tags": [
-      "série",
-      "école",
-      "surnaturel",
-      "mystère",
-      "adolescent"
-    ]
-  },
-  {
-    "name": "Lucifer Morningstar",
+    "name": "Michael Scott",
+    "universe": "The Office",
     "difficulty": "easy",
-    "universe": "Lucifer",
     "tags": [
-      "série",
-      "surnaturel",
-      "enquête",
-      "démon",
-      "comédie"
+      "bureau",
+      "comédie",
+      "manager"
     ]
   },
   {
-    "name": "Chloe Decker",
+    "name": "Dwight Schrute",
+    "universe": "The Office",
     "difficulty": "normal",
-    "universe": "Lucifer",
     "tags": [
-      "série",
-      "surnaturel",
-      "enquête",
-      "démon",
-      "comédie"
+      "bureau",
+      "comédie",
+      "vendeur"
     ]
   },
   {
-    "name": "Mazikeen",
+    "name": "Aang",
+    "universe": "Avatar The Last Airbender",
+    "difficulty": "easy",
+    "tags": [
+      "élément",
+      "héros",
+      "animation"
+    ]
+  },
+  {
+    "name": "Zuko",
+    "universe": "Avatar The Last Airbender",
+    "difficulty": "easy",
+    "tags": [
+      "feu",
+      "antihéros",
+      "animation"
+    ]
+  },
+  {
+    "name": "Katara",
+    "universe": "Avatar The Last Airbender",
     "difficulty": "normal",
-    "universe": "Lucifer",
     "tags": [
-      "série",
-      "surnaturel",
-      "enquête",
-      "démon",
-      "comédie"
-    ]
-  },
-  {
-    "name": "Amenadiel",
-    "difficulty": "normal",
-    "universe": "Lucifer",
-    "tags": [
-      "série",
-      "surnaturel",
-      "enquête",
-      "démon",
-      "comédie"
-    ]
-  },
-  {
-    "name": "Ella Lopez",
-    "difficulty": "hard",
-    "universe": "Lucifer",
-    "tags": [
-      "série",
-      "surnaturel",
-      "enquête",
-      "démon",
-      "comédie"
+      "eau",
+      "héroïne",
+      "animation"
     ]
   }
 ]

@@ -1,650 +1,232 @@
 [
   {
-    "name": "Iron Man",
+    "name": "Spider-Man",
+    "universe": "Spider-Man",
     "difficulty": "easy",
-    "universe": "Avengers",
     "tags": [
-      "marvel",
       "super-héros",
-      "équipe",
-      "combat",
-      "pouvoirs"
+      "agilité",
+      "marvel"
+    ]
+  },
+  {
+    "name": "Iron Man",
+    "universe": "Avengers",
+    "difficulty": "easy",
+    "tags": [
+      "super-héros",
+      "armure",
+      "marvel"
     ]
   },
   {
     "name": "Captain America",
-    "difficulty": "easy",
     "universe": "Avengers",
+    "difficulty": "easy",
     "tags": [
-      "marvel",
       "super-héros",
-      "équipe",
-      "combat",
-      "pouvoirs"
+      "soldat",
+      "marvel"
     ]
   },
   {
     "name": "Thor",
-    "difficulty": "easy",
     "universe": "Avengers",
+    "difficulty": "easy",
     "tags": [
-      "marvel",
       "super-héros",
-      "équipe",
-      "combat",
-      "pouvoirs"
+      "dieu",
+      "marvel"
     ]
   },
   {
     "name": "Hulk",
-    "difficulty": "easy",
     "universe": "Avengers",
+    "difficulty": "easy",
     "tags": [
-      "marvel",
       "super-héros",
-      "équipe",
-      "combat",
-      "pouvoirs"
+      "force",
+      "marvel"
     ]
   },
   {
     "name": "Black Widow",
-    "difficulty": "easy",
     "universe": "Avengers",
-    "tags": [
-      "marvel",
-      "super-héros",
-      "équipe",
-      "combat",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Hawkeye",
     "difficulty": "easy",
-    "universe": "Avengers",
     "tags": [
-      "marvel",
       "super-héros",
-      "équipe",
-      "combat",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Vision",
-    "difficulty": "easy",
-    "universe": "Avengers",
-    "tags": [
-      "marvel",
-      "super-héros",
-      "équipe",
-      "combat",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Scarlet Witch",
-    "difficulty": "easy",
-    "universe": "Avengers",
-    "tags": [
-      "marvel",
-      "super-héros",
-      "équipe",
-      "combat",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Spider-Man",
-    "difficulty": "easy",
-    "universe": "Spider-Man",
-    "tags": [
-      "marvel",
-      "super-héros",
-      "science",
-      "ville",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Peter Parker",
-    "difficulty": "easy",
-    "universe": "Spider-Man",
-    "tags": [
-      "marvel",
-      "super-héros",
-      "science",
-      "ville",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Miles Morales",
-    "difficulty": "normal",
-    "universe": "Spider-Man",
-    "tags": [
-      "marvel",
-      "super-héros",
-      "science",
-      "ville",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Gwen Stacy",
-    "difficulty": "normal",
-    "universe": "Spider-Man",
-    "tags": [
-      "marvel",
-      "super-héros",
-      "science",
-      "ville",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Venom",
-    "difficulty": "easy",
-    "universe": "Spider-Man",
-    "tags": [
-      "marvel",
-      "super-héros",
-      "science",
-      "ville",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Green Goblin",
-    "difficulty": "normal",
-    "universe": "Spider-Man",
-    "tags": [
-      "marvel",
-      "super-héros",
-      "science",
-      "ville",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Doctor Octopus",
-    "difficulty": "normal",
-    "universe": "Spider-Man",
-    "tags": [
-      "marvel",
-      "super-héros",
-      "science",
-      "ville",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Mysterio",
-    "difficulty": "hard",
-    "universe": "Spider-Man",
-    "tags": [
-      "marvel",
-      "super-héros",
-      "science",
-      "ville",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Wolverine",
-    "difficulty": "easy",
-    "universe": "X-Men",
-    "tags": [
-      "marvel",
-      "mutant",
-      "super-héros",
-      "équipe",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Professor X",
-    "difficulty": "normal",
-    "universe": "X-Men",
-    "tags": [
-      "marvel",
-      "mutant",
-      "super-héros",
-      "équipe",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Magneto",
-    "difficulty": "normal",
-    "universe": "X-Men",
-    "tags": [
-      "marvel",
-      "mutant",
-      "super-héros",
-      "équipe",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Cyclops",
-    "difficulty": "normal",
-    "universe": "X-Men",
-    "tags": [
-      "marvel",
-      "mutant",
-      "super-héros",
-      "équipe",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Jean Grey",
-    "difficulty": "normal",
-    "universe": "X-Men",
-    "tags": [
-      "marvel",
-      "mutant",
-      "super-héros",
-      "équipe",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Storm",
-    "difficulty": "normal",
-    "universe": "X-Men",
-    "tags": [
-      "marvel",
-      "mutant",
-      "super-héros",
-      "équipe",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Mystique",
-    "difficulty": "normal",
-    "universe": "X-Men",
-    "tags": [
-      "marvel",
-      "mutant",
-      "super-héros",
-      "équipe",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Deadpool",
-    "difficulty": "easy",
-    "universe": "X-Men",
-    "tags": [
-      "marvel",
-      "mutant",
-      "super-héros",
-      "équipe",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Star-Lord",
-    "difficulty": "normal",
-    "universe": "Guardians of the Galaxy",
-    "tags": [
-      "marvel",
-      "espace",
-      "équipe",
-      "science-fiction",
-      "aventure"
-    ]
-  },
-  {
-    "name": "Rocket Raccoon",
-    "difficulty": "normal",
-    "universe": "Guardians of the Galaxy",
-    "tags": [
-      "marvel",
-      "espace",
-      "équipe",
-      "science-fiction",
-      "aventure"
-    ]
-  },
-  {
-    "name": "Groot",
-    "difficulty": "easy",
-    "universe": "Guardians of the Galaxy",
-    "tags": [
-      "marvel",
-      "espace",
-      "équipe",
-      "science-fiction",
-      "aventure"
-    ]
-  },
-  {
-    "name": "Gamora",
-    "difficulty": "normal",
-    "universe": "Guardians of the Galaxy",
-    "tags": [
-      "marvel",
-      "espace",
-      "équipe",
-      "science-fiction",
-      "aventure"
-    ]
-  },
-  {
-    "name": "Drax",
-    "difficulty": "normal",
-    "universe": "Guardians of the Galaxy",
-    "tags": [
-      "marvel",
-      "espace",
-      "équipe",
-      "science-fiction",
-      "aventure"
-    ]
-  },
-  {
-    "name": "Nebula",
-    "difficulty": "normal",
-    "universe": "Guardians of the Galaxy",
-    "tags": [
-      "marvel",
-      "espace",
-      "équipe",
-      "science-fiction",
-      "aventure"
-    ]
-  },
-  {
-    "name": "Mantis",
-    "difficulty": "hard",
-    "universe": "Guardians of the Galaxy",
-    "tags": [
-      "marvel",
-      "espace",
-      "équipe",
-      "science-fiction",
-      "aventure"
+      "espion",
+      "marvel"
     ]
   },
   {
     "name": "Thanos",
+    "universe": "Avengers",
     "difficulty": "easy",
-    "universe": "Marvel villains",
     "tags": [
-      "marvel",
-      "méchant",
-      "pouvoirs",
-      "combat",
-      "conquête"
+      "vilain",
+      "espace",
+      "marvel"
     ]
   },
   {
     "name": "Loki",
+    "universe": "Thor",
     "difficulty": "easy",
-    "universe": "Marvel villains",
     "tags": [
-      "marvel",
-      "méchant",
-      "pouvoirs",
-      "combat",
-      "conquête"
+      "antihéros",
+      "magie",
+      "marvel"
     ]
   },
   {
     "name": "Ultron",
+    "universe": "Avengers",
     "difficulty": "normal",
-    "universe": "Marvel villains",
     "tags": [
-      "marvel",
-      "méchant",
-      "pouvoirs",
-      "combat",
-      "conquête"
-    ]
-  },
-  {
-    "name": "Kang the Conqueror",
-    "difficulty": "hard",
-    "universe": "Marvel villains",
-    "tags": [
-      "marvel",
-      "méchant",
-      "pouvoirs",
-      "combat",
-      "conquête"
-    ]
-  },
-  {
-    "name": "Red Skull",
-    "difficulty": "normal",
-    "universe": "Marvel villains",
-    "tags": [
-      "marvel",
-      "méchant",
-      "pouvoirs",
-      "combat",
-      "conquête"
-    ]
-  },
-  {
-    "name": "Hela",
-    "difficulty": "normal",
-    "universe": "Marvel villains",
-    "tags": [
-      "marvel",
-      "méchant",
-      "pouvoirs",
-      "combat",
-      "conquête"
-    ]
-  },
-  {
-    "name": "Daredevil",
-    "difficulty": "normal",
-    "universe": "Street Heroes",
-    "tags": [
-      "marvel",
-      "ville",
-      "crime",
-      "combat",
-      "vigilante"
-    ]
-  },
-  {
-    "name": "Punisher",
-    "difficulty": "normal",
-    "universe": "Street Heroes",
-    "tags": [
-      "marvel",
-      "ville",
-      "crime",
-      "combat",
-      "vigilante"
-    ]
-  },
-  {
-    "name": "Moon Knight",
-    "difficulty": "hard",
-    "universe": "Street Heroes",
-    "tags": [
-      "marvel",
-      "ville",
-      "crime",
-      "combat",
-      "vigilante"
-    ]
-  },
-  {
-    "name": "Jessica Jones",
-    "difficulty": "hard",
-    "universe": "Street Heroes",
-    "tags": [
-      "marvel",
-      "ville",
-      "crime",
-      "combat",
-      "vigilante"
-    ]
-  },
-  {
-    "name": "Luke Cage",
-    "difficulty": "normal",
-    "universe": "Street Heroes",
-    "tags": [
-      "marvel",
-      "ville",
-      "crime",
-      "combat",
-      "vigilante"
-    ]
-  },
-  {
-    "name": "Iron Fist",
-    "difficulty": "hard",
-    "universe": "Street Heroes",
-    "tags": [
-      "marvel",
-      "ville",
-      "crime",
-      "combat",
-      "vigilante"
-    ]
-  },
-  {
-    "name": "Kingpin",
-    "difficulty": "normal",
-    "universe": "Street Heroes",
-    "tags": [
-      "marvel",
-      "ville",
-      "crime",
-      "combat",
-      "vigilante"
+      "vilain",
+      "robot",
+      "marvel"
     ]
   },
   {
     "name": "Doctor Strange",
+    "universe": "Doctor Strange",
     "difficulty": "easy",
-    "universe": "Doctor Strange",
     "tags": [
-      "marvel",
+      "super-héros",
       "magie",
-      "sorcier",
-      "multivers",
-      "pouvoirs"
+      "marvel"
     ]
   },
   {
-    "name": "Wong",
-    "difficulty": "normal",
-    "universe": "Doctor Strange",
+    "name": "Scarlet Witch",
+    "universe": "Avengers",
+    "difficulty": "easy",
     "tags": [
-      "marvel",
+      "super-héros",
       "magie",
-      "sorcier",
-      "multivers",
-      "pouvoirs"
+      "marvel"
     ]
   },
   {
-    "name": "Ancient One",
-    "difficulty": "hard",
-    "universe": "Doctor Strange",
-    "tags": [
-      "marvel",
-      "magie",
-      "sorcier",
-      "multivers",
-      "pouvoirs"
-    ]
-  },
-  {
-    "name": "Dormammu",
+    "name": "Vision",
+    "universe": "Avengers",
     "difficulty": "normal",
-    "universe": "Doctor Strange",
     "tags": [
-      "marvel",
-      "magie",
-      "sorcier",
-      "multivers",
-      "pouvoirs"
+      "super-héros",
+      "robot",
+      "marvel"
     ]
   },
   {
-    "name": "Clea",
-    "difficulty": "hard",
-    "universe": "Doctor Strange",
+    "name": "Deadpool",
+    "universe": "X-Men",
+    "difficulty": "easy",
     "tags": [
-      "marvel",
-      "magie",
-      "sorcier",
-      "multivers",
-      "pouvoirs"
+      "antihéros",
+      "comédie",
+      "marvel"
     ]
   },
   {
-    "name": "Black Panther",
+    "name": "Wolverine",
+    "universe": "X-Men",
+    "difficulty": "easy",
+    "tags": [
+      "antihéros",
+      "griffes",
+      "marvel"
+    ]
+  },
+  {
+    "name": "Magneto",
+    "universe": "X-Men",
+    "difficulty": "easy",
+    "tags": [
+      "antihéros",
+      "magnétisme",
+      "marvel"
+    ]
+  },
+  {
+    "name": "Professor X",
+    "universe": "X-Men",
     "difficulty": "normal",
-    "universe": "Black Panther",
     "tags": [
-      "marvel",
-      "royaume",
-      "technologie",
-      "combat",
-      "super-héros"
+      "super-héros",
+      "télépathie",
+      "marvel"
     ]
   },
   {
-    "name": "Shuri",
+    "name": "Venom",
+    "universe": "Spider-Man",
+    "difficulty": "easy",
+    "tags": [
+      "antihéros",
+      "symbiote",
+      "marvel"
+    ]
+  },
+  {
+    "name": "Daredevil",
+    "universe": "Daredevil",
     "difficulty": "normal",
-    "universe": "Black Panther",
     "tags": [
-      "marvel",
-      "royaume",
-      "technologie",
-      "combat",
-      "super-héros"
+      "super-héros",
+      "aveugle",
+      "marvel"
     ]
   },
   {
-    "name": "Okoye",
-    "difficulty": "hard",
-    "universe": "Black Panther",
-    "tags": [
-      "marvel",
-      "royaume",
-      "technologie",
-      "combat",
-      "super-héros"
-    ]
-  },
-  {
-    "name": "Killmonger",
+    "name": "Punisher",
+    "universe": "Punisher",
     "difficulty": "normal",
-    "universe": "Black Panther",
     "tags": [
-      "marvel",
-      "royaume",
-      "technologie",
-      "combat",
-      "super-héros"
+      "antihéros",
+      "armes",
+      "marvel"
     ]
   },
   {
-    "name": "M’Baku",
-    "difficulty": "hard",
-    "universe": "Black Panther",
+    "name": "Moon Knight",
+    "universe": "Moon Knight",
+    "difficulty": "normal",
     "tags": [
-      "marvel",
-      "royaume",
-      "technologie",
-      "combat",
-      "super-héros"
+      "antihéros",
+      "dieu",
+      "marvel"
+    ]
+  },
+  {
+    "name": "Star-Lord",
+    "universe": "Guardians of the Galaxy",
+    "difficulty": "normal",
+    "tags": [
+      "super-héros",
+      "espace",
+      "marvel"
+    ]
+  },
+  {
+    "name": "Groot",
+    "universe": "Guardians of the Galaxy",
+    "difficulty": "easy",
+    "tags": [
+      "super-héros",
+      "arbre",
+      "marvel"
+    ]
+  },
+  {
+    "name": "Rocket Raccoon",
+    "universe": "Guardians of the Galaxy",
+    "difficulty": "easy",
+    "tags": [
+      "super-héros",
+      "animal",
+      "marvel"
     ]
   }
 ]
