@@ -505,6 +505,7 @@ function resetCard() {
     clearTimeout(cardHideTimeout);
     myCard = null;
     cardRevealed = false;
+    hideCardDock();
     const card = $("card");
     card.hidden = false;
     card.disabled = false;
@@ -522,6 +523,65 @@ function resetCard() {
     $("subjectClue").hidden = true;
     $("subjectClue").textContent = "";
     $("cardHint").textContent = "La carte ne pourra être consultée qu’une seule fois.";
+}
+
+function cardInitials(card) {
+    return String(card?.character || "?")
+        .split(/\s+/).filter(Boolean).slice(0, 2)
+        .map((part) => part[0]).join("").toUpperCase() || "?";
+}
+
+function showCardDock(card = myCard) {
+    if (!card) return;
+    const dock = $("cardDock");
+    $("dockFallback").textContent = cardInitials(card);
+    $("dockCategory").textContent = categoryLabel(card.category);
+    $("dockName").textContent = card.character;
+    $("dockUniverse").textContent = card.universe;
+    $("dockClue").hidden = !card.clue;
+    $("dockClue").textContent = card.clue ? `Indice : ${card.clue}` : "";
+
+    const dockImage = $("dockImage");
+    if (card.image) {
+        dockImage.onload = () => {
+            dockImage.onload = null;
+            dockImage.onerror = null;
+            dockImage.hidden = false;
+            $("dockFallback").hidden = true;
+        };
+        dockImage.onerror = () => {
+            dockImage.onload = null;
+            dockImage.onerror = null;
+            dockImage.hidden = true;
+            dockImage.removeAttribute("src");
+            $("dockFallback").hidden = false;
+        };
+        if (dockImage.getAttribute("src") !== card.image) dockImage.src = card.image;
+        else {
+            dockImage.hidden = false;
+            $("dockFallback").hidden = true;
+        }
+    } else {
+        dockImage.hidden = true;
+        dockImage.removeAttribute("src");
+        $("dockFallback").hidden = false;
+    }
+
+    dock.hidden = false;
+    requestAnimationFrame(() => dock.classList.add("is-visible"));
+}
+
+function hideCardDock() {
+    const dock = $("cardDock");
+    if (!dock) return;
+    dock.classList.remove("is-visible");
+    dock.hidden = true;
+    const dockImage = $("dockImage");
+    dockImage.onload = null;
+    dockImage.onerror = null;
+    dockImage.hidden = true;
+    dockImage.removeAttribute("src");
+    $("dockFallback").hidden = false;
 }
 
 function categoryLabel(category) {
@@ -543,8 +603,7 @@ function revealCard() {
 
     const card = $("card");
     card.disabled = true;
-    $("imageFallback").textContent = myCard.character
-        .split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase() || "?";
+    $("imageFallback").textContent = cardInitials(myCard);
     $("subjectName").textContent = myCard.character;
     $("subjectUniverse").textContent = myCard.universe;
     $("subjectCategory").textContent = categoryLabel(myCard.category);
@@ -552,7 +611,7 @@ function revealCard() {
         $("subjectClue").textContent = `Indice : ${myCard.clue}`;
         $("subjectClue").hidden = false;
     }
-    $("cardHint").textContent = `Mémorise ta carte : elle disparaît dans ${roomSettings.cardTime || 5} secondes.`;
+    $("cardHint").textContent = `Ta carte se placera à gauche dans ${roomSettings.cardTime || 5} secondes et restera visible.`;
 
     if (myCard.image) loadCardImage(myCard.image);
     else {
@@ -561,7 +620,7 @@ function revealCard() {
     }
 
     requestAnimationFrame(() => card.classList.add("is-flipped"));
-    cardHideTimeout = setTimeout(hideCard, (roomSettings.cardTime || 5) * 1000);
+    cardHideTimeout = setTimeout(dockCard, (roomSettings.cardTime || 5) * 1000);
 }
 
 function loadCardImage(src) {
@@ -586,17 +645,16 @@ function loadCardImage(src) {
     image.src = src;
 }
 
-function hideCard() {
+function dockCard() {
+    if (!myCard) return;
+    showCardDock(myCard);
     const card = $("card");
     card.classList.add("card-vanish");
     setTimeout(() => {
         card.hidden = true;
-        const image = $("characterImage");
-        image.removeAttribute("src");
-        image.hidden = true;
         $("imageLoading").hidden = true;
-        $("cardHint").textContent = "Carte mémorisée. Prépare ton indice.";
-    }, lowPowerMode ? 50 : 420);
+        $("cardHint").textContent = "Ta carte reste visible à gauche de l’écran.";
+    }, lowPowerMode ? 40 : 180);
 }
 
 function renderPlayers(force = false) {
@@ -1034,6 +1092,7 @@ function applyRoomState(state) {
     }
 
     if (state.phase === "lobby") {
+        hideCardDock();
         phaseDeadline = null;
         $("phase").textContent = "En attente";
         showStage("waitingStage");
@@ -1045,12 +1104,15 @@ function applyRoomState(state) {
         if (!state.card) showStage("loadingStage");
         else if (cardRevealed) {
             $("card").hidden = true;
-            $("cardHint").textContent = "Carte déjà consultée. Prépare ton indice.";
+            showCardDock(state.card);
+            $("cardHint").textContent = "Ta carte reste visible à gauche de l’écran.";
         }
         startTimer(state.phaseEndsAt, "cards");
     } else if (state.phase === "discussion") {
+        if (cardRevealed && state.card) showCardDock(state.card);
         renderTurn(state.currentSpeakerToken, state.turnIndex || 0, state.turnTotal || players.length, state.phaseEndsAt, state.discussionCycle, state.discussionCycleTotal, state.playerTurnIndex, state.playerTurnTotal);
     } else if (state.phase === "vote") {
+        if (cardRevealed && state.card) showCardDock(state.card);
         alreadyVoted = false;
         $("phase").textContent = "Vote";
         renderVotePlayers(players.filter((player) => player.connected));
@@ -1058,6 +1120,7 @@ function applyRoomState(state) {
         $("voteOverlay").hidden = false;
         startTimer(state.phaseEndsAt, "vote");
     } else if (state.phase === "result") {
+        if (cardRevealed && state.card) showCardDock(state.card);
         renderResult(state.result);
     }
 }
@@ -1148,7 +1211,10 @@ socket.on("card", (card) => {
 socket.on("cardImage", ({ image } = {}) => {
     if (!myCard || !image) return;
     myCard.image = image;
-    if (!document.hidden && cardRevealed && !$("card").hidden && !$("characterImage").src) loadCardImage(image);
+    if (!document.hidden && cardRevealed) {
+        if (!$("card").hidden && !$("characterImage").src) loadCardImage(image);
+        if (!$("cardDock").hidden) showCardDock(myCard);
+    }
 });
 
 socket.on("turn", ({ token, turnIndex, total, phaseEndsAt, cycle, cycleTotal, playerIndex, playerTotal }) => {

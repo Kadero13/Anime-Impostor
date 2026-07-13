@@ -33,7 +33,7 @@
     <meta name="twitter:description" content="Un sujet. Un imposteur. À vous de le trouver dans ce jeu multijoueur entre amis.">
     <meta name="twitter:image" content="https://anime-impostor.onrender.com/images/preview.png?v=2">
 
-    <link rel="stylesheet" href="/style.css?v=16.2">
+    <link rel="stylesheet" href="/style.css?v=16.3">
 </head>
 <body>
     <div class="background-layer" aria-hidden="true"></div>
@@ -68,7 +68,7 @@
             <section class="setup-card glass-card">
                 <div class="section-title">
                     <div><p class="eyebrow">CONFIGURATION</p><h2>Créer une partie</h2></div>
-                    <span class="version-chip">V16.2</span>
+                    <span class="version-chip">V16.3</span>
                 </div>
 
                 <label class="field full-field"><span>Ton pseudo</span><input id="username" placeholder="Ex. Kader" maxlength="18" autocomplete="nickname"></label>
@@ -245,6 +245,12 @@
         </section>
     </main>
 
+
+    <aside id="cardDock" class="card-dock" hidden aria-label="Ta carte révélée">
+        <span class="card-dock-media"><span id="dockFallback" class="dock-fallback">?</span><img id="dockImage" alt="Illustration de ta carte" decoding="async" hidden></span>
+        <span class="card-dock-content"><small id="dockCategory">SUJET</small><b id="dockName">...</b><span id="dockUniverse">...</span><em id="dockClue" hidden></em></span>
+    </aside>
+
     <div id="cinematicOverlay" class="cinematic-overlay" hidden>
         <div class="cinematic-aurora"></div><div id="cinematicIcon" class="cinematic-icon">I</div><p id="cinematicEyebrow" class="eyebrow"></p><h2 id="cinematicTitle"></h2><p id="cinematicText"></p><div class="cinematic-line"><i></i></div>
     </div>
@@ -274,7 +280,7 @@
             <div class="settings-grid">
                 <label class="field"><span>Mode</span><select id="roomMode"><option value="classic">Classique</option><option value="duo">Duo</option><option value="clue">Indice</option><option value="blind">Aveugle</option><option value="fast">Rapide</option><option value="chaos">Chaos</option><option value="custom">Personnalisé</option></select></label>
                 <label class="field"><span>Temps</span><select id="roomTime"><option value="10">10 s</option><option value="15">15 s</option><option value="30">30 s</option><option value="45">45 s</option><option value="60">60 s</option><option value="90">90 s</option></select></label>
-                <label class="field"><span>Carte visible</span><select id="roomCardTime"><option value="3">3 s</option><option value="5">5 s</option><option value="8">8 s</option><option value="10">10 s</option><option value="15">15 s</option></select></label>
+                <label class="field"><span>Avant réduction</span><select id="roomCardTime"><option value="3">3 s</option><option value="5">5 s</option><option value="8">8 s</option><option value="10">10 s</option><option value="15">15 s</option></select></label>
                 <label class="field"><span>Imposteurs</span><select id="roomImpostors"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></label>
                 <label class="field"><span>Tours de parole</span><select id="roomDiscussionRounds"><option value="1">1 tour</option><option value="2">2 tours</option><option value="3">3 tours</option><option value="4">4 tours</option><option value="5">5 tours</option></select></label>
             </div>
@@ -299,6 +305,6 @@
 
     <div id="toast" class="toast" hidden></div>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/app.js?v=16.2"></script>
+    <script src="/app.js?v=16.3"></script>
 </body>
 </html>

@@ -109,7 +109,7 @@ function loadDatabase() {
                     tags: Array.isArray(entry?.tags)
                         ? [...new Set(entry.tags.map((tag) => cleanText(tag, 30).toLowerCase()).filter(Boolean))]
                         : [],
-                    image: safeRemoteImageUrl(entry?.image) ? entry.image : null
+                    image: safeImageReference(entry?.image)
                 });
             }
         } catch (error) {
@@ -142,6 +142,20 @@ function safeRemoteImageUrl(value) {
     } catch {
         return false;
     }
+}
+
+function safeLocalImagePath(value) {
+    const pathValue = String(value || "").trim();
+    if (!/^\/images\/[A-Za-z0-9_\-/]+\.(?:webp|png|jpe?g)$/i.test(pathValue)) return null;
+    const resolved = path.resolve(PUBLIC_DIR, `.${pathValue}`);
+    if (!resolved.startsWith(path.resolve(PUBLIC_DIR) + path.sep)) return null;
+    return fs.existsSync(resolved) ? pathValue : null;
+}
+
+function safeImageReference(value) {
+    const local = safeLocalImagePath(value);
+    if (local) return local;
+    return safeRemoteImageUrl(value) ? String(value) : null;
 }
 
 function registerRemoteImage(url) {
@@ -275,9 +289,11 @@ async function searchWikipediaImage(subject, language) {
 }
 
 async function getImage(subject) {
-    if (!subject || subject.category === "timmy" || subject.category === "custom" || subject.noImage) {
+    if (!subject || subject.category === "custom" || subject.noImage) {
         return { image: null };
     }
+    const localImage = safeLocalImagePath(subject.image);
+    if (localImage) return { image: localImage };
     if (subject.image && safeRemoteImageUrl(subject.image)) {
         return { image: registerRemoteImage(subject.image) };
     }
@@ -584,6 +600,8 @@ function cardFor(subject, isImpostor, mode, clue, imageInfo) {
 }
 
 function immediateImage(subject) {
+    const localImage = safeLocalImagePath(subject?.image);
+    if (localImage) return { image: localImage };
     if (!subject?.image || !safeRemoteImageUrl(subject.image)) return { image: null };
     return { image: registerRemoteImage(subject.image) };
 }
@@ -1149,7 +1167,7 @@ setInterval(() => {
 }, 15 * 60 * 1000).unref();
 
 app.get("/api/health", (_req, res) => {
-    res.json({ ok: true, rooms: rooms.size, subjects: database.length, version: "16.2.0" });
+    res.json({ ok: true, rooms: rooms.size, subjects: database.length, version: "16.3.0" });
 });
 
 app.get("*", (_req, res) => {
@@ -1157,4 +1175,4 @@ app.get("*", (_req, res) => {
 });
 
 loadDatabase();
-server.listen(PORT, () => console.log(`🎭 Anime Imposteur V16.2 lancé sur le port ${PORT}`));
+server.listen(PORT, () => console.log(`🎭 Anime Imposteur V16.3 lancé sur le port ${PORT}`));

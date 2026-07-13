@@ -7,7 +7,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/kader.webp"
   },
   {
     "name": "Mehdi",
@@ -17,7 +18,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/mehdi.webp"
   },
   {
     "name": "Ryan",
@@ -27,7 +29,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/ryan.webp"
   },
   {
     "name": "Théo",
@@ -37,7 +40,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/theo.webp"
   },
   {
     "name": "Soufyan",
@@ -47,7 +51,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/soufyan.webp"
   },
   {
     "name": "Elyas",
@@ -57,7 +62,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/elyas.webp"
   },
   {
     "name": "Issam",
@@ -67,7 +73,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/issam.webp"
   },
   {
     "name": "Bibisko",
@@ -77,7 +84,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/bibisko.webp"
   },
   {
     "name": "Emirhane",
@@ -87,7 +95,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/emirhane.webp"
   },
   {
     "name": "Younes",
@@ -97,7 +106,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/younes.webp"
   },
   {
     "name": "Memo",
@@ -107,7 +117,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/memo.webp"
   },
   {
     "name": "Moktar",
@@ -117,7 +128,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/moktar.webp"
   },
   {
     "name": "Bakou",
@@ -127,7 +139,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/bakou.webp"
   },
   {
     "name": "Siso",
@@ -137,7 +150,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/siso.webp"
   },
   {
     "name": "Sébastien",
@@ -147,7 +161,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/sebastien.webp"
   },
   {
     "name": "Emma",
@@ -157,7 +172,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/emma.webp"
   },
   {
     "name": "Thomas",
@@ -167,7 +183,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/thomas.webp"
   },
   {
     "name": "Tom",
@@ -177,7 +194,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/tom.webp"
   },
   {
     "name": "Abdel",
@@ -187,7 +205,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/abdel.webp"
   },
   {
     "name": "Anouar",
@@ -197,7 +216,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/anouar.webp"
   },
   {
     "name": "Manar",
@@ -207,7 +227,8 @@
       "timmy",
       "groupe",
       "ami"
-    ]
+    ],
+    "image": "/images/timmy/manar.webp"
   },
   {
     "name": "Momo",
@@ -217,16 +238,7 @@
       "timmy",
       "groupe",
       "ami"
-    ]
-  },
-  {
-    "name": "Roh",
-    "universe": "Timmy",
-    "difficulty": "easy",
-    "tags": [
-      "timmy",
-      "groupe",
-      "ami"
-    ]
+    ],
+    "image": "/images/timmy/momo.webp"
   }
 ]

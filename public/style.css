@@ -563,3 +563,94 @@ body { background: #06070d; }
 @media (max-width: 820px) {
     .speaker-wheel { display: none !important; }
 }
+
+/* V16.3 — carte révélée persistante, compacte et peu coûteuse. */
+.card-dock {
+    position: fixed;
+    left: max(12px, env(safe-area-inset-left));
+    top: 50%;
+    z-index: 70;
+    display: grid;
+    width: 178px;
+    overflow: hidden;
+    border: 1px solid rgba(153, 137, 255, .42);
+    border-radius: 16px;
+    background: #0d0d18;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, .38);
+    opacity: 0;
+    transform: translate3d(-18px, -50%, 0);
+    transition: opacity .16s ease, transform .16s ease;
+    contain: layout paint style;
+    content-visibility: auto;
+}
+.card-dock.is-visible {
+    opacity: 1;
+    transform: translate3d(0, -50%, 0);
+}
+.card-dock-media {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #17172a;
+}
+.card-dock-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.dock-fallback {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 42px;
+    font-weight: 950;
+    color: #b7aaff;
+}
+.card-dock-content {
+    display: grid;
+    gap: 3px;
+    padding: 10px 11px 12px;
+    text-align: left;
+}
+.card-dock-content small {
+    color: #9f91ff;
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: .09em;
+}
+.card-dock-content b {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px;
+}
+.card-dock-content span,
+.card-dock-content em {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--muted);
+    font-size: 9px;
+    font-style: normal;
+}
+.card-dock-content em { color: #ffd47a; }
+
+@media (max-width: 1180px) {
+    .card-dock { width: 148px; top: auto; bottom: max(12px, env(safe-area-inset-bottom)); transform: translate3d(-18px, 0, 0); }
+    .card-dock.is-visible { transform: translate3d(0, 0, 0); }
+    .card-dock-content { padding: 8px 9px 9px; }
+    .card-dock-content b { font-size: 13px; }
+}
+
+@media (max-width: 520px) {
+    .card-dock { width: 118px; border-radius: 13px; }
+    .card-dock-content { gap: 1px; padding: 7px; }
+    .card-dock-content b { font-size: 11px; }
+    .card-dock-content span, .card-dock-content em { font-size: 7px; }
+    .card-dock-content small { font-size: 7px; }
+}
