@@ -3,208 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#090713">
-    <title>Imposteur — V13</title>
+    <meta name="theme-color" content="#080711">
+    <meta name="color-scheme" content="dark">
+    <title>Imposteur V14</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="ambient ambient-one"></div>
-    <div class="ambient ambient-two"></div>
+    <div class="background-layer" aria-hidden="true">
+        <span class="orb orb-purple"></span>
+        <span class="orb orb-blue"></span>
+        <span class="orb orb-indigo"></span>
+        <span class="grain"></span>
+    </div>
+
+    <header class="topbar">
+        <a class="brand" href="/" aria-label="Accueil Imposteur">
+            <span class="brand-logo">I</span>
+            <span><b>Imposteur</b><small>Jeu social multijoueur</small></span>
+        </a>
+        <button id="soundToggle" class="sound-toggle" type="button" aria-pressed="true">
+            <span id="soundIcon">♪</span><span id="soundLabel">Sons activés</span>
+        </button>
+    </header>
 
     <main class="app-shell">
-        <header class="brand">
-            <div class="brand-mark">I</div>
-            <div>
-                <p class="eyebrow">JEU SOCIAL</p>
-                <h1>Imposteur</h1>
-            </div>
-        </header>
+        <section id="login" class="setup-layout">
+            <aside class="hero-card glass-card">
+                <p class="eyebrow"><span class="online-dot"></span> PARTIE MULTIJOUEUR</p>
+                <h1>Un sujet.<br><span>Un imposteur.</span><br>À vous de le trouver.</h1>
+                <p class="hero-copy">Crée une room, découvre ton personnage, donne un indice puis démasque la personne qui n’a pas reçu le même sujet.</p>
+                <div class="feature-list">
+                    <div><span>01</span><p><b>Cartes illustrées</b><small>Images automatiques avec secours garanti.</small></p></div>
+                    <div><span>02</span><p><b>Tours rapides</b><small>Termine ton tour dès que tu as fini de parler.</small></p></div>
+                    <div><span>03</span><p><b>Mix lié</b><small>Des sujets différents, mais toujours cohérents.</small></p></div>
+                </div>
+            </aside>
 
-        <section id="login" class="panel setup-panel">
-            <div class="intro">
-                <span class="status-dot"></span>
-                <span>Crée une partie ou rejoins tes amis</span>
-            </div>
+            <section class="setup-card glass-card">
+                <div class="section-title">
+                    <div><p class="eyebrow">CONFIGURATION</p><h2>Créer une partie</h2></div>
+                    <span class="version-chip">V14</span>
+                </div>
 
-            <div class="form-grid">
-                <label class="field full-field">
-                    <span>Ton pseudo</span>
-                    <input id="username" placeholder="Ex. Kader" maxlength="18" autocomplete="nickname">
-                </label>
+                <label class="field full-field"><span>Ton pseudo</span><input id="username" placeholder="Ex. Kader" maxlength="18" autocomplete="nickname"></label>
 
-                <div class="option-group full-field">
-                    <div class="section-heading">
-                        <div>
-                            <span class="label-title">Catégories</span>
-                            <small>Tu peux en sélectionner plusieurs</small>
-                        </div>
-                        <button type="button" class="mini-button" id="toggleAllCategories">Tout sélectionner</button>
+                <div class="option-block">
+                    <div class="option-heading">
+                        <div><b>Catégories</b><small>Tu peux en choisir plusieurs.</small></div>
+                        <button id="toggleAllCategories" class="text-button" type="button">Tout sélectionner</button>
                     </div>
-                    <div class="choice-grid categories-grid">
-                        <label class="choice-card"><input class="category" type="checkbox" value="anime" checked><span><b>Anime & novels</b><small>Shōnen, seinen, webnovels</small></span></label>
-                        <label class="choice-card"><input class="category" type="checkbox" value="games"><span><b>Jeux vidéo</b><small>Classiques et jeux récents</small></span></label>
-                        <label class="choice-card"><input class="category" type="checkbox" value="movie"><span><b>Films</b><small>Cinéma et animation</small></span></label>
-                        <label class="choice-card"><input class="category" type="checkbox" value="series"><span><b>Séries</b><small>Live action et animation</small></span></label>
-                        <label class="choice-card"><input class="category" type="checkbox" value="marvel"><span><b>Marvel</b><small>Héros, équipes et vilains</small></span></label>
-                        <label class="choice-card"><input class="category" type="checkbox" value="sport"><span><b>Sport</b><small>Football, combat, F1...</small></span></label>
-                        <label class="choice-card"><input class="category" type="checkbox" value="dc"><span><b>DC Comics</b><small>Batman, Superman et vilains</small></span></label>
-                        <label class="choice-card"><input class="category" type="checkbox" value="cartoon"><span><b>Cartoons</b><small>Dessins animés cultes</small></span></label>
-                        <label class="choice-card"><input class="category" type="checkbox" value="music"><span><b>Musique</b><small>Rap, pop et artistes</small></span></label>
-                        <label class="choice-card"><input class="category" type="checkbox" value="internet"><span><b>Internet</b><small>YouTubeurs et streamers</small></span></label>
-                        <label class="choice-card"><input class="category" type="checkbox" value="food"><span><b>Nourriture</b><small>Plats et spécialités</small></span></label>
-                        <label class="choice-card special-category"><input class="category" type="checkbox" value="timmy"><span><b>Timmy</b><small>Votre groupe personnalisé</small></span></label>
+                    <div class="category-grid">
+                        <label class="category-card"><input class="category" type="checkbox" value="anime" checked><span class="category-icon">A</span><span><b>Anime & novels</b><small>Shōnen, seinen, novels</small></span><i></i></label>
+                        <label class="category-card"><input class="category" type="checkbox" value="games"><span class="category-icon">G</span><span><b>Jeux vidéo</b><small>Classiques et récents</small></span><i></i></label>
+                        <label class="category-card"><input class="category" type="checkbox" value="movie"><span class="category-icon">F</span><span><b>Films</b><small>Cinéma et animation</small></span><i></i></label>
+                        <label class="category-card"><input class="category" type="checkbox" value="series"><span class="category-icon">S</span><span><b>Séries</b><small>Live action et animation</small></span><i></i></label>
+                        <label class="category-card"><input class="category" type="checkbox" value="marvel"><span class="category-icon">M</span><span><b>Marvel</b><small>Héros et vilains</small></span><i></i></label>
+                        <label class="category-card"><input class="category" type="checkbox" value="dc"><span class="category-icon">D</span><span><b>DC Comics</b><small>Batman, Superman...</small></span><i></i></label>
+                        <label class="category-card"><input class="category" type="checkbox" value="cartoon"><span class="category-icon">C</span><span><b>Cartoons</b><small>Dessins animés cultes</small></span><i></i></label>
+                        <label class="category-card"><input class="category" type="checkbox" value="sport"><span class="category-icon">⚽</span><span><b>Sport</b><small>Foot, combat, F1...</small></span><i></i></label>
+                        <label class="category-card"><input class="category" type="checkbox" value="music"><span class="category-icon">♪</span><span><b>Musique</b><small>Rap, pop et artistes</small></span><i></i></label>
+                        <label class="category-card"><input class="category" type="checkbox" value="internet"><span class="category-icon">@</span><span><b>Internet</b><small>YouTube et streaming</small></span><i></i></label>
+                        <label class="category-card"><input class="category" type="checkbox" value="food"><span class="category-icon">N</span><span><b>Nourriture</b><small>Plats et spécialités</small></span><i></i></label>
+                        <label class="category-card timmy-card"><input class="category" type="checkbox" value="timmy"><span class="category-icon">T</span><span><b>Timmy</b><small>Votre groupe personnalisé</small></span><i></i></label>
                     </div>
                 </div>
 
-                <div class="option-group full-field">
-                    <div class="section-heading">
-                        <div>
-                            <span class="label-title">Difficulté</span>
-                            <small>Les niveaux peuvent aussi être cumulés</small>
-                        </div>
-                    </div>
-                    <div class="difficulty-row">
-                        <label class="pill-choice"><input class="difficulty" value="easy" type="checkbox" checked><span>Facile</span></label>
-                        <label class="pill-choice"><input class="difficulty" value="normal" type="checkbox"><span>Normal</span></label>
-                        <label class="pill-choice"><input class="difficulty" value="hard" type="checkbox"><span>Difficile</span></label>
-                        <label class="pill-choice"><input class="difficulty" value="demon" type="checkbox"><span>Démon</span></label>
+                <div class="option-block compact-block">
+                    <div class="option-heading"><div><b>Difficulté</b><small>Les niveaux peuvent être cumulés.</small></div></div>
+                    <div class="pill-row">
+                        <label class="pill"><input class="difficulty" value="easy" type="checkbox" checked><span>Facile</span></label>
+                        <label class="pill"><input class="difficulty" value="normal" type="checkbox"><span>Normal</span></label>
+                        <label class="pill"><input class="difficulty" value="hard" type="checkbox"><span>Difficile</span></label>
+                        <label class="pill"><input class="difficulty" value="demon" type="checkbox"><span>Démon</span></label>
                     </div>
                 </div>
 
-                <label class="mix-card full-field">
+                <label class="mix-option">
                     <input id="linkedMix" type="checkbox">
-                    <span class="switch"></span>
-                    <span>
-                        <b>Mix lié</b>
-                        <small>Mélange les univers et les catégories, mais garde deux sujets ayant au moins deux points communs.</small>
-                    </span>
+                    <span class="switch"><i></i></span>
+                    <span><b>Mix lié</b><small>Mélange les univers et les catégories seulement quand les sujets ont plusieurs points communs.</small></span>
                 </label>
 
-                <label class="field">
-                    <span>Temps de parole</span>
-                    <select id="time">
-                        <option value="10">10 secondes</option>
-                        <option value="15">15 secondes</option>
-                        <option value="30" selected>30 secondes</option>
-                        <option value="45">45 secondes</option>
-                        <option value="60">60 secondes</option>
-                        <option value="90">90 secondes</option>
-                    </select>
-                </label>
+                <div class="settings-grid">
+                    <label class="field"><span>Temps de parole</span><select id="time"><option value="10">10 secondes</option><option value="15">15 secondes</option><option value="30" selected>30 secondes</option><option value="45">45 secondes</option><option value="60">60 secondes</option><option value="90">90 secondes</option></select></label>
+                    <label class="field"><span>Carte visible</span><select id="cardTime"><option value="3">3 secondes</option><option value="5" selected>5 secondes</option><option value="8">8 secondes</option><option value="10">10 secondes</option><option value="15">15 secondes</option></select></label>
+                    <label class="field"><span>Imposteurs</span><select id="impostors"><option value="1">1 imposteur</option><option value="2">2 imposteurs</option><option value="3">3 imposteurs</option></select></label>
+                </div>
 
-                <label class="field">
-                    <span>Affichage de la carte</span>
-                    <select id="cardTime">
-                        <option value="3">3 secondes</option>
-                        <option value="5" selected>5 secondes</option>
-                        <option value="8">8 secondes</option>
-                        <option value="10">10 secondes</option>
-                        <option value="15">15 secondes</option>
-                    </select>
-                </label>
-
-                <label class="field full-field">
-                    <span>Nombre d’imposteurs</span>
-                    <select id="impostors">
-                        <option value="1">1 imposteur</option>
-                        <option value="2">2 imposteurs</option>
-                        <option value="3">3 imposteurs</option>
-                    </select>
-                </label>
-            </div>
-
-            <button class="button primary-button wide-button" onclick="createRoom()">Créer la partie <span>→</span></button>
-
-            <div class="divider"><span>ou rejoindre</span></div>
-
-            <div class="join-row">
-                <input id="roomCode" placeholder="CODE ROOM" maxlength="6" autocomplete="off">
-                <button class="button secondary-button" onclick="joinRoom()">Rejoindre</button>
-            </div>
+                <button class="main-button" type="button" onclick="createRoom()"><span>Créer la partie</span><i>→</i></button>
+                <div class="separator"><span>ou rejoindre une room</span></div>
+                <div class="join-row"><input id="roomCode" placeholder="CODE ROOM" maxlength="6" autocomplete="off"><button class="outline-button" type="button" onclick="joinRoom()">Rejoindre</button></div>
+            </section>
         </section>
 
         <section id="game" class="game-layout" hidden>
-            <div class="panel lobby-panel">
-                <div class="room-topbar">
-                    <div>
-                        <span class="muted">Code de la room</span>
-                        <button class="room-code" id="roomCodeDisplay" onclick="copyRoom()" title="Copier le code"></button>
-                    </div>
-                    <span class="round-badge">Manche <b id="round">0</b></span>
+            <aside class="game-sidebar glass-card">
+                <div class="room-header">
+                    <div><small>Code de la room</small><button id="roomCodeDisplay" class="room-code" type="button" onclick="copyRoom()"></button></div>
+                    <span class="round-chip">Manche <b id="round">0</b></span>
                 </div>
-
                 <div id="settingsDisplay" class="settings-summary"></div>
-
-                <div class="players-heading">
-                    <h2>Joueurs</h2>
-                    <span id="playerCount" class="counter-chip"></span>
-                </div>
+                <div class="list-heading"><h2>Joueurs</h2><span id="playerCount" class="count-chip">0 joueur</span></div>
                 <ul id="players" class="player-list"></ul>
+                <button id="startButton" class="main-button compact-button" type="button" onclick="startGame()"><span>Lancer la partie</span><i>→</i></button>
+            </aside>
 
-                <button id="startButton" class="button primary-button wide-button" onclick="startGame()">Lancer la partie</button>
-            </div>
-
-            <div class="panel play-panel">
-                <div class="phase-header">
-                    <span id="phase" class="phase-label">En attente</span>
-                    <span id="timer" class="timer">--</span>
+            <section class="game-stage glass-card">
+                <div class="phase-bar">
+                    <div><small>Phase actuelle</small><strong id="phase">En attente</strong></div>
+                    <div id="timerWrap" class="timer-wrap">
+                        <svg viewBox="0 0 48 48" aria-hidden="true"><circle class="timer-track" cx="24" cy="24" r="20"></circle><circle id="timerProgress" class="timer-progress" cx="24" cy="24" r="20"></circle></svg>
+                        <span id="timer">--</span>
+                    </div>
                 </div>
 
-                <div id="cardStage" class="card-stage">
-                    <button id="card" class="subject-card" onclick="revealCard()">
-                        <span class="card-icon">?</span>
-                        <span id="cardText">Clique pour révéler ta carte</span>
-                        <small>Elle ne sera visible qu’une fois</small>
-                    </button>
-                    <img id="characterImage" alt="Sujet de la manche" hidden>
+                <div id="waitingStage" class="waiting-stage">
+                    <div class="waiting-symbol"><span></span><i>?</i></div>
+                    <h2>En attente du lancement</h2>
+                    <p>L’hôte peut lancer la partie dès qu’au moins trois joueurs ont rejoint la room.</p>
                 </div>
 
-                <section id="turnPanel" class="turn-panel" hidden>
-                    <span id="turnCounter" class="muted"></span>
+                <div id="loadingStage" class="loading-stage" hidden>
+                    <span class="loader-orbit"><i></i></span>
+                    <h2>Distribution des cartes</h2>
+                    <p>Les sujets et les imposteurs sont en cours de sélection.</p>
+                </div>
+
+                <div id="cardStage" class="card-stage" hidden>
+                    <div class="card-scene">
+                        <button id="card" class="role-card" type="button" onclick="revealCard()" aria-label="Révéler ta carte">
+                            <span class="role-card-inner">
+                                <span class="role-card-face role-card-back"><span class="card-emblem">?</span><b>Ta carte est prête</b><small>Clique pour la retourner</small></span>
+                                <span class="role-card-face role-card-front">
+                                    <span class="subject-media"><span id="imageFallback" class="image-fallback">?</span><img id="characterImage" alt="Illustration du sujet" hidden><span id="imageLoading" class="image-loading"><i></i><small>Image en cours</small></span></span>
+                                    <span class="subject-content"><small id="subjectCategory">SUJET</small><b id="subjectName">...</b><span id="subjectUniverse">...</span></span>
+                                </span>
+                            </span>
+                        </button>
+                    </div>
+                    <p id="cardHint" class="stage-hint">La carte ne pourra être consultée qu’une seule fois.</p>
+                </div>
+
+                <section id="turnPanel" class="turn-stage" hidden>
+                    <div class="turn-avatar-wrap"><span id="speakerAvatar" class="turn-avatar">K</span><span class="pulse-ring"></span><span class="pulse-ring ring-two"></span></div>
+                    <p id="turnCounter" class="eyebrow"></p>
                     <h2 id="currentSpeaker"></h2>
                     <p id="speakerInstruction"></p>
+                    <div class="voice-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                    <button id="finishTurnButton" class="finish-turn-button" type="button" onclick="finishMyTurn()" hidden><span>J’ai fini de parler</span><i>→</i></button>
+                    <small id="finishTurnHint" class="finish-turn-hint" hidden>Ce bouton passe immédiatement au joueur suivant.</small>
                 </section>
 
-                <div id="result" class="result-box" hidden></div>
-                <button id="newRound" class="button primary-button" onclick="newRound()" hidden>Nouvelle manche</button>
-            </div>
+                <section id="resultPanel" class="result-stage" hidden>
+                    <div id="resultIcon" class="result-icon">×</div>
+                    <p class="eyebrow">RÉSULTAT DE LA MANCHE</p>
+                    <h2 id="resultTitle"></h2>
+                    <p id="resultText"></p>
+                    <div id="roleReveal" class="role-reveal"></div>
+                    <button id="newRound" class="main-button compact-button" type="button" onclick="newRound()" hidden><span>Nouvelle manche</span><i>↻</i></button>
+                </section>
+            </section>
 
-            <div class="panel chat-panel">
-                <div class="players-heading"><h2>Discussion</h2><span class="live-dot">LIVE</span></div>
-                <div id="messages" class="messages"></div>
-                <div class="chat-compose">
-                    <input id="chatInput" placeholder="Écris un message..." maxlength="300">
-                    <button class="icon-button" onclick="sendChat()" aria-label="Envoyer">→</button>
-                </div>
-            </div>
+            <aside class="chat-card glass-card">
+                <div class="list-heading"><h2>Discussion</h2><span class="live-chip"><i></i> LIVE</span></div>
+                <div id="messages" class="messages"><p class="system-message">Les messages de la room apparaîtront ici.</p></div>
+                <div class="chat-compose"><input id="chatInput" placeholder="Écris un message..." maxlength="300"><button type="button" onclick="sendChat()" aria-label="Envoyer">→</button></div>
+            </aside>
         </section>
     </main>
 
     <div id="cinematicOverlay" class="cinematic-overlay" hidden>
-        <div class="cinematic-glow"></div>
-        <div id="cinematicIcon" class="cinematic-icon">I</div>
-        <p id="cinematicEyebrow" class="eyebrow"></p>
-        <h2 id="cinematicTitle"></h2>
-        <p id="cinematicText" class="muted"></p>
+        <div class="cinematic-aurora"></div><div id="cinematicIcon" class="cinematic-icon">I</div><p id="cinematicEyebrow" class="eyebrow"></p><h2 id="cinematicTitle"></h2><p id="cinematicText"></p><div class="cinematic-line"><i></i></div>
     </div>
 
-    <div id="voteOverlay" class="overlay" hidden>
-        <section class="vote-modal">
-            <div class="vote-symbol">V</div>
-            <p class="eyebrow">PHASE FINALE</p>
-            <h2>Qui est l’imposteur ?</h2>
-            <p class="muted">Sélectionne un joueur. Ton vote est définitif.</p>
-            <select id="voteList"></select>
-            <div class="vote-actions">
-                <button id="voteButton" class="button primary-button" onclick="vote()">Confirmer le vote</button>
-                <button class="button secondary-button" onclick="skipVote()">Personne</button>
-            </div>
-            <p id="voteProgress" class="muted">En attente des votes…</p>
+    <div id="voteOverlay" class="modal-overlay" hidden>
+        <section class="vote-modal glass-card">
+            <div class="vote-header"><div class="vote-icon">V</div><div><p class="eyebrow">PHASE FINALE</p><h2>Qui est l’imposteur ?</h2><p>Choisis un joueur. Ton vote est définitif.</p></div></div>
+            <div id="voteGrid" class="vote-grid"></div>
+            <div class="vote-footer"><p id="voteProgress">En attente des votes...</p><div><button class="outline-button" type="button" onclick="skipVote()">Personne</button><button id="voteButton" class="main-button compact-button" type="button" onclick="vote()" disabled><span>Confirmer</span><i>→</i></button></div></div>
         </section>
     </div>
 
     <div id="toast" class="toast" hidden></div>
-
     <script src="/socket.io/socket.io.js"></script>
     <script src="app.js"></script>
 </body>
