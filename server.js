@@ -14,7 +14,7 @@ const PUBLIC_DIR = path.join(__dirname, "public");
 const DATABASE_DIR = path.join(PUBLIC_DIR, "database");
 const RECONNECT_GRACE_MS = 90_000;
 const ROOM_IDLE_TTL_MS = 6 * 60 * 60 * 1000;
-const MAX_CHAT_MESSAGES = 60;
+const MAX_CHAT_MESSAGES = 35;
 
 const app = express();
 app.disable("x-powered-by");
@@ -168,10 +168,10 @@ app.get("/api/image/:token", async (req, res) => {
     try {
         const response = await axios.get(remoteUrl, {
             responseType: "arraybuffer",
-            timeout: 7000,
-            maxContentLength: 2 * 1024 * 1024,
+            timeout: 4500,
+            maxContentLength: 1024 * 1024,
             headers: {
-                "User-Agent": "Anime-Imposteur-V15",
+                "User-Agent": "Anime-Imposteur-V16",
                 Accept: "image/avif,image/webp,image/jpeg,image/png,image/*;q=0.8"
             }
         });
@@ -180,11 +180,11 @@ app.get("/api/image/:token", async (req, res) => {
         if (!contentType.startsWith("image/")) return res.sendStatus(415);
 
         const data = Buffer.from(response.data);
-        if (data.length > 2 * 1024 * 1024) return res.sendStatus(413);
+        if (data.length > 1024 * 1024) return res.sendStatus(413);
 
         imageBinaryCache.set(token, { contentType, data });
         imageBinaryBytes += data.length;
-        while (imageBinaryCache.size > 24 || imageBinaryBytes > 24 * 1024 * 1024) {
+        while (imageBinaryCache.size > 16 || imageBinaryBytes > 12 * 1024 * 1024) {
             const oldestKey = imageBinaryCache.keys().next().value;
             const oldest = imageBinaryCache.get(oldestKey);
             imageBinaryBytes -= oldest?.data?.length || 0;
@@ -225,8 +225,8 @@ async function getJikanImage(subject) {
     try {
         const response = await axios.get("https://api.jikan.moe/v4/characters", {
             params: { q: subject.name, limit: 4 },
-            timeout: 4000,
-            headers: { "User-Agent": "Anime-Imposteur-V15" }
+            timeout: 2500,
+            headers: { "User-Agent": "Anime-Imposteur-V16" }
         });
         const entries = response.data?.data || [];
         const searched = subject.name.toLowerCase();
@@ -242,7 +242,7 @@ async function getJikanImage(subject) {
 }
 
 async function searchWikipediaImage(subject, language) {
-    for (const query of buildImageQueries(subject).slice(0, 2)) {
+    for (const query of buildImageQueries(subject).slice(0, 1)) {
         try {
             const response = await axios.get(`https://${language}.wikipedia.org/w/api.php`, {
                 params: {
@@ -258,8 +258,8 @@ async function searchWikipediaImage(subject, language) {
                     pithumbsize: 520,
                     redirects: 1
                 },
-                timeout: 4000,
-                headers: { "User-Agent": "Anime-Imposteur-V15" }
+                timeout: 2500,
+                headers: { "User-Agent": "Anime-Imposteur-V16" }
             });
             const pages = Object.values(response.data?.query?.pages || {})
                 .filter((page) => !page.pageprops?.disambiguation)
@@ -276,26 +276,20 @@ async function searchWikipediaImage(subject, language) {
 
 async function getImage(subject) {
     if (!subject || subject.category === "timmy" || subject.category === "custom" || subject.noImage) {
-        return { image: null, remoteImage: null };
+        return { image: null };
     }
     if (subject.image && safeRemoteImageUrl(subject.image)) {
-        return { image: registerRemoteImage(subject.image), remoteImage: subject.image };
+        return { image: registerRemoteImage(subject.image) };
     }
 
     const cacheKey = `${subject.category}|${subject.universe}|${subject.name}`.toLowerCase();
     if (imageSearchCache.has(cacheKey)) return imageSearchCache.get(cacheKey);
 
     const pending = (async () => {
-        const [jikan, wikipediaFr, wikipediaEn] = await Promise.all([
-            getJikanImage(subject),
-            searchWikipediaImage(subject, "fr"),
-            searchWikipediaImage(subject, "en")
-        ]);
-        const remoteImage = jikan || wikipediaFr || wikipediaEn || null;
-        return {
-            image: remoteImage ? registerRemoteImage(remoteImage) : null,
-            remoteImage
-        };
+        let remoteImage = subject.category === "anime" ? await getJikanImage(subject) : null;
+        if (!remoteImage) remoteImage = await searchWikipediaImage(subject, "fr");
+        if (!remoteImage) remoteImage = await searchWikipediaImage(subject, "en");
+        return { image: remoteImage ? registerRemoteImage(remoteImage) : null };
     })();
 
     lruSet(imageSearchCache, cacheKey, pending, 500);
@@ -450,13 +444,16 @@ function publicPlayers(room) {
         name: player.name,
         score: player.score,
         connected: player.connected,
-        isHost: player.token === room.hostToken,
-        stats: player.stats
+        isHost: player.token === room.hostToken
     }));
 }
 
-function emitPlayers(room) {
-    io.to(room.code).emit("players", publicPlayers(room));
+function emitPlayers(room, force = false) {
+    const payload = publicPlayers(room);
+    const signature = JSON.stringify(payload);
+    if (!force && room.playersSignature === signature) return;
+    room.playersSignature = signature;
+    io.to(room.code).emit("players", payload);
 }
 
 function isHost(socket, room) {
@@ -549,8 +546,7 @@ function cardFor(subject, isImpostor, mode, clue, imageInfo) {
             category: "blind",
             isImpostor: true,
             clue: null,
-            image: null,
-            remoteImage: null
+            image: null
         };
     }
     return {
@@ -559,9 +555,29 @@ function cardFor(subject, isImpostor, mode, clue, imageInfo) {
         category: subject.category,
         isImpostor,
         clue: isImpostor && mode === "clue" ? clue : null,
-        image: imageInfo?.image || null,
-        remoteImage: imageInfo?.remoteImage || null
+        image: imageInfo?.image || null
     };
+}
+
+function immediateImage(subject) {
+    if (!subject?.image || !safeRemoteImageUrl(subject.image)) return { image: null };
+    return { image: registerRemoteImage(subject.image) };
+}
+
+function hydrateRoundImages(room, roundNumber, mainSubject, fakeSubject) {
+    Promise.all([getImage(mainSubject), getImage(fakeSubject)]).then(([mainImage, fakeImage]) => {
+        const current = rooms.get(room.code);
+        if (!current || current.round !== roundNumber || !current.roundData) return;
+        for (const token of current.roundData.activeTokens) {
+            const isImpostor = current.roundData.impostorTokens.includes(token);
+            const image = (isImpostor ? fakeImage : mainImage)?.image || null;
+            const card = current.roundData.cards[token];
+            if (!card || !image || card.image === image) continue;
+            card.image = image;
+            const player = playerByToken(current, token);
+            if (player?.socketId) io.to(player.socketId).emit("cardImage", { image });
+        }
+    }).catch(() => {});
 }
 
 async function startRound(room) {
@@ -584,7 +600,8 @@ async function startRound(room) {
     const order = shuffled(active.map((player) => player.token));
     room.order = order;
 
-    const [mainImage, fakeImage] = await Promise.all([getImage(pair.main), getImage(pair.fake)]);
+    const mainImage = immediateImage(pair.main);
+    const fakeImage = immediateImage(pair.fake);
     const cards = {};
     for (const player of active) {
         const impostor = impostorTokens.includes(player.token);
@@ -617,6 +634,7 @@ async function startRound(room) {
         if (player.socketId) io.to(player.socketId).emit("card", cards[player.token]);
     }
     emitPlayers(room);
+    hydrateRoundImages(room, room.round, pair.main, pair.fake);
 
     schedule(room, () => beginDiscussion(room), room.phaseEndsAt - Date.now());
 }
@@ -786,6 +804,15 @@ function createPlayer(token, socket, name) {
 }
 
 function attachPlayer(socket, room, player) {
+    if (player.socketId && player.socketId !== socket.id) {
+        const previousSocket = io.sockets.sockets.get(player.socketId);
+        if (previousSocket) {
+            previousSocket.emit("sessionReplaced");
+            previousSocket.leave(room.code);
+            previousSocket.data.roomCode = null;
+            previousSocket.disconnect(true);
+        }
+    }
     player.socketId = socket.id;
     player.connected = true;
     player.disconnectedAt = null;
@@ -846,6 +873,7 @@ io.on("connection", (socket) => {
                 result: null,
                 recentSubjects: [],
                 messages: [],
+                playersSignature: "",
                 timers: new Set(),
                 createdAt: Date.now(),
                 updatedAt: Date.now()
@@ -888,6 +916,14 @@ io.on("connection", (socket) => {
         socket.emit("joined", { code, settings: publicSettings(room.settings), isHost: isHost(socket, room), reconnected: true });
         syncSocket(socket, room);
         emitPlayers(room);
+    });
+
+    socket.on("requestSync", (codeValue) => {
+        const room = rooms.get(cleanText(codeValue, 6).toUpperCase());
+        if (!room) return socket.emit("reconnectFailed");
+        const player = playerByToken(room, socket.data.playerToken);
+        if (!player || player.socketId !== socket.id) return;
+        syncSocket(socket, room);
     });
 
     socket.on("startGame", async (codeValue) => {
@@ -1063,7 +1099,7 @@ setInterval(() => {
 }, 15 * 60 * 1000).unref();
 
 app.get("/api/health", (_req, res) => {
-    res.json({ ok: true, rooms: rooms.size, subjects: database.length, version: "15.0.0" });
+    res.json({ ok: true, rooms: rooms.size, subjects: database.length, version: "16.0.0" });
 });
 
 app.get("*", (_req, res) => {
@@ -1071,4 +1107,4 @@ app.get("*", (_req, res) => {
 });
 
 loadDatabase();
-server.listen(PORT, () => console.log(`🎭 Anime Imposteur V15 lancé sur le port ${PORT}`));
+server.listen(PORT, () => console.log(`🎭 Anime Imposteur V16 lancé sur le port ${PORT}`));

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="performance-v16">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -33,15 +33,10 @@
     <meta name="twitter:description" content="Un sujet. Un imposteur. À vous de le trouver dans ce jeu multijoueur entre amis.">
     <meta name="twitter:image" content="https://anime-impostor.onrender.com/images/preview.png?v=2">
 
-    <link rel="stylesheet" href="/style.css?v=15">
+    <link rel="stylesheet" href="/style.css?v=16">
 </head>
 <body>
-    <div class="background-layer" aria-hidden="true">
-        <span class="orb orb-purple"></span>
-        <span class="orb orb-blue"></span>
-        <span class="orb orb-indigo"></span>
-        <span class="grain"></span>
-    </div>
+    <div class="background-layer" aria-hidden="true"></div>
 
     <header class="topbar">
         <a class="brand" href="/" aria-label="Accueil Anime Imposteur">
@@ -66,14 +61,14 @@
                 <div class="feature-list">
                     <div><span>01</span><p><b>Reconnexion automatique</b><small>Actualise la page sans perdre ta carte ni ta place.</small></p></div>
                     <div><span>02</span><p><b>Modes de jeu</b><small>Classique, duo, rapide, aveugle, indice et chaos.</small></p></div>
-                    <div><span>03</span><p><b>Optimisé multi-onglets</b><small>Les effets lourds se coupent automatiquement pour économiser la RAM.</small></p></div>
+                    <div><span>03</span><p><b>Optimisé multi-onglets</b><small>Rendu ultra léger, onglets secondaires suspendus et lancement instantané.</small></p></div>
                 </div>
             </aside>
 
             <section class="setup-card glass-card">
                 <div class="section-title">
                     <div><p class="eyebrow">CONFIGURATION</p><h2>Créer une partie</h2></div>
-                    <span class="version-chip">V15</span>
+                    <span class="version-chip">V16</span>
                 </div>
 
                 <label class="field full-field"><span>Ton pseudo</span><input id="username" placeholder="Ex. Kader" maxlength="18" autocomplete="nickname"></label>
@@ -205,7 +200,7 @@
                             <span class="role-card-inner">
                                 <span class="role-card-face role-card-back"><span class="card-emblem">?</span><b>Ta carte est prête</b><small>Clique pour la retourner</small></span>
                                 <span class="role-card-face role-card-front">
-                                    <span class="subject-media"><span id="imageFallback" class="image-fallback">?</span><img id="characterImage" alt="Illustration du sujet" hidden><span id="imageLoading" class="image-loading"><i></i><small>Image en cours</small></span></span>
+                                    <span class="subject-media"><span id="imageFallback" class="image-fallback">?</span><img id="characterImage" alt="Illustration du sujet" decoding="async" fetchpriority="low" hidden><span id="imageLoading" class="image-loading"><i></i><small>Image en cours</small></span></span>
                                     <span class="subject-content"><small id="subjectCategory">SUJET</small><b id="subjectName">...</b><span id="subjectUniverse">...</span><em id="subjectClue" hidden></em></span>
                                 </span>
                             </span>
@@ -302,6 +297,6 @@
 
     <div id="toast" class="toast" hidden></div>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/app.js?v=15"></script>
+    <script src="/app.js?v=16"></script>
 </body>
 </html>
