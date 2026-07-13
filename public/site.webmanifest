@@ -1,0 +1,21 @@
+{
+  "name": "Anime Imposteur",
+  "short_name": "Imposteur",
+  "description": "Jeu social multijoueur : trouvez l’imposteur parmi vos amis.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05050a",
+  "theme_color": "#080711",
+  "icons": [
+    {
+      "src": "/images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/favicon.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    }
+  ]
+}

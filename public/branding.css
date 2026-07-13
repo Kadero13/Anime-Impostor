@@ -1,0 +1,34 @@
+/* Logo ajouté sans toucher au style principal du jeu. */
+img.brand-logo {
+    width: 42px;
+    height: 42px;
+    display: block;
+    flex: 0 0 42px;
+    padding: 0;
+    border-radius: 13px;
+    object-fit: cover;
+    background: transparent;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .2),
+        0 10px 28px rgba(70, 63, 201, .36);
+}
+
+.brand b {
+    line-height: 1.1;
+}
+
+@media (max-width: 520px) {
+    img.brand-logo {
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
+    }
+
+    .brand b {
+        font-size: 14px;
+    }
+
+    .brand small {
+        font-size: 9px;
+    }
+}

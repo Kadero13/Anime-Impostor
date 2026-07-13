@@ -3,10 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Anime Imposteur — Trouvez l’imposteur</title>
+    <meta name="description" content="Anime Imposteur est un jeu social multijoueur : découvrez votre sujet, donnez un indice et démasquez l’imposteur parmi vos amis.">
+    <meta name="application-name" content="Anime Imposteur">
     <meta name="theme-color" content="#080711">
     <meta name="color-scheme" content="dark">
-    <title>Imposteur V14</title>
+    <meta name="robots" content="index, follow">
+
+    <link rel="canonical" href="https://anime-impostor.onrender.com/">
+    <link rel="icon" type="image/png" sizes="64x64" href="/images/favicon.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/images/logo.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Anime Imposteur">
+    <meta property="og:title" content="Anime Imposteur — Trouvez l’imposteur">
+    <meta property="og:description" content="Un sujet. Un imposteur. À vous de le trouver dans ce jeu multijoueur entre amis.">
+    <meta property="og:url" content="https://anime-impostor.onrender.com/">
+    <meta property="og:image" content="https://anime-impostor.onrender.com/images/preview.png?v=1">
+    <meta property="og:image:secure_url" content="https://anime-impostor.onrender.com/images/preview.png?v=1">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Anime Imposteur, jeu social multijoueur">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Anime Imposteur — Trouvez l’imposteur">
+    <meta name="twitter:description" content="Un sujet. Un imposteur. À vous de le trouver dans ce jeu multijoueur entre amis.">
+    <meta name="twitter:image" content="https://anime-impostor.onrender.com/images/preview.png?v=1">
+    <meta name="twitter:image:alt" content="Anime Imposteur, jeu social multijoueur">
+
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="branding.css">
 </head>
 <body>
     <div class="background-layer" aria-hidden="true">
@@ -17,9 +47,9 @@
     </div>
 
     <header class="topbar">
-        <a class="brand" href="/" aria-label="Accueil Imposteur">
-            <span class="brand-logo">I</span>
-            <span><b>Imposteur</b><small>Jeu social multijoueur</small></span>
+        <a class="brand" href="/" aria-label="Accueil Anime Imposteur">
+            <img class="brand-logo" src="/images/logo.png" alt="Logo Anime Imposteur" width="42" height="42">
+            <span><b>Anime Imposteur</b><small>Jeu social multijoueur</small></span>
         </a>
         <button id="soundToggle" class="sound-toggle" type="button" aria-pressed="true">
             <span id="soundIcon">♪</span><span id="soundLabel">Sons activés</span>
@@ -136,7 +166,7 @@
                                 <span class="role-card-face role-card-back"><span class="card-emblem">?</span><b>Ta carte est prête</b><small>Clique pour la retourner</small></span>
                                 <span class="role-card-face role-card-front">
                                     <span class="subject-media"><span id="imageFallback" class="image-fallback">?</span><img id="characterImage" alt="Illustration du sujet" hidden><span id="imageLoading" class="image-loading"><i></i><small>Image en cours</small></span></span>
-                                    <span class="subject-content"><small id="subjectCategory">SUJET</small><b id="subjectName">...</b><span id="subjectUniverse">...</span></span>
+                                    <span class="subject-content"><small id="subjectCategory">SUJET</small><b id="subjectName">.</b><span id="subjectUniverse">.</span></span>
                                 </span>
                             </span>
                         </button>
