@@ -137,6 +137,7 @@ function resetCard() {
     cardRevealed = false;
     $("characterImage").hidden = true;
     $("characterImage").removeAttribute("src");
+    $("cardStage").classList.remove("has-image");
     $("card").hidden = false;
     $("card").disabled = false;
     $("card").className = "subject-card";
@@ -153,8 +154,19 @@ function revealCard() {
     $("card").querySelector("small").textContent = `Disparaît dans ${roomSettings.cardTime || 5} secondes`;
 
     if (myCard.image) {
-        $("characterImage").src = myCard.image;
-        $("characterImage").hidden = false;
+        const image = $("characterImage");
+        image.hidden = true;
+        image.referrerPolicy = "no-referrer";
+        image.onload = () => {
+            image.hidden = false;
+            $("cardStage").classList.add("has-image");
+        };
+        image.onerror = () => {
+            image.hidden = true;
+            image.removeAttribute("src");
+            $("cardStage").classList.remove("has-image");
+        };
+        image.src = myCard.image;
     }
 
     cardHideTimeout = setTimeout(() => {
@@ -162,6 +174,7 @@ function revealCard() {
         $("card").hidden = true;
         $("characterImage").hidden = true;
         $("characterImage").removeAttribute("src");
+        $("cardStage").classList.remove("has-image");
     }, (roomSettings.cardTime || 5) * 1000);
 }
 

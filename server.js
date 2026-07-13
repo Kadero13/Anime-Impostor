@@ -41,22 +41,137 @@ function loadDatabase() {
 
 loadDatabase();
 
-async function getImage(subject) {
-    if (!subject || !["anime"].includes(subject.category)) return null;
-    if (imageCache.has(subject.name)) return imageCache.get(subject.name);
+function buildImageSearchQueries(subject) {
+    const name = String(subject?.name || "").trim();
+    const universe = String(subject?.universe || "").trim();
+    const category = String(subject?.category || "").trim();
+    const suffixes = {
+        anime: "anime character",
+        games: "video game character",
+        movie: "film character",
+        series: "TV character",
+        marvel: "Marvel character",
+        sport: "athlete"
+    };
+
+    return [
+        `${name} ${universe}`.trim(),
+        `${name} ${suffixes[category] || "character"}`.trim(),
+        name
+    ].filter((query, index, array) => query && array.indexOf(query) === index);
+}
+
+async function getJikanImage(subject) {
+    if (subject?.category !== "anime") return null;
 
     try {
         const response = await axios.get("https://api.jikan.moe/v4/characters", {
-            params: { q: subject.name, limit: 1 },
-            timeout: 4500
+            params: { q: subject.name, limit: 5 },
+            timeout: 5000,
+            headers: { "User-Agent": "Anime-Imposteur/12" }
         });
-        const url = response.data?.data?.[0]?.images?.jpg?.image_url || null;
-        imageCache.set(subject.name, url);
-        return url;
+
+        const candidates = response.data?.data || [];
+        const exactName = String(subject.name).toLowerCase();
+        const exact = candidates.find((entry) => {
+            const names = [entry.name, entry.name_kanji, ...(entry.nicknames || [])]
+                .filter(Boolean)
+                .map((value) => String(value).toLowerCase());
+            return names.some((value) => value === exactName || value.includes(exactName) || exactName.includes(value));
+        });
+
+        return (exact || candidates[0])?.images?.jpg?.large_image_url
+            || (exact || candidates[0])?.images?.jpg?.image_url
+            || null;
     } catch {
-        imageCache.set(subject.name, null);
         return null;
     }
+}
+
+async function searchWikipediaImage(subject, language) {
+    const queries = buildImageSearchQueries(subject);
+
+    for (const query of queries) {
+        try {
+            const response = await axios.get(`https://${language}.wikipedia.org/w/api.php`, {
+                params: {
+                    action: "query",
+                    format: "json",
+                    origin: "*",
+                    generator: "search",
+                    gsrsearch: query,
+                    gsrlimit: 6,
+                    gsrnamespace: 0,
+                    prop: "pageimages|pageprops",
+                    piprop: "thumbnail|original",
+                    pithumbsize: 700,
+                    pilicense: "any",
+                    redirects: 1
+                },
+                timeout: 6000,
+                headers: {
+                    "User-Agent": "Anime-Imposteur/12 (automatic character images)"
+                }
+            });
+
+            const pages = Object.values(response.data?.query?.pages || {})
+                .filter((page) => page.thumbnail?.source || page.original?.source)
+                .filter((page) => !page.pageprops?.disambiguation)
+                .sort((a, b) => (a.index ?? 999) - (b.index ?? 999));
+
+            if (pages.length) {
+                return pages[0].thumbnail?.source || pages[0].original?.source || null;
+            }
+        } catch {
+            // Essaie la requête suivante ou une autre langue.
+        }
+    }
+
+    return null;
+}
+
+function createFallbackImage(subject) {
+    const initials = String(subject?.name || "?")
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((part) => part[0]?.toUpperCase() || "")
+        .join("");
+    const title = String(subject?.name || "Sujet").replace(/[<>&"']/g, "");
+    const universe = String(subject?.universe || "").replace(/[<>&"']/g, "");
+    const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="700" height="700" viewBox="0 0 700 700">
+            <defs>
+                <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#19132f"/>
+                    <stop offset="0.55" stop-color="#31206b"/>
+                    <stop offset="1" stop-color="#0b67b2"/>
+                </linearGradient>
+            </defs>
+            <rect width="700" height="700" rx="48" fill="url(#g)"/>
+            <circle cx="350" cy="285" r="145" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.3)" stroke-width="8"/>
+            <text x="350" y="330" text-anchor="middle" font-family="Arial, sans-serif" font-size="150" font-weight="700" fill="white">${initials}</text>
+            <text x="350" y="515" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="white">${title.slice(0, 25)}</text>
+            <text x="350" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#cbd8ff">${universe.slice(0, 34)}</text>
+        </svg>`;
+    return `data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}`;
+}
+
+async function getImage(subject) {
+    if (!subject) return null;
+
+    if (subject.image && /^https?:\/\//i.test(subject.image)) return subject.image;
+
+    const cacheKey = `${subject.category}|${subject.universe}|${subject.name}`.toLowerCase();
+    if (imageCache.has(cacheKey)) return imageCache.get(cacheKey);
+
+    let image = await getJikanImage(subject);
+    if (!image) image = await searchWikipediaImage(subject, "en");
+    if (!image) image = await searchWikipediaImage(subject, "fr");
+    if (!image) image = createFallbackImage(subject);
+
+    imageCache.set(cacheKey, image);
+    return image;
 }
 
 function normalizeSettings(data = {}) {
